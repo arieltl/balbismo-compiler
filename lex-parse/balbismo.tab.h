@@ -44,12 +44,6 @@
 #if YYDEBUG
 extern int yydebug;
 #endif
-/* "%code requires" blocks.  */
-#line 10 "balbismo.y"
-
-    #include "ast.h"
-
-#line 53 "balbismo.tab.h"
 
 /* Token kinds.  */
 #ifndef YYTOKENTYPE
@@ -64,8 +58,20 @@ extern int yydebug;
     INT = 259,                     /* INT  */
     FLOAT = 260,                   /* FLOAT  */
     PRINTF = 261,                  /* PRINTF  */
-    INT_LITERAL = 262,             /* INT_LITERAL  */
-    FLOAT_LITERAL = 263            /* FLOAT_LITERAL  */
+    IF = 262,                      /* IF  */
+    ELSE = 263,                    /* ELSE  */
+    EQUAL_EQUAL = 264,             /* EQUAL_EQUAL  */
+    NOT_EQUAL = 265,               /* NOT_EQUAL  */
+    GREATER_EQUAL = 266,           /* GREATER_EQUAL  */
+    LESS_EQUAL = 267,              /* LESS_EQUAL  */
+    GREATER = 268,                 /* GREATER  */
+    LESS = 269,                    /* LESS  */
+    AND_OP = 270,                  /* AND_OP  */
+    OR_OP = 271,                   /* OR_OP  */
+    NOT_OP = 272,                  /* NOT_OP  */
+    INT_LITERAL = 273,             /* INT_LITERAL  */
+    FLOAT_LITERAL = 274,           /* FLOAT_LITERAL  */
+    UMINUS = 275                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -78,12 +84,8 @@ union YYSTYPE
 
     char* str;
     ASTNode* ast;
-    struct {
-        int num;
-        ASTNode** nodes;
-    } stmt_list;
 
-#line 87 "balbismo.tab.h"
+#line 89 "balbismo.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

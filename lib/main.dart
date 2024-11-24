@@ -13,10 +13,11 @@ void main(){
 
   Node.ir += "define i32 @main() {\n";
   Node.ir += "entry:\n";
-  
-  var ast = parseAstFile("ast.out");
+  Node.irIndent++;
+  var ast = parseAstFile("lex-parse/ast2.out");
   ast.evaluate(SymbolTable());
-  Node.ir += "ret i32 0\n";
+  Node.addIrLine("ret i32 0\n");
+  Node.irIndent--;
   Node.ir += "}\n";
   
   //output main.ll

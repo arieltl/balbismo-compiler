@@ -1,3 +1,5 @@
 {
-int x =-5;
+    printf(34/7);
+    printf(6%2);
+
 }

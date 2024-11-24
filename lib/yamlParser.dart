@@ -38,9 +38,17 @@ Node parseNode(YamlMap node) {
     case "UnOp":
       return UnOp(value, children[0] as Node<dynamic, LangVal>);
     case "BinOp":
-      return BinOp(value, children[0], children[1]);
+      return BinOp(value, children[0] as Node<dynamic, LangVal>, children[1] as Node<dynamic, LangVal>);
     case "Print":
       return PrintNode(children[0] as Node<dynamic, LangVal>);
+    case "RelOp":
+      return RelOp(value, children[0] as Node<dynamic, LangVal>, children[1] as Node<dynamic, LangVal>);
+    case "BoolUnOp":
+      return BoolUnOp(value, children[0] as Node<dynamic, LangVal>);
+    case "BoolBinOp":
+      return BoolBinOp(value, children[0] as Node<dynamic, LangVal>, children[1] as Node<dynamic, LangVal>);
+    case "IfStatement":
+      return IfNode(children[0] as Node<dynamic, LangVal>, children[1] as BlockNode, children.length > 2 ? children[2] : null);
     default:
       throw Exception("Unknown node type: $type");
   }

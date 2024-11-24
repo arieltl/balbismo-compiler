@@ -1,17 +1,20 @@
-- type: Program
+- type: Block
   children:
-    - type: Block
+    - type: Print
       children:
-        - type: Statements
+        - type: BinOp
+          value: "/"
           children:
-            - type: Declaration
-              children:
-                - type: Type
-                  value: "int"
-                - type: Identifier
-                  value: "x"
-                - type: Factor
-                  value: "-"
-                  children:
-                    - type: IntLiteral
-                      value: "5"
+            - type: IntLiteral
+              value: "34"
+            - type: IntLiteral
+              value: "7"
+    - type: Print
+      children:
+        - type: BinOp
+          value: "%"
+          children:
+            - type: IntLiteral
+              value: "6"
+            - type: IntLiteral
+              value: "2"
