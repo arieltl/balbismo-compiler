@@ -1,0 +1,17 @@
+- type: Program
+  children:
+    - type: Block
+      children:
+        - type: Statements
+          children:
+            - type: Declaration
+              children:
+                - type: Type
+                  value: "int"
+                - type: Identifier
+                  value: "x"
+                - type: Factor
+                  value: "-"
+                  children:
+                    - type: IntLiteral
+                      value: "5"

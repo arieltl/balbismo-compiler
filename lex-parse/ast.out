@@ -1,0 +1,61 @@
+- type: Block
+  children:
+    - type: Declaration
+      children:
+        - type: Type
+          value: "int"
+        - type: Identifier
+          value: "x"
+        - type: IntLiteral
+          value: "5"
+    - type: Declaration
+      children:
+        - type: Type
+          value: "int"
+        - type: Identifier
+          value: "y"
+    - type: Assignment
+      children:
+        - type: Identifier
+          value: "y"
+        - type: UnOp
+          value: "-"
+          children:
+            - type: IntLiteral
+              value: "2"
+    - type: Declaration
+      children:
+        - type: Type
+          value: "float"
+        - type: Identifier
+          value: "z"
+        - type: FloatLiteral
+          value: "30.3"
+    - type: Print
+      children:
+        - type: BinOp
+          value: "+"
+          children:
+            - type: BinOp
+              value: "-"
+              children:
+                - type: BinOp
+                  value: "+"
+                  children:
+                    - type: BinOp
+                      value: "+"
+                      children:
+                        - type: IntLiteral
+                          value: "10"
+                        - type: Identifier
+                          value: "y"
+                    - type: Identifier
+                      value: "x"
+                - type: FloatLiteral
+                  value: "1.2"
+            - type: Identifier
+              value: "z"
+    - type: Print
+      children:
+        - type: Identifier
+          value: "x"
