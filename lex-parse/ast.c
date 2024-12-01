@@ -1,4 +1,3 @@
-// ast.c
 #include "ast.h"
 
 ASTNode* create_node(NodeType type, char* value, int num_children, ASTNode** children_array) {
@@ -27,22 +26,26 @@ ASTNode* create_node(NodeType type, char* value, int num_children, ASTNode** chi
 
 const char* node_type_to_string(NodeType type) {
     switch (type) {
-        case NODE_BLOCK:         return "Block";
-        case NODE_STATEMENT_LIST:return "StatementList";
-        case NODE_DECLARATION:   return "Declaration";
-        case NODE_ASSIGNMENT:    return "Assignment";
-        case NODE_PRINT:         return "Print";
-        case NODE_IF_STATEMENT:  return "IfStatement";
-        case NODE_BIN_OP:        return "BinOp";
-        case NODE_UN_OP:         return "UnOp";
-        case NODE_BOOL_BIN_OP:   return "BoolBinOp";
-        case NODE_BOOL_UN_OP:    return "BoolUnOp";
-        case NODE_REL_OP:        return "RelOp";
-        case NODE_TYPE:          return "Type";
-        case NODE_IDENTIFIER:    return "Identifier";
-        case NODE_INT_LITERAL:   return "IntLiteral";
-        case NODE_FLOAT_LITERAL: return "FloatLiteral";
-        default:                 return "Unknown";
+        case NODE_BLOCK:              return "Block";
+        case NODE_STATEMENT_LIST:     return "StatementList";
+        case NODE_DECLARATION:        return "Declaration";
+        case NODE_ASSIGNMENT:         return "Assignment";
+        case NODE_PRINT:              return "Print";
+        case NODE_IF_STATEMENT:       return "IfStatement";
+        case NODE_WHILE_STATEMENT:    return "WhileStatement";
+        case NODE_BIN_OP:             return "BinOp";
+        case NODE_UN_OP:              return "UnOp";
+        case NODE_BOOL_BIN_OP:        return "BoolBinOp";
+        case NODE_BOOL_UN_OP:         return "BoolUnOp";
+        case NODE_REL_OP:             return "RelOp";
+        case NODE_TYPE:               return "Type";
+        case NODE_ARRAY_TYPE:         return "ArrayType";
+        case NODE_ARRAY_SPECIFIER:    return "ArraySpecifier";
+        case NODE_INDEXED_IDENTIFIER: return "IndexedIdentifier"; // Updated here
+        case NODE_IDENTIFIER:         return "Identifier";
+        case NODE_INT_LITERAL:        return "IntLiteral";
+        case NODE_FLOAT_LITERAL:      return "FloatLiteral";
+        default:                      return "Unknown";
     }
 }
 

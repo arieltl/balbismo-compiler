@@ -60,18 +60,19 @@ extern int yydebug;
     PRINTF = 261,                  /* PRINTF  */
     IF = 262,                      /* IF  */
     ELSE = 263,                    /* ELSE  */
-    EQUAL_EQUAL = 264,             /* EQUAL_EQUAL  */
-    NOT_EQUAL = 265,               /* NOT_EQUAL  */
-    GREATER_EQUAL = 266,           /* GREATER_EQUAL  */
-    LESS_EQUAL = 267,              /* LESS_EQUAL  */
-    GREATER = 268,                 /* GREATER  */
-    LESS = 269,                    /* LESS  */
-    AND_OP = 270,                  /* AND_OP  */
-    OR_OP = 271,                   /* OR_OP  */
-    NOT_OP = 272,                  /* NOT_OP  */
-    INT_LITERAL = 273,             /* INT_LITERAL  */
-    FLOAT_LITERAL = 274,           /* FLOAT_LITERAL  */
-    UMINUS = 275                   /* UMINUS  */
+    WHILE = 264,                   /* WHILE  */
+    EQUAL_EQUAL = 265,             /* EQUAL_EQUAL  */
+    NOT_EQUAL = 266,               /* NOT_EQUAL  */
+    GREATER_EQUAL = 267,           /* GREATER_EQUAL  */
+    LESS_EQUAL = 268,              /* LESS_EQUAL  */
+    GREATER = 269,                 /* GREATER  */
+    LESS = 270,                    /* LESS  */
+    AND_OP = 271,                  /* AND_OP  */
+    OR_OP = 272,                   /* OR_OP  */
+    NOT_OP = 273,                  /* NOT_OP  */
+    INT_LITERAL = 274,             /* INT_LITERAL  */
+    FLOAT_LITERAL = 275,           /* FLOAT_LITERAL  */
+    UMINUS = 276                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -85,7 +86,7 @@ union YYSTYPE
     char* str;
     ASTNode* ast;
 
-#line 89 "balbismo.tab.h"
+#line 90 "balbismo.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

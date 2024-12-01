@@ -15,6 +15,7 @@ void yyerror(const char *s);
 "printf"            { yylval.str = strdup("printf"); return PRINTF; }
 "if"                { return IF; }
 "else"              { return ELSE; }
+"while"             { return WHILE; }   // Added this line
 "=="                { return EQUAL_EQUAL; }
 "!="                { return NOT_EQUAL; }
 ">="                { return GREATER_EQUAL; }
@@ -35,6 +36,9 @@ void yyerror(const char *s);
 "}"                 { return '}'; }
 "("                 { return '('; }
 ")"                 { return ')'; }
+"["                 { return '['; }
+"]"                 { return ']'; }
+
 [0-9]+\.[0-9]+      { 
                         yylval.str = strdup(yytext); 
                         printf("Lexer: FLOAT_LITERAL = %s\n", yylval.str);

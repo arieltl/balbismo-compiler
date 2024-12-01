@@ -25,14 +25,20 @@ Node parseNode(YamlMap node) {
       return BlockNode(children);
     case "Identifier":
       return IdentifierNode(value);
+    case "IndexedIdentifier":
+      return IndexedIdentifierNode(value, children[0] as Node<dynamic, LangVal>);
     case "Type":
-      return TypeNode(value);
+      return TypeNode(PrimitiveType(PrimitiveTypes.fromString(value)));
+    case "ArrayType":
+      return ArrayTypeNode(children[0] as TypeNode, children[1] as ArraySpecification);
+    case "ArraySpecifier":
+      return ArraySpecification(children.firstOrNull as Node<dynamic, LangVal>?);
     case "IntLiteral":
       return IntVal(value);
     case "FloatLiteral":
       return FloatVal(value);
     case "Declaration":
-      return DeclareNode(children[0] as TypeNode, children[1] as IdentifierNode, children.length > 2 ? children[2] : null); 
+      return DeclareNode(children[0] as Node<LangType,dynamic>, children[1] as IdentifierNode, children.length > 2 ? children[2] : null); 
     case "Assignment":
       return AssignmentNode(children[0] as IdentifierNode, children[1]);
     case "UnOp":
@@ -49,6 +55,8 @@ Node parseNode(YamlMap node) {
       return BoolBinOp(value, children[0] as Node<dynamic, LangVal>, children[1] as Node<dynamic, LangVal>);
     case "IfStatement":
       return IfNode(children[0] as Node<dynamic, LangVal>, children[1] as BlockNode, children.length > 2 ? children[2] : null);
+    case "WhileStatement":
+      return WhileNode(children[0] as Node<dynamic, LangVal>, children[1] as BlockNode);
     default:
       throw Exception("Unknown node type: $type");
   }

@@ -1,20 +1,128 @@
 - type: Block
   children:
-    - type: Print
+    - type: Declaration
       children:
+        - type: Type
+          value: "int"
+        - type: Identifier
+          value: "arrSize"
         - type: BinOp
-          value: "/"
+          value: "*"
           children:
             - type: IntLiteral
-              value: "34"
-            - type: IntLiteral
-              value: "7"
-    - type: Print
-      children:
-        - type: BinOp
-          value: "%"
-          children:
-            - type: IntLiteral
-              value: "6"
+              value: "10"
             - type: IntLiteral
               value: "2"
+    - type: Declaration
+      children:
+        - type: Type
+          value: "int"
+        - type: Identifier
+          value: "a"
+        - type: IntLiteral
+          value: "1"
+    - type: Declaration
+      children:
+        - type: ArrayType
+          children:
+            - type: Type
+              value: "int"
+            - type: ArraySpecifier
+              children:
+                - type: Identifier
+                  value: "arrSize"
+        - type: Identifier
+          value: "arr"
+    - type: Declaration
+      children:
+        - type: ArrayType
+          children:
+            - type: Type
+              value: "float"
+            - type: ArraySpecifier
+              children:
+                - type: Identifier
+                  value: "arrSize"
+        - type: Identifier
+          value: "arr2"
+    - type: Assignment
+      children:
+        - type: IndexedIdentifier
+          value: "arr2"
+          children:
+            - type: IntLiteral
+              value: "2"
+        - type: BinOp
+          value: "+"
+          children:
+            - type: Identifier
+              value: "a"
+            - type: FloatLiteral
+              value: "0.0"
+    - type: Assignment
+      children:
+        - type: IndexedIdentifier
+          value: "arr"
+          children:
+            - type: IntLiteral
+              value: "0"
+        - type: IntLiteral
+          value: "10"
+    - type: Assignment
+      children:
+        - type: IndexedIdentifier
+          value: "arr"
+          children:
+            - type: IntLiteral
+              value: "1"
+        - type: BinOp
+          value: "+"
+          children:
+            - type: Identifier
+              value: "a"
+            - type: IntLiteral
+              value: "1"
+    - type: Declaration
+      children:
+        - type: Type
+          value: "int"
+        - type: Identifier
+          value: "i"
+        - type: IntLiteral
+          value: "0"
+    - type: WhileStatement
+      children:
+        - type: RelOp
+          value: "<"
+          children:
+            - type: Identifier
+              value: "i"
+            - type: Identifier
+              value: "arrSize"
+        - type: Block
+          children:
+            - type: Print
+              children:
+                - type: IndexedIdentifier
+                  value: "arr"
+                  children:
+                    - type: Identifier
+                      value: "i"
+            - type: Print
+              children:
+                - type: IndexedIdentifier
+                  value: "arr2"
+                  children:
+                    - type: Identifier
+                      value: "i"
+            - type: Assignment
+              children:
+                - type: Identifier
+                  value: "i"
+                - type: BinOp
+                  value: "+"
+                  children:
+                    - type: Identifier
+                      value: "i"
+                    - type: IntLiteral
+                      value: "1"
