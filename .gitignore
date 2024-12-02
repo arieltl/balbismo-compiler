@@ -54,4 +54,9 @@ doc/api/
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/dart,visualstudiocode
-.exe
+**/*.exe
+**/*.out
+lex-parse/balbismo
+lex-parse/balbismo.tab*
+lex-parse/lex.yy.c
+lex-parse/balbismo.output
