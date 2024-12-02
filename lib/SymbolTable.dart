@@ -8,6 +8,12 @@ class SymbolTable {
   final Map<String, LangVar> _table = {};
   static final Map<String, LangFunc> _functions = {};
   
+
+
+  static Map<String, String> strings = {};
+
+
+
   SymbolTable? _parent;
 
   SymbolTable createChild() {

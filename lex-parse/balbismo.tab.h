@@ -73,7 +73,8 @@ extern int yydebug;
     NOT_OP = 274,                  /* NOT_OP  */
     INT_LITERAL = 275,             /* INT_LITERAL  */
     FLOAT_LITERAL = 276,           /* FLOAT_LITERAL  */
-    UMINUS = 277                   /* UMINUS  */
+    STRING_LITERAL = 277,          /* STRING_LITERAL  */
+    UMINUS = 278                   /* UMINUS  */
   };
   typedef enum yytokentype yytoken_kind_t;
 #endif
@@ -87,7 +88,7 @@ union YYSTYPE
     char* str;
     ASTNode* ast;
 
-#line 91 "balbismo.tab.h"
+#line 92 "balbismo.tab.h"
 
 };
 typedef union YYSTYPE YYSTYPE;

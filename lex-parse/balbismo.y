@@ -26,13 +26,14 @@ ASTNode* ast_root;
 
 %token <str> INT_LITERAL
 %token <str> FLOAT_LITERAL
+%token <str> STRING_LITERAL
 
 /* Nonterminal Type Declarations */
 %type <ast> PROGRAM FUNCTION_LIST FUNCTION_DECLARATION PARAMETER_LIST PARAMETER PARAMETER_TYPE
 %type <ast> BLOCK STATEMENT STATEMENT_LIST DECLARATION ASSIGNMENT PRINT IF_STATEMENT ELSE_CLAUSE WHILE_STATEMENT RETURN_STATEMENT FUNCTION_CALL_STATEMENT
 %type <ast> FUNCTION_CALL
 %type <ast> EXPRESSION LOGICAL_OR LOGICAL_AND EQUALITY RELATIONAL ADDITIVE MULTIPLICATIVE UNARY PRIMARY
-%type <ast> TYPE ARRAY_TYPE VARIABLE_TYPE ARGUMENT_LIST
+%type <ast> TYPE ARRAY_TYPE VARIABLE_TYPE ARGUMENT_LIST EXPRESSION_LIST
 %type <ast> NUMBER
 %type <str> PRIMITIVE_TYPES
 
@@ -227,11 +228,45 @@ ASSIGNMENT
     ;
 
 PRINT
-    : PRINTF '(' EXPRESSION ')'
+    : PRINTF '(' STRING_LITERAL ')'
         {
-            ASTNode* expr_node = $3;
-            ASTNode* children_array[] = { expr_node };
+            ASTNode* string_node = create_node(NODE_STRING_LITERAL, $3, 0, NULL);
+            ASTNode** children_array = malloc(sizeof(ASTNode*));
+            children_array[0] = string_node;
             $$ = create_node(NODE_PRINT, NULL, 1, children_array);
+        }
+    | PRINTF '(' STRING_LITERAL ',' EXPRESSION_LIST ')'
+        {
+            int num_children = $5->num_children + 1;
+            ASTNode** children_array = malloc(sizeof(ASTNode*) * num_children);
+            ASTNode* string_node = create_node(NODE_STRING_LITERAL, $3, 0, NULL);
+            children_array[0] = string_node;
+            memcpy(&children_array[1], $5->children, sizeof(ASTNode*) * $5->num_children);
+            /* Free the expression list node */
+            free($5->children);
+            free($5);
+            $$ = create_node(NODE_PRINT, NULL, num_children, children_array);
+        }
+    ;
+
+EXPRESSION_LIST
+    : EXPRESSION
+        {
+            ASTNode** children_array = malloc(sizeof(ASTNode*));
+            children_array[0] = $1;
+            $$ = create_node(NODE_EXPRESSION_LIST, NULL, 1, children_array);
+        }
+    | EXPRESSION_LIST ',' EXPRESSION
+        {
+            ASTNode** new_children = realloc($1->children, sizeof(ASTNode*) * ($1->num_children + 1));
+            if (new_children == NULL) {
+                yyerror("Memory allocation failed for EXPRESSION_LIST.");
+                exit(1);
+            }
+            new_children[$1->num_children] = $3;
+            $1->children = new_children;
+            $1->num_children +=1;
+            $$ = $1;
         }
     ;
 
@@ -470,7 +505,7 @@ PRIMARY
         { $$ = $2; }
     | FUNCTION_CALL
         { $$ = $1; }
-    /* Added type casting */
+    /* Type casting */
     | PRIMITIVE_TYPES '(' EXPRESSION ')'
         {
             ASTNode* expr_node = $3;

@@ -31,7 +31,7 @@ int main() {
     arr2[1] = 2.0;
     arr2[0] = 1.0;
 
-    printf(sum(arr, 2));
-    printf(sum2(arr2, 3));
+    printf("%d\n",sum(arr, 2));
+    printf("%f\n",sum2(arr2, 3));
 }
 

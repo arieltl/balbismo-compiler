@@ -1,3 +1,4 @@
+/* ast.h */
 #ifndef AST_H
 #define AST_H
 
@@ -32,7 +33,9 @@ typedef enum {
     NODE_IDENTIFIER,
     NODE_INT_LITERAL,
     NODE_FLOAT_LITERAL,
-    NODE_TYPE_CAST    /* Added this line */
+    NODE_TYPE_CAST,
+    NODE_STRING_LITERAL,  /* Ensure this line exists */
+    NODE_EXPRESSION_LIST
 } NodeType;
 
 typedef struct ASTNode {
@@ -42,16 +45,10 @@ typedef struct ASTNode {
     struct ASTNode** children;   // Dynamic array of child nodes
 } ASTNode;
 
-// Function to create an AST node
+// Function prototypes...
 ASTNode* create_node(NodeType type, char* value, int num_children, ASTNode** children_array);
-
-// Function to print the AST in YAML format
 void print_ast_yaml(FILE* file, ASTNode* node, int indent);
-
-// Function to free the AST
 void free_ast(ASTNode* node);
-
-// Function to convert node types to string
 const char* node_type_to_string(NodeType type);
 
 #endif // AST_H

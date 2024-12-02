@@ -8,8 +8,8 @@ int main(){
     arr[1] = a+1;
     int i = 0;
     while (i < arrSize){
-        printf(arr[i]);
-        printf(arr2[i]);
+        printf("index %d: %d -- ",i,arr[i]);
+        printf("%f \n",arr2[i]);
         i = i + 1;
     }
 

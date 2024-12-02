@@ -24,6 +24,7 @@ ASTNode* create_node(NodeType type, char* value, int num_children, ASTNode** chi
     return node;
 }
 
+
 const char* node_type_to_string(NodeType type) {
     switch (type) {
         case NODE_BLOCK:              return "Block";
@@ -52,26 +53,58 @@ const char* node_type_to_string(NodeType type) {
         case NODE_IDENTIFIER:         return "Identifier";
         case NODE_INT_LITERAL:        return "IntLiteral";
         case NODE_FLOAT_LITERAL:      return "FloatLiteral";
-        case NODE_TYPE_CAST:          return "TypeCast";  /* Added this line */
+        case NODE_TYPE_CAST:          return "TypeCast";
+        case NODE_STRING_LITERAL:     return "StringLiteral";  /* Added this line */
+        case NODE_EXPRESSION_LIST:    return "ExpressionList";
         default:                      return "Unknown";
     }
+}
+
+void escape_yaml_string(FILE* file, const char* str) {
+    fputc('"', file);
+    for (const char* p = str; *p; p++) {
+        if (*p == '\\' || *p == '"' || *p == '\n') {
+            fputc('\\', file);
+            if (*p == '\n') {
+                fputc('n', file);
+            } else {
+                fputc(*p, file);
+            }
+        } else {
+            fputc(*p, file);
+        }
+    }
+    fputc('"', file);
 }
 
 void print_ast_yaml(FILE* file, ASTNode* node, int indent) {
     if (node == NULL)
         return;
 
+    /* Print indentation */
     for (int i = 0; i < indent; i++)
         fprintf(file, "  ");
 
+    /* Print node type */
     fprintf(file, "- type: %s\n", node_type_to_string(node->type));
 
+    /* Print node value if it exists */
     if (node->value != NULL) {
         for (int i = 0; i < indent + 1; i++)
             fprintf(file, "  ");
-        fprintf(file, "value: \"%s\"\n", node->value);
+        fprintf(file, "value: ");
+
+        if (node->type == NODE_STRING_LITERAL) {
+            /* For StringLiteral nodes, print the value as-is, enclosed in double quotes */
+            fprintf(file, "\"%s\"\n", node->value);
+        } else {
+            /* For other nodes, escape special characters and enclose in double quotes */
+            escape_yaml_string(file, node->value);
+            fprintf(file, "\n");
+        }
     }
 
+    /* Print children if they exist */
     if (node->num_children > 0) {
         for (int i = 0; i < indent + 1; i++)
             fprintf(file, "  ");
@@ -82,6 +115,8 @@ void print_ast_yaml(FILE* file, ASTNode* node, int indent) {
         }
     }
 }
+
+
 
 void free_ast(ASTNode* node) {
     if (node == NULL)

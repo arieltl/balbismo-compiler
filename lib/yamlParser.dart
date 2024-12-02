@@ -46,7 +46,7 @@ Node parseNode(YamlMap node) {
     case "BinOp":
       return BinOp(value, children[0] as Node<dynamic, LangVal>, children[1] as Node<dynamic, LangVal>);
     case "Print":
-      return PrintNode(children[0] as Node<dynamic, LangVal>);
+      return PrintNode(children[0] as StringLiteral, children.sublist(1).cast());
     case "RelOp":
       return RelOp(value, children[0] as Node<dynamic, LangVal>, children[1] as Node<dynamic, LangVal>);
     case "BoolUnOp":
@@ -71,6 +71,8 @@ Node parseNode(YamlMap node) {
       return FunctionList(children.cast());
     case "TypeCast":
       return TypeCast(PrimitiveType(PrimitiveTypes.fromString(value)), children[0] as Node<dynamic, LangVal>);
+    case "StringLiteral":
+      return StringLiteral(value);
     default:
       throw Exception("Unknown node type: $type");
   }

@@ -26,10 +26,14 @@
                       value: "3.14"
             - type: Print
               children:
+                - type: StringLiteral
+                  value: "%d \n"
                 - type: Identifier
                   value: "a"
             - type: Print
               children:
+                - type: StringLiteral
+                  value: "%f\n"
                 - type: TypeCast
                   value: "float"
                   children:

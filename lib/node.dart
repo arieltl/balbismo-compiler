@@ -1,11 +1,40 @@
 import 'package:balbismo/SymbolTable.dart';
 import 'package:balbismo/vars.dart';
+String generateLLVMConstant(String variableName, String content) {
+  // Convert the content into a format suitable for LLVM constant
+  final escapedContent = content
+      .replaceAll('\0', '\\00') // Ensure null terminators are represented
+      .replaceAll('\n', '\\0A')
+      .replaceAll("\"", "\\22"); // Replace newlines with LLVM encoding
+  
+  // Add null terminator to the end of the string
+  final llvmContent = '$escapedContent\\00';
+
+  // Calculate the size of the array
+  final size = content.runes.length+1;
+
+  // Format as LLVM constant string
+  return '$variableName = private constant [$size x i8] c"$llvmContent"';
+}
 
 abstract class Node<T, E> {
   final T nodeValue;
   final List<Node> children;
   int id = 0;
 
+
+  static int strCount = 0;
+  static String addConstantString(String value) {
+    if (SymbolTable.strings.containsKey(value)) {
+      return SymbolTable.strings[value]!;
+    }
+    final strName = "@str.${strCount++}";
+    SymbolTable.strings[value] = strName;
+    String content  = generateLLVMConstant(strName, value);
+    Node.addHeaderIrLine(content);
+    return strName;
+  
+  }
   Node(this.nodeValue, this.children) {
     id = newId();
   }
@@ -18,6 +47,9 @@ abstract class Node<T, E> {
 
   static int irIndent = 0;
 
+  static addHeaderIrLine(String line) {
+    ir  = "${line.trim()}\n$ir";
+  }
   static addIrLine(String line) {
     ir += "${"  " * irIndent}${line.trim()}\n";
   }
@@ -345,6 +377,18 @@ class AssignmentNode extends Node<void, void> {
   }
 }
 
+
+class StringLiteral extends Node<String,String> {
+
+  StringLiteral(String value) : super(value, []);
+
+  @override
+  String evaluate(SymbolTable table) {
+    return Node.addConstantString(nodeValue);
+  }
+
+}
+
 enum MathOp {
   add,
   sub,
@@ -477,18 +521,20 @@ class BinOp extends Node<MathOp, LangVal> {
 }
 
 class PrintNode extends Node<void, void> {
-  PrintNode(Node<dynamic, LangVal> child) : super(null, [child]);
+  PrintNode(StringLiteral literal, List<Node<dynamic, LangVal>> children) : super(null, [literal, ...children]);
 
-  Node<dynamic, LangVal> get child => children[0] as Node<dynamic, LangVal>;
+  
+  StringLiteral get literal => children[0] as StringLiteral;
+  List<Node<dynamic, LangVal>> get values => children.sublist(1).cast<Node<dynamic, LangVal>>();
 
   @override
   void evaluate(SymbolTable table) {
-    var childResult = child.evaluate(table);
+    final strLiteral = literal.evaluate(table);
+    var childResults = values.map((e) => e.evaluate(table)).toList();
     //print using printf
+    final childrenStr = childResults.map((e) => "${e.type.irType} ${e.regName}").join(", ");
     Node.addIrLine(
-        "%format_ptr$id = getelementptr [4 x i8], [4 x i8]* @format${childResult.type}, i32 0, i32 0");
-    Node.addIrLine(
-        "call i32 (i8*, ...) @printf(i8* %format_ptr$id, ${childResult.type} ${childResult.regName})");
+        "call i32 (i8*, ...) @printf(i8* $strLiteral, $childrenStr)");
   }
 }
 

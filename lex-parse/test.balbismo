@@ -3,6 +3,6 @@ int main(){
     int y;
     y =-2;
     float z = 30.3;
-    printf(10+y+x-1.2+z);
-    printf(x);
+    printf("%f\n",10+y+x-1.2+z);
+    printf("%d  \n \"%d\n",x, 2);
 }

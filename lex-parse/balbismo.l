@@ -49,6 +49,20 @@ void yyerror(const char *s);
 ";"                             { return ';'; }
 ","                             { return ','; }
 
+\"([^\"\n\\]|\\.)*\"            {
+                                    size_t len = strlen(yytext);
+                                    /* Allocate buffer for string without quotes */
+                                    yylval.str = (char*)malloc(len - 1); /* len - 2 + 1 for null terminator */
+                                    if (yylval.str == NULL) {
+                                        fprintf(stderr, "Memory allocation failed for string literal\n");
+                                        exit(1);
+                                    }
+                                    /* Copy the string without the first and last character (the quotes) */
+                                    strncpy(yylval.str, yytext + 1, len - 2);
+                                    yylval.str[len - 2] = '\0'; /* Null terminate */
+                                    return STRING_LITERAL;
+                                }
+
 [0-9]+\.[0-9]+                  {
                                     yylval.str = strdup(yytext);
                                     return FLOAT_LITERAL;
