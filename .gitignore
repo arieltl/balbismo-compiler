@@ -54,3 +54,4 @@ doc/api/
 .ionide
 
 # End of https://www.toptal.com/developers/gitignore/api/dart,visualstudiocode
+.exe
