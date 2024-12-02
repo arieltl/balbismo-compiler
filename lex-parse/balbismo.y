@@ -18,7 +18,7 @@ ASTNode* ast_root;
 
 /* Token Declarations */
 %token <str> IDENTIFIER
-%token INT FLOAT PRINTF
+%token INT FLOAT PRINTF SCANF       /* Added SCANF */
 %token IF ELSE WHILE RETURN
 
 %token EQUAL_EQUAL NOT_EQUAL GREATER_EQUAL LESS_EQUAL GREATER LESS
@@ -30,12 +30,16 @@ ASTNode* ast_root;
 
 /* Nonterminal Type Declarations */
 %type <ast> PROGRAM FUNCTION_LIST FUNCTION_DECLARATION PARAMETER_LIST PARAMETER PARAMETER_TYPE
-%type <ast> BLOCK STATEMENT STATEMENT_LIST DECLARATION ASSIGNMENT PRINT IF_STATEMENT ELSE_CLAUSE WHILE_STATEMENT RETURN_STATEMENT FUNCTION_CALL_STATEMENT
+%type <ast> BLOCK STATEMENT STATEMENT_LIST DECLARATION ASSIGNMENT PRINT INPUT IF_STATEMENT ELSE_CLAUSE WHILE_STATEMENT RETURN_STATEMENT FUNCTION_CALL_STATEMENT
 %type <ast> FUNCTION_CALL
 %type <ast> EXPRESSION LOGICAL_OR LOGICAL_AND EQUALITY RELATIONAL ADDITIVE MULTIPLICATIVE UNARY PRIMARY
-%type <ast> TYPE ARRAY_TYPE VARIABLE_TYPE ARGUMENT_LIST EXPRESSION_LIST
+%type <ast> TYPE ARRAY_TYPE VARIABLE_TYPE ARGUMENT_LIST
 %type <ast> NUMBER
 %type <str> PRIMITIVE_TYPES
+
+/* Added these %type declarations */
+%type <ast> VARIABLE_LIST VARIABLE
+%type <ast> EXPRESSION_LIST
 
 /* Operator Precedence Declarations */
 %right NOT_OP UMINUS          /* Highest precedence */
@@ -183,6 +187,7 @@ STATEMENT
     : DECLARATION ';'          { $$ = $1; }
     | ASSIGNMENT ';'           { $$ = $1; }
     | PRINT ';'                { $$ = $1; }
+    | INPUT ';'                { $$ = $1; }       /* Added this line */
     | IF_STATEMENT             { $$ = $1; }
     | WHILE_STATEMENT          { $$ = $1; }
     | RETURN_STATEMENT         { $$ = $1; }
@@ -246,6 +251,64 @@ PRINT
             free($5->children);
             free($5);
             $$ = create_node(NODE_PRINT, NULL, num_children, children_array);
+        }
+    ;
+
+/* Added INPUT rule */
+INPUT
+    : SCANF '(' STRING_LITERAL ')'
+        {
+            ASTNode* string_node = create_node(NODE_STRING_LITERAL, $3, 0, NULL);
+            ASTNode** children_array = malloc(sizeof(ASTNode*));
+            children_array[0] = string_node;
+            $$ = create_node(NODE_SCANF, NULL, 1, children_array);
+        }
+    | SCANF '(' STRING_LITERAL ',' VARIABLE_LIST ')'
+        {
+            int num_children = $5->num_children + 1;
+            ASTNode** children_array = malloc(sizeof(ASTNode*) * num_children);
+            ASTNode* string_node = create_node(NODE_STRING_LITERAL, $3, 0, NULL);
+            children_array[0] = string_node;
+            memcpy(&children_array[1], $5->children, sizeof(ASTNode*) * $5->num_children);
+            /* Free the variable list node */
+            free($5->children);
+            free($5);
+            $$ = create_node(NODE_SCANF, NULL, num_children, children_array);
+        }
+    ;
+
+/* Added VARIABLE_LIST and VARIABLE rules */
+VARIABLE_LIST
+    : VARIABLE
+        {
+            ASTNode** children_array = malloc(sizeof(ASTNode*));
+            children_array[0] = $1;
+            $$ = create_node(NODE_VARIABLE_LIST, NULL, 1, children_array);
+        }
+    | VARIABLE_LIST ',' VARIABLE
+        {
+            ASTNode** new_children = realloc($1->children, sizeof(ASTNode*) * ($1->num_children + 1));
+            if (new_children == NULL) {
+                yyerror("Memory allocation failed for VARIABLE_LIST.");
+                exit(1);
+            }
+            new_children[$1->num_children] = $3;
+            $1->children = new_children;
+            $1->num_children += 1;
+            $$ = $1;
+        }
+    ;
+
+VARIABLE
+    : IDENTIFIER
+        {
+            $$ = create_node(NODE_IDENTIFIER, $1, 0, NULL);
+        }
+    | IDENTIFIER '[' EXPRESSION ']'
+        {
+            ASTNode* index_node = $3;
+            ASTNode* children_array[] = { index_node };
+            $$ = create_node(NODE_INDEXED_IDENTIFIER, $1, 1, children_array);
         }
     ;
 

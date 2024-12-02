@@ -1,3 +1,4 @@
+/* ast.c */
 #include "ast.h"
 
 ASTNode* create_node(NodeType type, char* value, int num_children, ASTNode** children_array) {
@@ -24,7 +25,6 @@ ASTNode* create_node(NodeType type, char* value, int num_children, ASTNode** chi
     return node;
 }
 
-
 const char* node_type_to_string(NodeType type) {
     switch (type) {
         case NODE_BLOCK:              return "Block";
@@ -32,6 +32,7 @@ const char* node_type_to_string(NodeType type) {
         case NODE_DECLARATION:        return "Declaration";
         case NODE_ASSIGNMENT:         return "Assignment";
         case NODE_PRINT:              return "Print";
+        case NODE_SCANF:              return "Scanf";           /* Added this line */
         case NODE_IF_STATEMENT:       return "IfStatement";
         case NODE_WHILE_STATEMENT:    return "WhileStatement";
         case NODE_RETURN_STATEMENT:   return "ReturnStatement";
@@ -41,6 +42,7 @@ const char* node_type_to_string(NodeType type) {
         case NODE_PARAMETER_LIST:     return "ParameterList";
         case NODE_PARAMETER:          return "Parameter";
         case NODE_ARGUMENT_LIST:      return "ArgumentList";
+        case NODE_VARIABLE_LIST:      return "VariableList";    /* Added this line */
         case NODE_BIN_OP:             return "BinOp";
         case NODE_UN_OP:              return "UnOp";
         case NODE_BOOL_BIN_OP:        return "BoolBinOp";
@@ -54,14 +56,13 @@ const char* node_type_to_string(NodeType type) {
         case NODE_INT_LITERAL:        return "IntLiteral";
         case NODE_FLOAT_LITERAL:      return "FloatLiteral";
         case NODE_TYPE_CAST:          return "TypeCast";
-        case NODE_STRING_LITERAL:     return "StringLiteral";  /* Added this line */
+        case NODE_STRING_LITERAL:     return "StringLiteral";
         case NODE_EXPRESSION_LIST:    return "ExpressionList";
         default:                      return "Unknown";
     }
 }
 
 void escape_yaml_string(FILE* file, const char* str) {
-    fputc('"', file);
     for (const char* p = str; *p; p++) {
         if (*p == '\\' || *p == '"' || *p == '\n') {
             fputc('\\', file);
@@ -74,7 +75,6 @@ void escape_yaml_string(FILE* file, const char* str) {
             fputc(*p, file);
         }
     }
-    fputc('"', file);
 }
 
 void print_ast_yaml(FILE* file, ASTNode* node, int indent) {
@@ -94,14 +94,19 @@ void print_ast_yaml(FILE* file, ASTNode* node, int indent) {
             fprintf(file, "  ");
         fprintf(file, "value: ");
 
+        /* Enclose all values in double quotes */
+        fputc('"', file);
+
         if (node->type == NODE_STRING_LITERAL) {
-            /* For StringLiteral nodes, print the value as-is, enclosed in double quotes */
-            fprintf(file, "\"%s\"\n", node->value);
+            /* For StringLiteral nodes, print the value as-is */
+            fprintf(file, "%s", node->value);
         } else {
-            /* For other nodes, escape special characters and enclose in double quotes */
+            /* For other nodes, escape special characters */
             escape_yaml_string(file, node->value);
-            fprintf(file, "\n");
         }
+
+        fputc('"', file);
+        fprintf(file, "\n");
     }
 
     /* Print children if they exist */
@@ -115,8 +120,6 @@ void print_ast_yaml(FILE* file, ASTNode* node, int indent) {
         }
     }
 }
-
-
 
 void free_ast(ASTNode* node) {
     if (node == NULL)

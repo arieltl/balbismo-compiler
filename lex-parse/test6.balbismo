@@ -1,8 +1,7 @@
 int main() {
     int a;
     a = int(3.14);
-    //teste
     printf("%d \n",a);
-    printf("%f\n",float(3));
+    printf("%f\n",float(a));
     return 0;
 }

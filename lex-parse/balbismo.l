@@ -19,6 +19,7 @@ void yyerror(const char *s);
 "int"                           { return INT; }
 "float"                         { return FLOAT; }
 "printf"                        { return PRINTF; }
+"scanf"                         { return SCANF; }   
 "if"                            { return IF; }
 "else"                          { return ELSE; }
 "while"                         { return WHILE; }

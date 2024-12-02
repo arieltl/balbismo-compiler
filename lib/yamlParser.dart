@@ -73,6 +73,8 @@ Node parseNode(YamlMap node) {
       return TypeCast(PrimitiveType(PrimitiveTypes.fromString(value)), children[0] as Node<dynamic, LangVal>);
     case "StringLiteral":
       return StringLiteral(value);
+    case "Scanf":
+      return ScanfNode(children[0] as StringLiteral, children.sublist(1).cast());
     default:
       throw Exception("Unknown node type: $type");
   }

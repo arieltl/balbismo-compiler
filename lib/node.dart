@@ -377,7 +377,47 @@ class AssignmentNode extends Node<void, void> {
   }
 }
 
+class ScanfNode extends Node<void,void> {
+  ScanfNode(StringLiteral literal, List<IdentifierNode> children) : super(null, [literal, ...children]);
 
+  StringLiteral get literal => children[0] as StringLiteral;
+  List<IdentifierNode> get identifiers => children.sublist(1).cast<IdentifierNode>();
+
+  @override
+  void evaluate(SymbolTable table) {
+    final strLiteral = literal.evaluate(table);
+      List<(String, String)> irLines = [];
+    
+    for (var identifier in identifiers) {
+      var varData = table.get(identifier.nodeValue);
+      if (varData == null) {
+        throw Exception("Variable ${identifier.nodeValue} not found");
+      }
+      String ptr = varData.ptrName;
+      if (varData.type is ArrayType && identifier is !IndexedIdentifierNode) {
+        throw Exception("Cannot scan into array");
+      }
+      if (varData.type is! ArrayType && identifier is IndexedIdentifierNode) {
+        throw Exception("Cannot index non-array");
+      }
+      if (varData.type is ArrayType) {
+        final indexedId = identifier as IndexedIdentifierNode;
+        final indexResult = indexedId.index.evaluate(table);
+        if (indexResult.type.primitiveType != PrimitiveTypes.int) {
+          throw Exception("Index must be int");
+        }
+        Node.addIrLine(
+            "%arrayPtr.${identifier.id} = getelementptr ${varData.type.primitiveType.irType}, ${varData.type.irType} ${varData.ptrName}, i64 ${indexResult.regName}");
+        ptr = "%arrayPtr.${identifier.id}";
+      } 
+      irLines.add((ptr, varData.type.primitiveType.irType));
+      
+    }
+    final childrenStr = irLines.map((e) => "${e.$2}* ${e.$1}").join(", ");
+    Node.addIrLine(
+        "call i32 (i8*, ...) @scanf(i8* $strLiteral, $childrenStr)");
+  }
+}
 class StringLiteral extends Node<String,String> {
 
   StringLiteral(String value) : super(value, []);
@@ -534,7 +574,7 @@ class PrintNode extends Node<void, void> {
     //print using printf
     final childrenStr = childResults.map((e) => "${e.type.irType} ${e.regName}").join(", ");
     Node.addIrLine(
-        "call i32 (i8*, ...) @printf(i8* $strLiteral, $childrenStr)");
+        "call i32 (i8*, ...) @printf(i8* $strLiteral ${childResults.isNotEmpty ? "," : ""} $childrenStr)");
   }
 }
 

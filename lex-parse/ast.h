@@ -12,6 +12,7 @@ typedef enum {
     NODE_DECLARATION,
     NODE_ASSIGNMENT,
     NODE_PRINT,
+    NODE_SCANF,              /* Added this line */
     NODE_IF_STATEMENT,
     NODE_WHILE_STATEMENT,
     NODE_RETURN_STATEMENT,
@@ -21,6 +22,7 @@ typedef enum {
     NODE_PARAMETER_LIST,
     NODE_PARAMETER,
     NODE_ARGUMENT_LIST,
+    NODE_VARIABLE_LIST,      /* Added this line */
     NODE_BIN_OP,
     NODE_UN_OP,
     NODE_BOOL_BIN_OP,
@@ -34,7 +36,7 @@ typedef enum {
     NODE_INT_LITERAL,
     NODE_FLOAT_LITERAL,
     NODE_TYPE_CAST,
-    NODE_STRING_LITERAL,  /* Ensure this line exists */
+    NODE_STRING_LITERAL,
     NODE_EXPRESSION_LIST
 } NodeType;
 
@@ -45,10 +47,16 @@ typedef struct ASTNode {
     struct ASTNode** children;   // Dynamic array of child nodes
 } ASTNode;
 
-// Function prototypes...
+// Function to create an AST node
 ASTNode* create_node(NodeType type, char* value, int num_children, ASTNode** children_array);
+
+// Function to print the AST in YAML format
 void print_ast_yaml(FILE* file, ASTNode* node, int indent);
+
+// Function to free the AST
 void free_ast(ASTNode* node);
+
+// Function to convert node types to string
 const char* node_type_to_string(NodeType type);
 
 #endif // AST_H
