@@ -5,270 +5,37 @@
         - type: Type
           value: "int"
         - type: Identifier
-          value: "sum"
-        - type: ParameterList
-          children:
-            - type: Declaration
-              children:
-                - type: ArrayType
-                  children:
-                    - type: Type
-                      value: "int"
-                    - type: ArraySpecifier
-                - type: Identifier
-                  value: "nums"
-            - type: Declaration
-              children:
-                - type: Type
-                  value: "int"
-                - type: Identifier
-                  value: "size"
-        - type: Block
-          children:
-            - type: Declaration
-              children:
-                - type: Type
-                  value: "int"
-                - type: Identifier
-                  value: "total"
-                - type: IntLiteral
-                  value: "0"
-            - type: Declaration
-              children:
-                - type: Type
-                  value: "int"
-                - type: Identifier
-                  value: "i"
-            - type: Assignment
-              children:
-                - type: Identifier
-                  value: "i"
-                - type: IntLiteral
-                  value: "0"
-            - type: WhileStatement
-              children:
-                - type: RelOp
-                  value: "<"
-                  children:
-                    - type: Identifier
-                      value: "i"
-                    - type: Identifier
-                      value: "size"
-                - type: Block
-                  children:
-                    - type: Assignment
-                      children:
-                        - type: Identifier
-                          value: "total"
-                        - type: BinOp
-                          value: "+"
-                          children:
-                            - type: Identifier
-                              value: "total"
-                            - type: IndexedIdentifier
-                              value: "nums"
-                              children:
-                                - type: Identifier
-                                  value: "i"
-                    - type: Assignment
-                      children:
-                        - type: Identifier
-                          value: "i"
-                        - type: BinOp
-                          value: "+"
-                          children:
-                            - type: Identifier
-                              value: "i"
-                            - type: IntLiteral
-                              value: "1"
-            - type: ReturnStatement
-              children:
-                - type: Identifier
-                  value: "total"
-    - type: FunctionDeclaration
-      children:
-        - type: Type
-          value: "float"
-        - type: Identifier
-          value: "sum2"
-        - type: ParameterList
-          children:
-            - type: Declaration
-              children:
-                - type: ArrayType
-                  children:
-                    - type: Type
-                      value: "float"
-                    - type: ArraySpecifier
-                - type: Identifier
-                  value: "nums"
-            - type: Declaration
-              children:
-                - type: Type
-                  value: "int"
-                - type: Identifier
-                  value: "size"
-        - type: Block
-          children:
-            - type: Declaration
-              children:
-                - type: Type
-                  value: "float"
-                - type: Identifier
-                  value: "total"
-                - type: FloatLiteral
-                  value: "0.0"
-            - type: Declaration
-              children:
-                - type: Type
-                  value: "int"
-                - type: Identifier
-                  value: "i"
-            - type: Assignment
-              children:
-                - type: Identifier
-                  value: "i"
-                - type: IntLiteral
-                  value: "0"
-            - type: WhileStatement
-              children:
-                - type: RelOp
-                  value: "<"
-                  children:
-                    - type: Identifier
-                      value: "i"
-                    - type: Identifier
-                      value: "size"
-                - type: Block
-                  children:
-                    - type: Assignment
-                      children:
-                        - type: Identifier
-                          value: "total"
-                        - type: BinOp
-                          value: "+"
-                          children:
-                            - type: Identifier
-                              value: "total"
-                            - type: IndexedIdentifier
-                              value: "nums"
-                              children:
-                                - type: Identifier
-                                  value: "i"
-                    - type: Assignment
-                      children:
-                        - type: Identifier
-                          value: "i"
-                        - type: BinOp
-                          value: "+"
-                          children:
-                            - type: Identifier
-                              value: "i"
-                            - type: IntLiteral
-                              value: "1"
-            - type: ReturnStatement
-              children:
-                - type: Identifier
-                  value: "total"
-    - type: FunctionDeclaration
-      children:
-        - type: Type
-          value: "int"
-        - type: Identifier
           value: "main"
         - type: ParameterList
         - type: Block
           children:
             - type: Declaration
               children:
-                - type: ArrayType
-                  children:
-                    - type: Type
-                      value: "int"
-                    - type: ArraySpecifier
-                      children:
-                        - type: IntLiteral
-                          value: "2"
+                - type: Type
+                  value: "int"
                 - type: Identifier
-                  value: "arr"
-            - type: Declaration
+                  value: "a"
+            - type: Assignment
               children:
-                - type: ArrayType
-                  children:
-                    - type: Type
-                      value: "float"
-                    - type: ArraySpecifier
-                      children:
-                        - type: IntLiteral
-                          value: "3"
                 - type: Identifier
-                  value: "arr2"
-            - type: Assignment
-              children:
-                - type: IndexedIdentifier
-                  value: "arr"
+                  value: "a"
+                - type: TypeCast
+                  value: "int"
                   children:
-                    - type: IntLiteral
-                      value: "0"
-                - type: IntLiteral
-                  value: "3"
-            - type: Assignment
-              children:
-                - type: IndexedIdentifier
-                  value: "arr"
-                  children:
-                    - type: IntLiteral
-                      value: "1"
-                - type: IntLiteral
-                  value: "2"
-            - type: Assignment
-              children:
-                - type: IndexedIdentifier
-                  value: "arr2"
-                  children:
-                    - type: IntLiteral
-                      value: "2"
-                - type: FloatLiteral
-                  value: "3.0"
-            - type: Assignment
-              children:
-                - type: IndexedIdentifier
-                  value: "arr2"
-                  children:
-                    - type: IntLiteral
-                      value: "1"
-                - type: FloatLiteral
-                  value: "2.0"
-            - type: Assignment
-              children:
-                - type: IndexedIdentifier
-                  value: "arr2"
-                  children:
-                    - type: IntLiteral
-                      value: "0"
-                - type: FloatLiteral
-                  value: "1.0"
+                    - type: FloatLiteral
+                      value: "3.14"
             - type: Print
               children:
-                - type: FunctionCall
-                  children:
-                    - type: Identifier
-                      value: "sum"
-                    - type: ArgumentList
-                      children:
-                        - type: Identifier
-                          value: "arr"
-                        - type: IntLiteral
-                          value: "2"
+                - type: Identifier
+                  value: "a"
             - type: Print
               children:
-                - type: FunctionCall
+                - type: TypeCast
+                  value: "float"
                   children:
-                    - type: Identifier
-                      value: "sum2"
-                    - type: ArgumentList
-                      children:
-                        - type: Identifier
-                          value: "arr2"
-                        - type: IntLiteral
-                          value: "3"
+                    - type: IntLiteral
+                      value: "3"
+            - type: ReturnStatement
+              children:
+                - type: IntLiteral
+                  value: "0"

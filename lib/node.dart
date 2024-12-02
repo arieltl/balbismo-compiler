@@ -314,7 +314,6 @@ class AssignmentNode extends Node<void, void> {
     if (varData == null) {
       throw Exception("Variable ${identifier.nodeValue} not found");
     }
-    var varType = varData.type;
 
     if (varData.type is ArrayType && identifierNode is !IndexedIdentifierNode) {
       throw Exception("Cannot assign to array");
@@ -342,7 +341,7 @@ class AssignmentNode extends Node<void, void> {
       throw Exception("Type mismatch");
     }
     Node.addIrLine(
-        "store ${varData.type.primitiveType.irType} ${value.regName}, ptr ${ptrName}");
+        "store ${varData.type.primitiveType.irType} ${value.regName}, ptr $ptrName");
   }
 }
 
@@ -770,3 +769,32 @@ class WhileNode extends Node<void, void> {
     Node.addIrLine("end.$id:");
   }
 }
+
+class TypeCast extends Node<PrimitiveType, LangVal> {
+  TypeCast(PrimitiveType type, Node<dynamic, LangVal> child)
+      : super(type, [child]);
+  
+
+  Node<dynamic, LangVal> get child => children[0] as Node<dynamic, LangVal>;
+
+  @override
+  LangVal evaluate(SymbolTable table) {
+    final childResult = child.evaluate(table);
+    if (childResult.type.primitiveType == nodeValue.primitiveType) {
+      return childResult;
+    }
+    if (childResult.type.primitiveType == PrimitiveTypes.int &&
+        nodeValue.primitiveType == PrimitiveTypes.float) {
+      Node.addIrLine(
+          "%conv.$id = sitofp i64 ${childResult.regName} to double");
+      return LangVal("%conv.$id", const PrimitiveType(PrimitiveTypes.float));
+    } else if (childResult.type.primitiveType == PrimitiveTypes.float &&
+        nodeValue.primitiveType == PrimitiveTypes.int) {
+      Node.addIrLine(
+          "%conv.$id = fptosi double ${childResult.regName} to i64");
+      return LangVal("%conv.$id", const PrimitiveType(PrimitiveTypes.int));
+    }
+    throw Exception("Invalid type cast");
+  }
+
+} 

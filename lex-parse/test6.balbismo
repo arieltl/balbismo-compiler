@@ -1,0 +1,8 @@
+int main() {
+    int a;
+    a = int(3.14);
+    //teste
+    printf(a);
+    printf(float(3));
+    return 0;
+}

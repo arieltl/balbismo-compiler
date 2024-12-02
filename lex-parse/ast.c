@@ -52,6 +52,7 @@ const char* node_type_to_string(NodeType type) {
         case NODE_IDENTIFIER:         return "Identifier";
         case NODE_INT_LITERAL:        return "IntLiteral";
         case NODE_FLOAT_LITERAL:      return "FloatLiteral";
+        case NODE_TYPE_CAST:          return "TypeCast";  /* Added this line */
         default:                      return "Unknown";
     }
 }

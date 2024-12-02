@@ -470,6 +470,13 @@ PRIMARY
         { $$ = $2; }
     | FUNCTION_CALL
         { $$ = $1; }
+    /* Added type casting */
+    | PRIMITIVE_TYPES '(' EXPRESSION ')'
+        {
+            ASTNode* expr_node = $3;
+            ASTNode* children_array[] = { expr_node };
+            $$ = create_node(NODE_TYPE_CAST, $1, 1, children_array);
+        }
     ;
 
 NUMBER

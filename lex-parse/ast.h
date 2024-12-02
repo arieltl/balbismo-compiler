@@ -31,7 +31,8 @@ typedef enum {
     NODE_INDEXED_IDENTIFIER,
     NODE_IDENTIFIER,
     NODE_INT_LITERAL,
-    NODE_FLOAT_LITERAL
+    NODE_FLOAT_LITERAL,
+    NODE_TYPE_CAST    /* Added this line */
 } NodeType;
 
 typedef struct ASTNode {

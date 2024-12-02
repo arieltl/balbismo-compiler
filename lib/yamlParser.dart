@@ -69,6 +69,8 @@ Node parseNode(YamlMap node) {
       return ReturnStatement(children[0] as Node<dynamic, LangVal>);
     case "FunctionList":
       return FunctionList(children.cast());
+    case "TypeCast":
+      return TypeCast(PrimitiveType(PrimitiveTypes.fromString(value)), children[0] as Node<dynamic, LangVal>);
     default:
       throw Exception("Unknown node type: $type");
   }

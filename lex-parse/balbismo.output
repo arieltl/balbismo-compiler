@@ -112,17 +112,18 @@ Grammar
    71        | NUMBER
    72        | '(' EXPRESSION ')'
    73        | FUNCTION_CALL
+   74        | PRIMITIVE_TYPES '(' EXPRESSION ')'
 
-   74 NUMBER: INT_LITERAL
-   75       | FLOAT_LITERAL
+   75 NUMBER: INT_LITERAL
+   76       | FLOAT_LITERAL
 
 
 Terminals, with rules where they appear
 
     $end (0) 0
     '%' (37) 63
-    '(' (40) 4 30 34 38 39 42 72
-    ')' (41) 4 30 34 38 39 42 72
+    '(' (40) 4 30 34 38 39 42 72 74
+    ')' (41) 4 30 34 38 39 42 72 74
     '*' (42) 61
     '+' (43) 58 65
     ',' (44) 5 35
@@ -154,8 +155,8 @@ Terminals, with rules where they appear
     AND_OP (272) 48
     OR_OP (273) 46
     NOT_OP (274) 67
-    INT_LITERAL <str> (275) 74
-    FLOAT_LITERAL <str> (276) 75
+    INT_LITERAL <str> (275) 75
+    FLOAT_LITERAL <str> (276) 76
     UMINUS (277)
 
 
@@ -231,10 +232,10 @@ Nonterminals, with rules where they appear
         on right: 22
     PRIMITIVE_TYPES <str> (62)
         on left: 43 44
-        on right: 11 12 13 14
+        on right: 11 12 13 14 74
     EXPRESSION <ast> (63)
         on left: 45
-        on right: 14 27 28 29 30 32 35 36 38 39 42 70 72
+        on right: 14 27 28 29 30 32 35 36 38 39 42 70 72 74
     LOGICAL_OR <ast> (64)
         on left: 46 47
         on right: 45 46
@@ -257,10 +258,10 @@ Nonterminals, with rules where they appear
         on left: 65 66 67 68
         on right: 61 62 63 64 65 66 67
     PRIMARY <ast> (71)
-        on left: 69 70 71 72 73
+        on left: 69 70 71 72 73 74
         on right: 68
     NUMBER <ast> (72)
-        on left: 74 75
+        on left: 75 76
         on right: 71
 
 
@@ -544,6 +545,8 @@ State 30
    32                 | RETURN • EXPRESSION ';'
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -552,17 +555,18 @@ State 30
     '('            shift, and go to state 56
     ';'            shift, and go to state 57
 
-    FUNCTION_CALL   go to state 58
-    EXPRESSION      go to state 59
-    LOGICAL_OR      go to state 60
-    LOGICAL_AND     go to state 61
-    EQUALITY        go to state 62
-    RELATIONAL      go to state 63
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    EXPRESSION       go to state 60
+    LOGICAL_OR       go to state 61
+    LOGICAL_AND      go to state 62
+    EQUALITY         go to state 63
+    RELATIONAL       go to state 64
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 31
@@ -577,7 +581,7 @@ State 32
    26 DECLARATION: VARIABLE_TYPE • IDENTIFIER
    27            | VARIABLE_TYPE • IDENTIFIER '=' EXPRESSION
 
-    IDENTIFIER  shift, and go to state 69
+    IDENTIFIER  shift, and go to state 70
 
 
 State 33
@@ -598,21 +602,21 @@ State 35
 
    18 STATEMENT: DECLARATION • ';'
 
-    ';'  shift, and go to state 70
+    ';'  shift, and go to state 71
 
 
 State 36
 
    19 STATEMENT: ASSIGNMENT • ';'
 
-    ';'  shift, and go to state 71
+    ';'  shift, and go to state 72
 
 
 State 37
 
    20 STATEMENT: PRINT • ';'
 
-    ';'  shift, and go to state 72
+    ';'  shift, and go to state 73
 
 
 State 38
@@ -626,7 +630,7 @@ State 39
 
    24 STATEMENT: FUNCTION_CALL_STATEMENT • ';'
 
-    ';'  shift, and go to state 73
+    ';'  shift, and go to state 74
 
 
 State 40
@@ -655,7 +659,7 @@ State 43
    13 VARIABLE_TYPE: PRIMITIVE_TYPES •
    14              | PRIMITIVE_TYPES • '[' EXPRESSION ']'
 
-    '['  shift, and go to state 74
+    '['  shift, and go to state 75
 
     $default  reduce using rule 13 (VARIABLE_TYPE)
 
@@ -665,6 +669,8 @@ State 44
    34 FUNCTION_CALL: IDENTIFIER '(' • ARGUMENT_LIST ')'
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -674,18 +680,19 @@ State 44
 
     $default  reduce using rule 37 (ARGUMENT_LIST)
 
-    FUNCTION_CALL   go to state 58
-    ARGUMENT_LIST   go to state 75
-    EXPRESSION      go to state 76
-    LOGICAL_OR      go to state 60
-    LOGICAL_AND     go to state 61
-    EQUALITY        go to state 62
-    RELATIONAL      go to state 63
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    ARGUMENT_LIST    go to state 76
+    PRIMITIVE_TYPES  go to state 59
+    EXPRESSION       go to state 77
+    LOGICAL_OR       go to state 61
+    LOGICAL_AND      go to state 62
+    EQUALITY         go to state 63
+    RELATIONAL       go to state 64
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 45
@@ -693,6 +700,8 @@ State 45
    29 ASSIGNMENT: IDENTIFIER '[' • EXPRESSION ']' '=' EXPRESSION
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -700,17 +709,18 @@ State 45
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    EXPRESSION      go to state 77
-    LOGICAL_OR      go to state 60
-    LOGICAL_AND     go to state 61
-    EQUALITY        go to state 62
-    RELATIONAL      go to state 63
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    EXPRESSION       go to state 78
+    LOGICAL_OR       go to state 61
+    LOGICAL_AND      go to state 62
+    EQUALITY         go to state 63
+    RELATIONAL       go to state 64
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 46
@@ -718,6 +728,8 @@ State 46
    28 ASSIGNMENT: IDENTIFIER '=' • EXPRESSION
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -725,17 +737,18 @@ State 46
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    EXPRESSION      go to state 78
-    LOGICAL_OR      go to state 60
-    LOGICAL_AND     go to state 61
-    EQUALITY        go to state 62
-    RELATIONAL      go to state 63
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    EXPRESSION       go to state 79
+    LOGICAL_OR       go to state 61
+    LOGICAL_AND      go to state 62
+    EQUALITY         go to state 63
+    RELATIONAL       go to state 64
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 47
@@ -743,6 +756,8 @@ State 47
    30 PRINT: PRINTF '(' • EXPRESSION ')'
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -750,17 +765,18 @@ State 47
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    EXPRESSION      go to state 79
-    LOGICAL_OR      go to state 60
-    LOGICAL_AND     go to state 61
-    EQUALITY        go to state 62
-    RELATIONAL      go to state 63
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    EXPRESSION       go to state 80
+    LOGICAL_OR       go to state 61
+    LOGICAL_AND      go to state 62
+    EQUALITY         go to state 63
+    RELATIONAL       go to state 64
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 48
@@ -769,6 +785,8 @@ State 48
    39             | IF '(' • EXPRESSION ')' BLOCK ELSE_CLAUSE
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -776,17 +794,18 @@ State 48
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    EXPRESSION      go to state 80
-    LOGICAL_OR      go to state 60
-    LOGICAL_AND     go to state 61
-    EQUALITY        go to state 62
-    RELATIONAL      go to state 63
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    EXPRESSION       go to state 81
+    LOGICAL_OR       go to state 61
+    LOGICAL_AND      go to state 62
+    EQUALITY         go to state 63
+    RELATIONAL       go to state 64
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 49
@@ -794,6 +813,8 @@ State 49
    42 WHILE_STATEMENT: WHILE '(' • EXPRESSION ')' BLOCK
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -801,17 +822,18 @@ State 49
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    EXPRESSION      go to state 81
-    LOGICAL_OR      go to state 60
-    LOGICAL_AND     go to state 61
-    EQUALITY        go to state 62
-    RELATIONAL      go to state 63
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    EXPRESSION       go to state 82
+    LOGICAL_OR       go to state 61
+    LOGICAL_AND      go to state 62
+    EQUALITY         go to state 63
+    RELATIONAL       go to state 64
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 50
@@ -821,7 +843,7 @@ State 50
    70        | IDENTIFIER • '[' EXPRESSION ']'
 
     '('  shift, and go to state 44
-    '['  shift, and go to state 82
+    '['  shift, and go to state 83
 
     $default  reduce using rule 69 (PRIMARY)
 
@@ -831,6 +853,8 @@ State 51
    67 UNARY: NOT_OP • UNARY
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -838,24 +862,25 @@ State 51
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL  go to state 58
-    UNARY          go to state 83
-    PRIMARY        go to state 67
-    NUMBER         go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    UNARY            go to state 84
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 52
 
-   74 NUMBER: INT_LITERAL •
+   75 NUMBER: INT_LITERAL •
 
-    $default  reduce using rule 74 (NUMBER)
+    $default  reduce using rule 75 (NUMBER)
 
 
 State 53
 
-   75 NUMBER: FLOAT_LITERAL •
+   76 NUMBER: FLOAT_LITERAL •
 
-    $default  reduce using rule 75 (NUMBER)
+    $default  reduce using rule 76 (NUMBER)
 
 
 State 54
@@ -863,6 +888,8 @@ State 54
    65 UNARY: '+' • UNARY
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -870,10 +897,11 @@ State 54
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL  go to state 58
-    UNARY          go to state 84
-    PRIMARY        go to state 67
-    NUMBER         go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    UNARY            go to state 85
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 55
@@ -881,6 +909,8 @@ State 55
    66 UNARY: '-' • UNARY
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -888,10 +918,11 @@ State 55
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL  go to state 58
-    UNARY          go to state 85
-    PRIMARY        go to state 67
-    NUMBER         go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    UNARY            go to state 86
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 56
@@ -899,6 +930,8 @@ State 56
    72 PRIMARY: '(' • EXPRESSION ')'
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -906,17 +939,18 @@ State 56
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    EXPRESSION      go to state 86
-    LOGICAL_OR      go to state 60
-    LOGICAL_AND     go to state 61
-    EQUALITY        go to state 62
-    RELATIONAL      go to state 63
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    EXPRESSION       go to state 87
+    LOGICAL_OR       go to state 61
+    LOGICAL_AND      go to state 62
+    EQUALITY         go to state 63
+    RELATIONAL       go to state 64
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 57
@@ -935,44 +969,51 @@ State 58
 
 State 59
 
-   32 RETURN_STATEMENT: RETURN EXPRESSION • ';'
+   74 PRIMARY: PRIMITIVE_TYPES • '(' EXPRESSION ')'
 
-    ';'  shift, and go to state 87
+    '('  shift, and go to state 88
 
 
 State 60
 
-   45 EXPRESSION: LOGICAL_OR •
-   46 LOGICAL_OR: LOGICAL_OR • OR_OP LOGICAL_AND
+   32 RETURN_STATEMENT: RETURN EXPRESSION • ';'
 
-    OR_OP  shift, and go to state 88
-
-    $default  reduce using rule 45 (EXPRESSION)
+    ';'  shift, and go to state 89
 
 
 State 61
 
+   45 EXPRESSION: LOGICAL_OR •
+   46 LOGICAL_OR: LOGICAL_OR • OR_OP LOGICAL_AND
+
+    OR_OP  shift, and go to state 90
+
+    $default  reduce using rule 45 (EXPRESSION)
+
+
+State 62
+
    47 LOGICAL_OR: LOGICAL_AND •
    48 LOGICAL_AND: LOGICAL_AND • AND_OP EQUALITY
 
-    AND_OP  shift, and go to state 89
+    AND_OP  shift, and go to state 91
 
     $default  reduce using rule 47 (LOGICAL_OR)
 
 
-State 62
+State 63
 
    49 LOGICAL_AND: EQUALITY •
    50 EQUALITY: EQUALITY • EQUAL_EQUAL RELATIONAL
    51         | EQUALITY • NOT_EQUAL RELATIONAL
 
-    EQUAL_EQUAL  shift, and go to state 90
-    NOT_EQUAL    shift, and go to state 91
+    EQUAL_EQUAL  shift, and go to state 92
+    NOT_EQUAL    shift, and go to state 93
 
     $default  reduce using rule 49 (LOGICAL_AND)
 
 
-State 63
+State 64
 
    52 EQUALITY: RELATIONAL •
    53 RELATIONAL: RELATIONAL • GREATER ADDITIVE
@@ -980,104 +1021,106 @@ State 63
    55           | RELATIONAL • GREATER_EQUAL ADDITIVE
    56           | RELATIONAL • LESS_EQUAL ADDITIVE
 
-    GREATER_EQUAL  shift, and go to state 92
-    LESS_EQUAL     shift, and go to state 93
-    GREATER        shift, and go to state 94
-    LESS           shift, and go to state 95
+    GREATER_EQUAL  shift, and go to state 94
+    LESS_EQUAL     shift, and go to state 95
+    GREATER        shift, and go to state 96
+    LESS           shift, and go to state 97
 
     $default  reduce using rule 52 (EQUALITY)
 
 
-State 64
+State 65
 
    57 RELATIONAL: ADDITIVE •
    58 ADDITIVE: ADDITIVE • '+' MULTIPLICATIVE
    59         | ADDITIVE • '-' MULTIPLICATIVE
 
-    '+'  shift, and go to state 96
-    '-'  shift, and go to state 97
+    '+'  shift, and go to state 98
+    '-'  shift, and go to state 99
 
     $default  reduce using rule 57 (RELATIONAL)
 
 
-State 65
+State 66
 
    60 ADDITIVE: MULTIPLICATIVE •
    61 MULTIPLICATIVE: MULTIPLICATIVE • '*' UNARY
    62               | MULTIPLICATIVE • '/' UNARY
    63               | MULTIPLICATIVE • '%' UNARY
 
-    '*'  shift, and go to state 98
-    '/'  shift, and go to state 99
-    '%'  shift, and go to state 100
+    '*'  shift, and go to state 100
+    '/'  shift, and go to state 101
+    '%'  shift, and go to state 102
 
     $default  reduce using rule 60 (ADDITIVE)
 
 
-State 66
+State 67
 
    64 MULTIPLICATIVE: UNARY •
 
     $default  reduce using rule 64 (MULTIPLICATIVE)
 
 
-State 67
+State 68
 
    68 UNARY: PRIMARY •
 
     $default  reduce using rule 68 (UNARY)
 
 
-State 68
+State 69
 
    71 PRIMARY: NUMBER •
 
     $default  reduce using rule 71 (PRIMARY)
 
 
-State 69
+State 70
 
    26 DECLARATION: VARIABLE_TYPE IDENTIFIER •
    27            | VARIABLE_TYPE IDENTIFIER • '=' EXPRESSION
 
-    '='  shift, and go to state 101
+    '='  shift, and go to state 103
 
     $default  reduce using rule 26 (DECLARATION)
 
 
-State 70
+State 71
 
    18 STATEMENT: DECLARATION ';' •
 
     $default  reduce using rule 18 (STATEMENT)
 
 
-State 71
+State 72
 
    19 STATEMENT: ASSIGNMENT ';' •
 
     $default  reduce using rule 19 (STATEMENT)
 
 
-State 72
+State 73
 
    20 STATEMENT: PRINT ';' •
 
     $default  reduce using rule 20 (STATEMENT)
 
 
-State 73
+State 74
 
    24 STATEMENT: FUNCTION_CALL_STATEMENT ';' •
 
     $default  reduce using rule 24 (STATEMENT)
 
 
-State 74
+State 75
 
    14 VARIABLE_TYPE: PRIMITIVE_TYPES '[' • EXPRESSION ']'
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -1085,76 +1128,79 @@ State 74
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    EXPRESSION      go to state 102
-    LOGICAL_OR      go to state 60
-    LOGICAL_AND     go to state 61
-    EQUALITY        go to state 62
-    RELATIONAL      go to state 63
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    EXPRESSION       go to state 104
+    LOGICAL_OR       go to state 61
+    LOGICAL_AND      go to state 62
+    EQUALITY         go to state 63
+    RELATIONAL       go to state 64
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
-State 75
+State 76
 
    34 FUNCTION_CALL: IDENTIFIER '(' ARGUMENT_LIST • ')'
    35 ARGUMENT_LIST: ARGUMENT_LIST • ',' EXPRESSION
 
-    ')'  shift, and go to state 103
-    ','  shift, and go to state 104
+    ')'  shift, and go to state 105
+    ','  shift, and go to state 106
 
 
-State 76
+State 77
 
    36 ARGUMENT_LIST: EXPRESSION •
 
     $default  reduce using rule 36 (ARGUMENT_LIST)
 
 
-State 77
+State 78
 
    29 ASSIGNMENT: IDENTIFIER '[' EXPRESSION • ']' '=' EXPRESSION
 
-    ']'  shift, and go to state 105
+    ']'  shift, and go to state 107
 
 
-State 78
+State 79
 
    28 ASSIGNMENT: IDENTIFIER '=' EXPRESSION •
 
     $default  reduce using rule 28 (ASSIGNMENT)
 
 
-State 79
-
-   30 PRINT: PRINTF '(' EXPRESSION • ')'
-
-    ')'  shift, and go to state 106
-
-
 State 80
 
-   38 IF_STATEMENT: IF '(' EXPRESSION • ')' BLOCK
-   39             | IF '(' EXPRESSION • ')' BLOCK ELSE_CLAUSE
-
-    ')'  shift, and go to state 107
-
-
-State 81
-
-   42 WHILE_STATEMENT: WHILE '(' EXPRESSION • ')' BLOCK
+   30 PRINT: PRINTF '(' EXPRESSION • ')'
 
     ')'  shift, and go to state 108
 
 
+State 81
+
+   38 IF_STATEMENT: IF '(' EXPRESSION • ')' BLOCK
+   39             | IF '(' EXPRESSION • ')' BLOCK ELSE_CLAUSE
+
+    ')'  shift, and go to state 109
+
+
 State 82
+
+   42 WHILE_STATEMENT: WHILE '(' EXPRESSION • ')' BLOCK
+
+    ')'  shift, and go to state 110
+
+
+State 83
 
    70 PRIMARY: IDENTIFIER '[' • EXPRESSION ']'
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -1162,59 +1208,90 @@ State 82
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    EXPRESSION      go to state 109
-    LOGICAL_OR      go to state 60
-    LOGICAL_AND     go to state 61
-    EQUALITY        go to state 62
-    RELATIONAL      go to state 63
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    EXPRESSION       go to state 111
+    LOGICAL_OR       go to state 61
+    LOGICAL_AND      go to state 62
+    EQUALITY         go to state 63
+    RELATIONAL       go to state 64
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
-State 83
+State 84
 
    67 UNARY: NOT_OP UNARY •
 
     $default  reduce using rule 67 (UNARY)
 
 
-State 84
+State 85
 
    65 UNARY: '+' UNARY •
 
     $default  reduce using rule 65 (UNARY)
 
 
-State 85
+State 86
 
    66 UNARY: '-' UNARY •
 
     $default  reduce using rule 66 (UNARY)
 
 
-State 86
+State 87
 
    72 PRIMARY: '(' EXPRESSION • ')'
 
-    ')'  shift, and go to state 110
+    ')'  shift, and go to state 112
 
 
-State 87
+State 88
+
+   74 PRIMARY: PRIMITIVE_TYPES '(' • EXPRESSION ')'
+
+    IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
+    NOT_OP         shift, and go to state 51
+    INT_LITERAL    shift, and go to state 52
+    FLOAT_LITERAL  shift, and go to state 53
+    '+'            shift, and go to state 54
+    '-'            shift, and go to state 55
+    '('            shift, and go to state 56
+
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    EXPRESSION       go to state 113
+    LOGICAL_OR       go to state 61
+    LOGICAL_AND      go to state 62
+    EQUALITY         go to state 63
+    RELATIONAL       go to state 64
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
+
+
+State 89
 
    32 RETURN_STATEMENT: RETURN EXPRESSION ';' •
 
     $default  reduce using rule 32 (RETURN_STATEMENT)
 
 
-State 88
+State 90
 
    46 LOGICAL_OR: LOGICAL_OR OR_OP • LOGICAL_AND
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -1222,65 +1299,25 @@ State 88
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    LOGICAL_AND     go to state 111
-    EQUALITY        go to state 62
-    RELATIONAL      go to state 63
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
-
-
-State 89
-
-   48 LOGICAL_AND: LOGICAL_AND AND_OP • EQUALITY
-
-    IDENTIFIER     shift, and go to state 50
-    NOT_OP         shift, and go to state 51
-    INT_LITERAL    shift, and go to state 52
-    FLOAT_LITERAL  shift, and go to state 53
-    '+'            shift, and go to state 54
-    '-'            shift, and go to state 55
-    '('            shift, and go to state 56
-
-    FUNCTION_CALL   go to state 58
-    EQUALITY        go to state 112
-    RELATIONAL      go to state 63
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
-
-
-State 90
-
-   50 EQUALITY: EQUALITY EQUAL_EQUAL • RELATIONAL
-
-    IDENTIFIER     shift, and go to state 50
-    NOT_OP         shift, and go to state 51
-    INT_LITERAL    shift, and go to state 52
-    FLOAT_LITERAL  shift, and go to state 53
-    '+'            shift, and go to state 54
-    '-'            shift, and go to state 55
-    '('            shift, and go to state 56
-
-    FUNCTION_CALL   go to state 58
-    RELATIONAL      go to state 113
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    LOGICAL_AND      go to state 114
+    EQUALITY         go to state 63
+    RELATIONAL       go to state 64
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 91
 
-   51 EQUALITY: EQUALITY NOT_EQUAL • RELATIONAL
+   48 LOGICAL_AND: LOGICAL_AND AND_OP • EQUALITY
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -1288,20 +1325,24 @@ State 91
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    RELATIONAL      go to state 114
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    EQUALITY         go to state 115
+    RELATIONAL       go to state 64
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 92
 
-   55 RELATIONAL: RELATIONAL GREATER_EQUAL • ADDITIVE
+   50 EQUALITY: EQUALITY EQUAL_EQUAL • RELATIONAL
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -1309,19 +1350,23 @@ State 92
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    ADDITIVE        go to state 115
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    RELATIONAL       go to state 116
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 93
 
-   56 RELATIONAL: RELATIONAL LESS_EQUAL • ADDITIVE
+   51 EQUALITY: EQUALITY NOT_EQUAL • RELATIONAL
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -1329,19 +1374,23 @@ State 93
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    ADDITIVE        go to state 116
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    RELATIONAL       go to state 117
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 94
 
-   53 RELATIONAL: RELATIONAL GREATER • ADDITIVE
+   55 RELATIONAL: RELATIONAL GREATER_EQUAL • ADDITIVE
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -1349,19 +1398,22 @@ State 94
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    ADDITIVE        go to state 117
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    ADDITIVE         go to state 118
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 95
 
-   54 RELATIONAL: RELATIONAL LESS • ADDITIVE
+   56 RELATIONAL: RELATIONAL LESS_EQUAL • ADDITIVE
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -1369,19 +1421,22 @@ State 95
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    ADDITIVE        go to state 118
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    ADDITIVE         go to state 119
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 96
 
-   58 ADDITIVE: ADDITIVE '+' • MULTIPLICATIVE
+   53 RELATIONAL: RELATIONAL GREATER • ADDITIVE
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -1389,18 +1444,22 @@ State 96
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    MULTIPLICATIVE  go to state 119
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    ADDITIVE         go to state 120
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 97
 
-   59 ADDITIVE: ADDITIVE '-' • MULTIPLICATIVE
+   54 RELATIONAL: RELATIONAL LESS • ADDITIVE
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -1408,18 +1467,22 @@ State 97
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    MULTIPLICATIVE  go to state 120
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    ADDITIVE         go to state 121
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 98
 
-   61 MULTIPLICATIVE: MULTIPLICATIVE '*' • UNARY
+   58 ADDITIVE: ADDITIVE '+' • MULTIPLICATIVE
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -1427,17 +1490,21 @@ State 98
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL  go to state 58
-    UNARY          go to state 121
-    PRIMARY        go to state 67
-    NUMBER         go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    MULTIPLICATIVE   go to state 122
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 99
 
-   62 MULTIPLICATIVE: MULTIPLICATIVE '/' • UNARY
+   59 ADDITIVE: ADDITIVE '-' • MULTIPLICATIVE
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -1445,17 +1512,21 @@ State 99
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL  go to state 58
-    UNARY          go to state 122
-    PRIMARY        go to state 67
-    NUMBER         go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    MULTIPLICATIVE   go to state 123
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 100
 
-   63 MULTIPLICATIVE: MULTIPLICATIVE '%' • UNARY
+   61 MULTIPLICATIVE: MULTIPLICATIVE '*' • UNARY
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -1463,17 +1534,20 @@ State 100
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL  go to state 58
-    UNARY          go to state 123
-    PRIMARY        go to state 67
-    NUMBER         go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    UNARY            go to state 124
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 101
 
-   27 DECLARATION: VARIABLE_TYPE IDENTIFIER '=' • EXPRESSION
+   62 MULTIPLICATIVE: MULTIPLICATIVE '/' • UNARY
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -1481,38 +1555,83 @@ State 101
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    EXPRESSION      go to state 124
-    LOGICAL_OR      go to state 60
-    LOGICAL_AND     go to state 61
-    EQUALITY        go to state 62
-    RELATIONAL      go to state 63
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    UNARY            go to state 125
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 102
 
-   14 VARIABLE_TYPE: PRIMITIVE_TYPES '[' EXPRESSION • ']'
+   63 MULTIPLICATIVE: MULTIPLICATIVE '%' • UNARY
 
-    ']'  shift, and go to state 125
+    IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
+    NOT_OP         shift, and go to state 51
+    INT_LITERAL    shift, and go to state 52
+    FLOAT_LITERAL  shift, and go to state 53
+    '+'            shift, and go to state 54
+    '-'            shift, and go to state 55
+    '('            shift, and go to state 56
+
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    UNARY            go to state 126
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
 State 103
+
+   27 DECLARATION: VARIABLE_TYPE IDENTIFIER '=' • EXPRESSION
+
+    IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
+    NOT_OP         shift, and go to state 51
+    INT_LITERAL    shift, and go to state 52
+    FLOAT_LITERAL  shift, and go to state 53
+    '+'            shift, and go to state 54
+    '-'            shift, and go to state 55
+    '('            shift, and go to state 56
+
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    EXPRESSION       go to state 127
+    LOGICAL_OR       go to state 61
+    LOGICAL_AND      go to state 62
+    EQUALITY         go to state 63
+    RELATIONAL       go to state 64
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
+
+
+State 104
+
+   14 VARIABLE_TYPE: PRIMITIVE_TYPES '[' EXPRESSION • ']'
+
+    ']'  shift, and go to state 128
+
+
+State 105
 
    34 FUNCTION_CALL: IDENTIFIER '(' ARGUMENT_LIST ')' •
 
     $default  reduce using rule 34 (FUNCTION_CALL)
 
 
-State 104
+State 106
 
    35 ARGUMENT_LIST: ARGUMENT_LIST ',' • EXPRESSION
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -1520,89 +1639,97 @@ State 104
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    EXPRESSION      go to state 126
-    LOGICAL_OR      go to state 60
-    LOGICAL_AND     go to state 61
-    EQUALITY        go to state 62
-    RELATIONAL      go to state 63
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    EXPRESSION       go to state 129
+    LOGICAL_OR       go to state 61
+    LOGICAL_AND      go to state 62
+    EQUALITY         go to state 63
+    RELATIONAL       go to state 64
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
-State 105
+State 107
 
    29 ASSIGNMENT: IDENTIFIER '[' EXPRESSION ']' • '=' EXPRESSION
 
-    '='  shift, and go to state 127
+    '='  shift, and go to state 130
 
 
-State 106
+State 108
 
    30 PRINT: PRINTF '(' EXPRESSION ')' •
 
     $default  reduce using rule 30 (PRINT)
 
 
-State 107
+State 109
 
    38 IF_STATEMENT: IF '(' EXPRESSION ')' • BLOCK
    39             | IF '(' EXPRESSION ')' • BLOCK ELSE_CLAUSE
 
     '{'  shift, and go to state 21
 
-    BLOCK  go to state 128
+    BLOCK  go to state 131
 
 
-State 108
+State 110
 
    42 WHILE_STATEMENT: WHILE '(' EXPRESSION ')' • BLOCK
 
     '{'  shift, and go to state 21
 
-    BLOCK  go to state 129
+    BLOCK  go to state 132
 
 
-State 109
+State 111
 
    70 PRIMARY: IDENTIFIER '[' EXPRESSION • ']'
 
-    ']'  shift, and go to state 130
+    ']'  shift, and go to state 133
 
 
-State 110
+State 112
 
    72 PRIMARY: '(' EXPRESSION ')' •
 
     $default  reduce using rule 72 (PRIMARY)
 
 
-State 111
+State 113
+
+   74 PRIMARY: PRIMITIVE_TYPES '(' EXPRESSION • ')'
+
+    ')'  shift, and go to state 134
+
+
+State 114
 
    46 LOGICAL_OR: LOGICAL_OR OR_OP LOGICAL_AND •
    48 LOGICAL_AND: LOGICAL_AND • AND_OP EQUALITY
 
-    AND_OP  shift, and go to state 89
+    AND_OP  shift, and go to state 91
 
     $default  reduce using rule 46 (LOGICAL_OR)
 
 
-State 112
+State 115
 
    48 LOGICAL_AND: LOGICAL_AND AND_OP EQUALITY •
    50 EQUALITY: EQUALITY • EQUAL_EQUAL RELATIONAL
    51         | EQUALITY • NOT_EQUAL RELATIONAL
 
-    EQUAL_EQUAL  shift, and go to state 90
-    NOT_EQUAL    shift, and go to state 91
+    EQUAL_EQUAL  shift, and go to state 92
+    NOT_EQUAL    shift, and go to state 93
 
     $default  reduce using rule 48 (LOGICAL_AND)
 
 
-State 113
+State 116
 
    50 EQUALITY: EQUALITY EQUAL_EQUAL RELATIONAL •
    53 RELATIONAL: RELATIONAL • GREATER ADDITIVE
@@ -1610,15 +1737,15 @@ State 113
    55           | RELATIONAL • GREATER_EQUAL ADDITIVE
    56           | RELATIONAL • LESS_EQUAL ADDITIVE
 
-    GREATER_EQUAL  shift, and go to state 92
-    LESS_EQUAL     shift, and go to state 93
-    GREATER        shift, and go to state 94
-    LESS           shift, and go to state 95
+    GREATER_EQUAL  shift, and go to state 94
+    LESS_EQUAL     shift, and go to state 95
+    GREATER        shift, and go to state 96
+    LESS           shift, and go to state 97
 
     $default  reduce using rule 50 (EQUALITY)
 
 
-State 114
+State 117
 
    51 EQUALITY: EQUALITY NOT_EQUAL RELATIONAL •
    53 RELATIONAL: RELATIONAL • GREATER ADDITIVE
@@ -1626,137 +1753,139 @@ State 114
    55           | RELATIONAL • GREATER_EQUAL ADDITIVE
    56           | RELATIONAL • LESS_EQUAL ADDITIVE
 
-    GREATER_EQUAL  shift, and go to state 92
-    LESS_EQUAL     shift, and go to state 93
-    GREATER        shift, and go to state 94
-    LESS           shift, and go to state 95
+    GREATER_EQUAL  shift, and go to state 94
+    LESS_EQUAL     shift, and go to state 95
+    GREATER        shift, and go to state 96
+    LESS           shift, and go to state 97
 
     $default  reduce using rule 51 (EQUALITY)
 
 
-State 115
+State 118
 
    55 RELATIONAL: RELATIONAL GREATER_EQUAL ADDITIVE •
    58 ADDITIVE: ADDITIVE • '+' MULTIPLICATIVE
    59         | ADDITIVE • '-' MULTIPLICATIVE
 
-    '+'  shift, and go to state 96
-    '-'  shift, and go to state 97
+    '+'  shift, and go to state 98
+    '-'  shift, and go to state 99
 
     $default  reduce using rule 55 (RELATIONAL)
 
 
-State 116
+State 119
 
    56 RELATIONAL: RELATIONAL LESS_EQUAL ADDITIVE •
    58 ADDITIVE: ADDITIVE • '+' MULTIPLICATIVE
    59         | ADDITIVE • '-' MULTIPLICATIVE
 
-    '+'  shift, and go to state 96
-    '-'  shift, and go to state 97
+    '+'  shift, and go to state 98
+    '-'  shift, and go to state 99
 
     $default  reduce using rule 56 (RELATIONAL)
 
 
-State 117
+State 120
 
    53 RELATIONAL: RELATIONAL GREATER ADDITIVE •
    58 ADDITIVE: ADDITIVE • '+' MULTIPLICATIVE
    59         | ADDITIVE • '-' MULTIPLICATIVE
 
-    '+'  shift, and go to state 96
-    '-'  shift, and go to state 97
+    '+'  shift, and go to state 98
+    '-'  shift, and go to state 99
 
     $default  reduce using rule 53 (RELATIONAL)
 
 
-State 118
+State 121
 
    54 RELATIONAL: RELATIONAL LESS ADDITIVE •
    58 ADDITIVE: ADDITIVE • '+' MULTIPLICATIVE
    59         | ADDITIVE • '-' MULTIPLICATIVE
 
-    '+'  shift, and go to state 96
-    '-'  shift, and go to state 97
+    '+'  shift, and go to state 98
+    '-'  shift, and go to state 99
 
     $default  reduce using rule 54 (RELATIONAL)
 
 
-State 119
+State 122
 
    58 ADDITIVE: ADDITIVE '+' MULTIPLICATIVE •
    61 MULTIPLICATIVE: MULTIPLICATIVE • '*' UNARY
    62               | MULTIPLICATIVE • '/' UNARY
    63               | MULTIPLICATIVE • '%' UNARY
 
-    '*'  shift, and go to state 98
-    '/'  shift, and go to state 99
-    '%'  shift, and go to state 100
+    '*'  shift, and go to state 100
+    '/'  shift, and go to state 101
+    '%'  shift, and go to state 102
 
     $default  reduce using rule 58 (ADDITIVE)
 
 
-State 120
+State 123
 
    59 ADDITIVE: ADDITIVE '-' MULTIPLICATIVE •
    61 MULTIPLICATIVE: MULTIPLICATIVE • '*' UNARY
    62               | MULTIPLICATIVE • '/' UNARY
    63               | MULTIPLICATIVE • '%' UNARY
 
-    '*'  shift, and go to state 98
-    '/'  shift, and go to state 99
-    '%'  shift, and go to state 100
+    '*'  shift, and go to state 100
+    '/'  shift, and go to state 101
+    '%'  shift, and go to state 102
 
     $default  reduce using rule 59 (ADDITIVE)
 
 
-State 121
+State 124
 
    61 MULTIPLICATIVE: MULTIPLICATIVE '*' UNARY •
 
     $default  reduce using rule 61 (MULTIPLICATIVE)
 
 
-State 122
+State 125
 
    62 MULTIPLICATIVE: MULTIPLICATIVE '/' UNARY •
 
     $default  reduce using rule 62 (MULTIPLICATIVE)
 
 
-State 123
+State 126
 
    63 MULTIPLICATIVE: MULTIPLICATIVE '%' UNARY •
 
     $default  reduce using rule 63 (MULTIPLICATIVE)
 
 
-State 124
+State 127
 
    27 DECLARATION: VARIABLE_TYPE IDENTIFIER '=' EXPRESSION •
 
     $default  reduce using rule 27 (DECLARATION)
 
 
-State 125
+State 128
 
    14 VARIABLE_TYPE: PRIMITIVE_TYPES '[' EXPRESSION ']' •
 
     $default  reduce using rule 14 (VARIABLE_TYPE)
 
 
-State 126
+State 129
 
    35 ARGUMENT_LIST: ARGUMENT_LIST ',' EXPRESSION •
 
     $default  reduce using rule 35 (ARGUMENT_LIST)
 
 
-State 127
+State 130
 
    29 ASSIGNMENT: IDENTIFIER '[' EXPRESSION ']' '=' • EXPRESSION
 
     IDENTIFIER     shift, and go to state 50
+    INT            shift, and go to state 4
+    FLOAT          shift, and go to state 5
     NOT_OP         shift, and go to state 51
     INT_LITERAL    shift, and go to state 52
     FLOAT_LITERAL  shift, and go to state 53
@@ -1764,53 +1893,61 @@ State 127
     '-'            shift, and go to state 55
     '('            shift, and go to state 56
 
-    FUNCTION_CALL   go to state 58
-    EXPRESSION      go to state 131
-    LOGICAL_OR      go to state 60
-    LOGICAL_AND     go to state 61
-    EQUALITY        go to state 62
-    RELATIONAL      go to state 63
-    ADDITIVE        go to state 64
-    MULTIPLICATIVE  go to state 65
-    UNARY           go to state 66
-    PRIMARY         go to state 67
-    NUMBER          go to state 68
+    FUNCTION_CALL    go to state 58
+    PRIMITIVE_TYPES  go to state 59
+    EXPRESSION       go to state 135
+    LOGICAL_OR       go to state 61
+    LOGICAL_AND      go to state 62
+    EQUALITY         go to state 63
+    RELATIONAL       go to state 64
+    ADDITIVE         go to state 65
+    MULTIPLICATIVE   go to state 66
+    UNARY            go to state 67
+    PRIMARY          go to state 68
+    NUMBER           go to state 69
 
 
-State 128
+State 131
 
    38 IF_STATEMENT: IF '(' EXPRESSION ')' BLOCK •
    39             | IF '(' EXPRESSION ')' BLOCK • ELSE_CLAUSE
 
-    ELSE  shift, and go to state 132
+    ELSE  shift, and go to state 136
 
     $default  reduce using rule 38 (IF_STATEMENT)
 
-    ELSE_CLAUSE  go to state 133
+    ELSE_CLAUSE  go to state 137
 
 
-State 129
+State 132
 
    42 WHILE_STATEMENT: WHILE '(' EXPRESSION ')' BLOCK •
 
     $default  reduce using rule 42 (WHILE_STATEMENT)
 
 
-State 130
+State 133
 
    70 PRIMARY: IDENTIFIER '[' EXPRESSION ']' •
 
     $default  reduce using rule 70 (PRIMARY)
 
 
-State 131
+State 134
+
+   74 PRIMARY: PRIMITIVE_TYPES '(' EXPRESSION ')' •
+
+    $default  reduce using rule 74 (PRIMARY)
+
+
+State 135
 
    29 ASSIGNMENT: IDENTIFIER '[' EXPRESSION ']' '=' EXPRESSION •
 
     $default  reduce using rule 29 (ASSIGNMENT)
 
 
-State 132
+State 136
 
    40 ELSE_CLAUSE: ELSE • BLOCK
    41            | ELSE • IF_STATEMENT
@@ -1818,25 +1955,25 @@ State 132
     IF   shift, and go to state 28
     '{'  shift, and go to state 21
 
-    BLOCK         go to state 134
-    IF_STATEMENT  go to state 135
+    BLOCK         go to state 138
+    IF_STATEMENT  go to state 139
 
 
-State 133
+State 137
 
    39 IF_STATEMENT: IF '(' EXPRESSION ')' BLOCK ELSE_CLAUSE •
 
     $default  reduce using rule 39 (IF_STATEMENT)
 
 
-State 134
+State 138
 
    40 ELSE_CLAUSE: ELSE BLOCK •
 
     $default  reduce using rule 40 (ELSE_CLAUSE)
 
 
-State 135
+State 139
 
    41 ELSE_CLAUSE: ELSE IF_STATEMENT •
 
