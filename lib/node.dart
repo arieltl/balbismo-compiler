@@ -41,8 +41,9 @@ class BlockNode extends Node<void, void> {
 
   @override
   void evaluate(SymbolTable table) {
+    final newTable = table.createChild();
     for (var child in children) {
-      child.evaluate(table);
+      child.evaluate(newTable);
     }
   }
 }
@@ -79,8 +80,8 @@ class IdentifierNode extends Node<String, LangVal> {
     if (varData == null) {
       throw Exception("Variable $nodeValue not found");
     }
-    if (id == 19) {
-      print(nodeValue);
+    if (varData.type is ArrayType) {
+      return LangVal(varData.ptrName, varData.type);
     }
     Node.addIrLine(
         "%var$id = load ${varData.type.primitiveType.irType}, ptr ${varData.ptrName}");
@@ -126,6 +127,114 @@ class IntVal extends Node<int, LangVal> {
   }
 }
 
+class ParameterList extends Node<void, void> {
+  ParameterList(List<DeclareNode> children) : super(null, children);
+  List<DeclareNode> get params => children.cast<DeclareNode>();
+}
+
+class FunctionList extends Node<void, void> {
+  FunctionList(List<FuncDec> children) : super(null, children);
+
+  List<FuncDec> get funcs => children.cast<FuncDec>();
+
+  @override
+  void evaluate(SymbolTable table) {
+    for (var func in funcs) {
+      func.evaluate(table);
+    }
+  }
+}
+
+class ReturnStatement extends Node<void, void> {
+  ReturnStatement(Node<dynamic, LangVal> value) : super(null, [value]);
+
+  Node<dynamic, LangVal> get value => children[0] as Node<dynamic, LangVal>;
+
+  @override
+  void evaluate(SymbolTable table) {
+    final valueResult = value.evaluate(table);
+    
+    Node.addIrLine("ret ${valueResult.type.irType} ${valueResult.regName}");
+  }
+}
+
+class FuncDec extends Node<void,void> {
+  FuncDec(TypeNode returnType, IdentifierNode identifier,ParameterList params, BlockNode block)
+      : super(null, [returnType, identifier, params, block]);
+
+  IdentifierNode get identifier => children[1] as IdentifierNode;
+  BlockNode get block => children.last as BlockNode;
+  List<DeclareNode> get params => (children[2] as ParameterList).params;
+  TypeNode get returnType => children[0] as TypeNode;
+
+  @override
+  void evaluate(SymbolTable table) {
+    print(identifier.nodeValue);
+    final funcName = identifier.nodeValue;
+    final returnType = this.returnType.nodeValue;
+    final func = LangFunc(funcName, this);
+    SymbolTable.createFunction(funcName, func);
+    final String paramsStr = params.map((e) => "${e.type.nodeValue.irType} %${e.identifier.nodeValue} ").join(", ");
+    Node.addIrLine("define ${returnType.irType} @$funcName($paramsStr) {");
+    Node.addIrlLabel("entry");
+    final newTable = SymbolTable();
+    for (var param in params) {
+      if (param.type.nodeValue is ArrayType) {
+        newTable.create(param.identifier.nodeValue, LangVar("%${param.identifier.nodeValue}", param.type.nodeValue));
+        continue;
+      }
+     
+    final ptrName = "%ptr.${param.identifier.nodeValue}.$id";
+      Node.addIrLine("$ptrName = alloca ${param.type.nodeValue.irType}");
+      Node.addIrLine("store ${param.type.nodeValue.irType} %${param.identifier.nodeValue}, ptr $ptrName");
+      newTable.create(param.identifier.nodeValue, LangVar(ptrName, param.type.nodeValue));
+    }
+    block.evaluate(newTable);
+    Node.addIrLine("ret ${returnType.irType} ${returnType.primitiveType == PrimitiveTypes.int ? "0" : "0.0"}");
+    Node.endIrLabel();
+    Node.addIrLine("}");
+  }
+}
+
+class ArgumentList extends Node<void, List<LangVal>> {
+  ArgumentList(List<Node<dynamic,LangVal>> children) : super(null, children);
+
+  List<Node<dynamic, LangVal>> get args => children.cast<Node<dynamic, LangVal>>();
+
+  @override
+  List<LangVal> evaluate(SymbolTable table) {
+    return args.map((e) => e.evaluate(table)).toList();
+  }
+}
+
+class FuncCall extends Node<void, LangVal> {
+  FuncCall(IdentifierNode identifier, ArgumentList args)
+      : super(null, [identifier, args]);
+
+  IdentifierNode get identifier => children[0] as IdentifierNode;
+  ArgumentList get args => children[1] as ArgumentList;
+
+  @override
+  LangVal evaluate(SymbolTable table) {
+    final func = SymbolTable.getFunction(identifier.nodeValue);
+    if (func == null) {
+      throw Exception("Function ${identifier.nodeValue} not found");
+    }
+    final argValues = args.evaluate(table);
+    final argTypes = func.funcDec.params.map((e) => e.type.nodeValue).toList();
+    if (argValues.length != argTypes.length) {
+      throw Exception("Argument count mismatch");
+    }
+    for (var i = 0; i < argValues.length; i++) {
+      if (argValues[i].type != argTypes[i]) {
+        throw Exception("Argument type mismatch");
+      }
+    }
+    final argStr = argValues.map((e) => "${e.type.irType} ${e.regName}").join(", ");
+    Node.addIrLine("%call.$id = call ${func.funcDec.returnType.nodeValue.irType} @${func.name}($argStr)");
+    return LangVal("%call.$id", func.funcDec.returnType.nodeValue);
+  }
+}
 class FloatVal extends Node<double, LangVal> {
   FloatVal(String value) : super(double.parse(value), []);
 

@@ -1,3 +1,4 @@
+import 'package:balbismo/node.dart';
 import 'package:equatable/equatable.dart';
 
 enum PrimitiveTypes { 
@@ -59,6 +60,8 @@ enum PrimitiveTypes {
     String get irType => "${primitiveType.irType}*";
   }
 
+
+
  class LangVal<T extends LangType> {
   final String regName;
   final T type;
@@ -72,3 +75,10 @@ enum PrimitiveTypes {
 
   const LangVar(this.ptrName, this.type);
  }
+
+
+  class LangFunc {
+    final String name;
+    final FuncDec funcDec;
+    LangFunc(this.name, this.funcDec);
+  }

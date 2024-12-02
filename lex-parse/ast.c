@@ -33,6 +33,13 @@ const char* node_type_to_string(NodeType type) {
         case NODE_PRINT:              return "Print";
         case NODE_IF_STATEMENT:       return "IfStatement";
         case NODE_WHILE_STATEMENT:    return "WhileStatement";
+        case NODE_RETURN_STATEMENT:   return "ReturnStatement";
+        case NODE_FUNCTION_CALL:      return "FunctionCall";
+        case NODE_FUNCTION_DECLARATION:return "FunctionDeclaration";
+        case NODE_FUNCTION_LIST:      return "FunctionList";
+        case NODE_PARAMETER_LIST:     return "ParameterList";
+        case NODE_PARAMETER:          return "Parameter";
+        case NODE_ARGUMENT_LIST:      return "ArgumentList";
         case NODE_BIN_OP:             return "BinOp";
         case NODE_UN_OP:              return "UnOp";
         case NODE_BOOL_BIN_OP:        return "BoolBinOp";
@@ -41,7 +48,7 @@ const char* node_type_to_string(NodeType type) {
         case NODE_TYPE:               return "Type";
         case NODE_ARRAY_TYPE:         return "ArrayType";
         case NODE_ARRAY_SPECIFIER:    return "ArraySpecifier";
-        case NODE_INDEXED_IDENTIFIER: return "IndexedIdentifier"; // Updated here
+        case NODE_INDEXED_IDENTIFIER: return "IndexedIdentifier";
         case NODE_IDENTIFIER:         return "Identifier";
         case NODE_INT_LITERAL:        return "IntLiteral";
         case NODE_FLOAT_LITERAL:      return "FloatLiteral";

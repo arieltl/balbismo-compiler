@@ -117,57 +117,69 @@ enum yysymbol_kind_t
   YYSYMBOL_IF = 7,                         /* IF  */
   YYSYMBOL_ELSE = 8,                       /* ELSE  */
   YYSYMBOL_WHILE = 9,                      /* WHILE  */
-  YYSYMBOL_EQUAL_EQUAL = 10,               /* EQUAL_EQUAL  */
-  YYSYMBOL_NOT_EQUAL = 11,                 /* NOT_EQUAL  */
-  YYSYMBOL_GREATER_EQUAL = 12,             /* GREATER_EQUAL  */
-  YYSYMBOL_LESS_EQUAL = 13,                /* LESS_EQUAL  */
-  YYSYMBOL_GREATER = 14,                   /* GREATER  */
-  YYSYMBOL_LESS = 15,                      /* LESS  */
-  YYSYMBOL_AND_OP = 16,                    /* AND_OP  */
-  YYSYMBOL_OR_OP = 17,                     /* OR_OP  */
-  YYSYMBOL_NOT_OP = 18,                    /* NOT_OP  */
-  YYSYMBOL_INT_LITERAL = 19,               /* INT_LITERAL  */
-  YYSYMBOL_FLOAT_LITERAL = 20,             /* FLOAT_LITERAL  */
-  YYSYMBOL_UMINUS = 21,                    /* UMINUS  */
-  YYSYMBOL_22_ = 22,                       /* '*'  */
-  YYSYMBOL_23_ = 23,                       /* '/'  */
-  YYSYMBOL_24_ = 24,                       /* '%'  */
-  YYSYMBOL_25_ = 25,                       /* '+'  */
-  YYSYMBOL_26_ = 26,                       /* '-'  */
-  YYSYMBOL_27_ = 27,                       /* '<'  */
-  YYSYMBOL_28_ = 28,                       /* '>'  */
-  YYSYMBOL_29_ = 29,                       /* '{'  */
-  YYSYMBOL_30_ = 30,                       /* '}'  */
-  YYSYMBOL_31_ = 31,                       /* ';'  */
-  YYSYMBOL_32_ = 32,                       /* '='  */
+  YYSYMBOL_RETURN = 10,                    /* RETURN  */
+  YYSYMBOL_EQUAL_EQUAL = 11,               /* EQUAL_EQUAL  */
+  YYSYMBOL_NOT_EQUAL = 12,                 /* NOT_EQUAL  */
+  YYSYMBOL_GREATER_EQUAL = 13,             /* GREATER_EQUAL  */
+  YYSYMBOL_LESS_EQUAL = 14,                /* LESS_EQUAL  */
+  YYSYMBOL_GREATER = 15,                   /* GREATER  */
+  YYSYMBOL_LESS = 16,                      /* LESS  */
+  YYSYMBOL_AND_OP = 17,                    /* AND_OP  */
+  YYSYMBOL_OR_OP = 18,                     /* OR_OP  */
+  YYSYMBOL_NOT_OP = 19,                    /* NOT_OP  */
+  YYSYMBOL_INT_LITERAL = 20,               /* INT_LITERAL  */
+  YYSYMBOL_FLOAT_LITERAL = 21,             /* FLOAT_LITERAL  */
+  YYSYMBOL_UMINUS = 22,                    /* UMINUS  */
+  YYSYMBOL_23_ = 23,                       /* '*'  */
+  YYSYMBOL_24_ = 24,                       /* '/'  */
+  YYSYMBOL_25_ = 25,                       /* '%'  */
+  YYSYMBOL_26_ = 26,                       /* '+'  */
+  YYSYMBOL_27_ = 27,                       /* '-'  */
+  YYSYMBOL_28_ = 28,                       /* '<'  */
+  YYSYMBOL_29_ = 29,                       /* '>'  */
+  YYSYMBOL_30_ = 30,                       /* '('  */
+  YYSYMBOL_31_ = 31,                       /* ')'  */
+  YYSYMBOL_32_ = 32,                       /* ','  */
   YYSYMBOL_33_ = 33,                       /* '['  */
   YYSYMBOL_34_ = 34,                       /* ']'  */
-  YYSYMBOL_35_ = 35,                       /* '('  */
-  YYSYMBOL_36_ = 36,                       /* ')'  */
-  YYSYMBOL_YYACCEPT = 37,                  /* $accept  */
-  YYSYMBOL_PROGRAM = 38,                   /* PROGRAM  */
-  YYSYMBOL_BLOCK = 39,                     /* BLOCK  */
-  YYSYMBOL_STATEMENT_LIST = 40,            /* STATEMENT_LIST  */
-  YYSYMBOL_STATEMENT = 41,                 /* STATEMENT  */
-  YYSYMBOL_DECLARATION = 42,               /* DECLARATION  */
-  YYSYMBOL_TYPE = 43,                      /* TYPE  */
-  YYSYMBOL_ARRAY_SPECIFIER = 44,           /* ARRAY_SPECIFIER  */
-  YYSYMBOL_ASSIGNMENT = 45,                /* ASSIGNMENT  */
-  YYSYMBOL_PRINT = 46,                     /* PRINT  */
-  YYSYMBOL_IF_STATEMENT = 47,              /* IF_STATEMENT  */
-  YYSYMBOL_ELSE_CLAUSE = 48,               /* ELSE_CLAUSE  */
-  YYSYMBOL_WHILE_STATEMENT = 49,           /* WHILE_STATEMENT  */
-  YYSYMBOL_PRIMITIVE_TYPES = 50,           /* PRIMITIVE_TYPES  */
-  YYSYMBOL_EXPRESSION = 51,                /* EXPRESSION  */
-  YYSYMBOL_LOGICAL_OR = 52,                /* LOGICAL_OR  */
-  YYSYMBOL_LOGICAL_AND = 53,               /* LOGICAL_AND  */
-  YYSYMBOL_EQUALITY = 54,                  /* EQUALITY  */
-  YYSYMBOL_RELATIONAL = 55,                /* RELATIONAL  */
-  YYSYMBOL_ADDITIVE = 56,                  /* ADDITIVE  */
-  YYSYMBOL_MULTIPLICATIVE = 57,            /* MULTIPLICATIVE  */
-  YYSYMBOL_UNARY = 58,                     /* UNARY  */
-  YYSYMBOL_PRIMARY = 59,                   /* PRIMARY  */
-  YYSYMBOL_NUMBER = 60                     /* NUMBER  */
+  YYSYMBOL_35_ = 35,                       /* '{'  */
+  YYSYMBOL_36_ = 36,                       /* '}'  */
+  YYSYMBOL_37_ = 37,                       /* ';'  */
+  YYSYMBOL_38_ = 38,                       /* '='  */
+  YYSYMBOL_YYACCEPT = 39,                  /* $accept  */
+  YYSYMBOL_PROGRAM = 40,                   /* PROGRAM  */
+  YYSYMBOL_FUNCTION_LIST = 41,             /* FUNCTION_LIST  */
+  YYSYMBOL_FUNCTION_DECLARATION = 42,      /* FUNCTION_DECLARATION  */
+  YYSYMBOL_PARAMETER_LIST = 43,            /* PARAMETER_LIST  */
+  YYSYMBOL_PARAMETER = 44,                 /* PARAMETER  */
+  YYSYMBOL_PARAMETER_TYPE = 45,            /* PARAMETER_TYPE  */
+  YYSYMBOL_TYPE = 46,                      /* TYPE  */
+  YYSYMBOL_ARRAY_TYPE = 47,                /* ARRAY_TYPE  */
+  YYSYMBOL_VARIABLE_TYPE = 48,             /* VARIABLE_TYPE  */
+  YYSYMBOL_BLOCK = 49,                     /* BLOCK  */
+  YYSYMBOL_STATEMENT_LIST = 50,            /* STATEMENT_LIST  */
+  YYSYMBOL_STATEMENT = 51,                 /* STATEMENT  */
+  YYSYMBOL_DECLARATION = 52,               /* DECLARATION  */
+  YYSYMBOL_ASSIGNMENT = 53,                /* ASSIGNMENT  */
+  YYSYMBOL_PRINT = 54,                     /* PRINT  */
+  YYSYMBOL_RETURN_STATEMENT = 55,          /* RETURN_STATEMENT  */
+  YYSYMBOL_FUNCTION_CALL_STATEMENT = 56,   /* FUNCTION_CALL_STATEMENT  */
+  YYSYMBOL_FUNCTION_CALL = 57,             /* FUNCTION_CALL  */
+  YYSYMBOL_ARGUMENT_LIST = 58,             /* ARGUMENT_LIST  */
+  YYSYMBOL_IF_STATEMENT = 59,              /* IF_STATEMENT  */
+  YYSYMBOL_ELSE_CLAUSE = 60,               /* ELSE_CLAUSE  */
+  YYSYMBOL_WHILE_STATEMENT = 61,           /* WHILE_STATEMENT  */
+  YYSYMBOL_PRIMITIVE_TYPES = 62,           /* PRIMITIVE_TYPES  */
+  YYSYMBOL_EXPRESSION = 63,                /* EXPRESSION  */
+  YYSYMBOL_LOGICAL_OR = 64,                /* LOGICAL_OR  */
+  YYSYMBOL_LOGICAL_AND = 65,               /* LOGICAL_AND  */
+  YYSYMBOL_EQUALITY = 66,                  /* EQUALITY  */
+  YYSYMBOL_RELATIONAL = 67,                /* RELATIONAL  */
+  YYSYMBOL_ADDITIVE = 68,                  /* ADDITIVE  */
+  YYSYMBOL_MULTIPLICATIVE = 69,            /* MULTIPLICATIVE  */
+  YYSYMBOL_UNARY = 70,                     /* UNARY  */
+  YYSYMBOL_PRIMARY = 71,                   /* PRIMARY  */
+  YYSYMBOL_NUMBER = 72                     /* NUMBER  */
 };
 typedef enum yysymbol_kind_t yysymbol_kind_t;
 
@@ -284,7 +296,7 @@ typedef int yytype_uint16;
 
 
 /* Stored state numbers (used for stacks). */
-typedef yytype_int8 yy_state_t;
+typedef yytype_uint8 yy_state_t;
 
 /* State numbers in computations.  */
 typedef int yy_state_fast_t;
@@ -493,21 +505,21 @@ union yyalloc
 #endif /* !YYCOPY_NEEDED */
 
 /* YYFINAL -- State number of the termination state.  */
-#define YYFINAL  5
+#define YYFINAL  3
 /* YYLAST -- Last index in YYTABLE.  */
-#define YYLAST   97
+#define YYLAST   115
 
 /* YYNTOKENS -- Number of terminals.  */
-#define YYNTOKENS  37
+#define YYNTOKENS  39
 /* YYNNTS -- Number of nonterminals.  */
-#define YYNNTS  24
+#define YYNNTS  34
 /* YYNRULES -- Number of rules.  */
-#define YYNRULES  57
+#define YYNRULES  76
 /* YYNSTATES -- Number of states.  */
-#define YYNSTATES  105
+#define YYNSTATES  136
 
 /* YYMAXUTOK -- Last valid token kind.  */
-#define YYMAXUTOK   276
+#define YYMAXUTOK   277
 
 
 /* YYTRANSLATE(TOKEN-NUM) -- Symbol number corresponding to TOKEN-NUM
@@ -524,16 +536,16 @@ static const yytype_int8 yytranslate[] =
        0,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,    24,     2,     2,
-      35,    36,    22,    25,     2,    26,     2,    23,     2,     2,
-       2,     2,     2,     2,     2,     2,     2,     2,     2,    31,
-      27,    32,    28,     2,     2,     2,     2,     2,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,    25,     2,     2,
+      30,    31,    23,    26,    32,    27,     2,    24,     2,     2,
+       2,     2,     2,     2,     2,     2,     2,     2,     2,    37,
+      28,    38,    29,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,    33,     2,    34,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
-       2,     2,     2,    29,     2,    30,     2,     2,     2,     2,
+       2,     2,     2,    35,     2,    36,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
@@ -548,19 +560,21 @@ static const yytype_int8 yytranslate[] =
        2,     2,     2,     2,     2,     2,     2,     2,     2,     2,
        2,     2,     2,     2,     2,     2,     1,     2,     3,     4,
        5,     6,     7,     8,     9,    10,    11,    12,    13,    14,
-      15,    16,    17,    18,    19,    20,    21
+      15,    16,    17,    18,    19,    20,    21,    22
 };
 
 #if YYDEBUG
 /* YYRLINE[YYN] -- Source line where rule number YYN was defined.  */
 static const yytype_int16 yyrline[] =
 {
-       0,    49,    49,    53,    57,    70,    76,    77,    78,    79,
-      80,    81,    86,    93,   105,   118,   122,   128,   133,   140,
-     152,   161,   168,   179,   183,   190,   200,   201,   206,   210,
-     215,   220,   225,   230,   235,   240,   245,   250,   255,   260,
-     265,   270,   275,   280,   285,   290,   295,   300,   305,   310,
-     315,   320,   326,   330,   336,   338,   343,   347
+       0,    51,    51,    55,    68,    74,    86,    98,   105,   111,
+     121,   122,   126,   133,   144,   148,   159,   163,   176,   182,
+     183,   184,   185,   186,   187,   188,   189,   193,   200,   211,
+     218,   230,   239,   243,   252,   259,   269,   281,   288,   294,
+     301,   312,   316,   323,   333,   334,   338,   342,   347,   352,
+     357,   362,   367,   372,   377,   382,   387,   392,   397,   402,
+     407,   412,   417,   422,   427,   432,   437,   442,   447,   452,
+     457,   461,   467,   469,   471,   476,   480
 };
 #endif
 
@@ -577,15 +591,18 @@ static const char *yysymbol_name (yysymbol_kind_t yysymbol) YY_ATTRIBUTE_UNUSED;
 static const char *const yytname[] =
 {
   "\"end of file\"", "error", "\"invalid token\"", "IDENTIFIER", "INT",
-  "FLOAT", "PRINTF", "IF", "ELSE", "WHILE", "EQUAL_EQUAL", "NOT_EQUAL",
-  "GREATER_EQUAL", "LESS_EQUAL", "GREATER", "LESS", "AND_OP", "OR_OP",
-  "NOT_OP", "INT_LITERAL", "FLOAT_LITERAL", "UMINUS", "'*'", "'/'", "'%'",
-  "'+'", "'-'", "'<'", "'>'", "'{'", "'}'", "';'", "'='", "'['", "']'",
-  "'('", "')'", "$accept", "PROGRAM", "BLOCK", "STATEMENT_LIST",
-  "STATEMENT", "DECLARATION", "TYPE", "ARRAY_SPECIFIER", "ASSIGNMENT",
-  "PRINT", "IF_STATEMENT", "ELSE_CLAUSE", "WHILE_STATEMENT",
-  "PRIMITIVE_TYPES", "EXPRESSION", "LOGICAL_OR", "LOGICAL_AND", "EQUALITY",
-  "RELATIONAL", "ADDITIVE", "MULTIPLICATIVE", "UNARY", "PRIMARY", "NUMBER", YY_NULLPTR
+  "FLOAT", "PRINTF", "IF", "ELSE", "WHILE", "RETURN", "EQUAL_EQUAL",
+  "NOT_EQUAL", "GREATER_EQUAL", "LESS_EQUAL", "GREATER", "LESS", "AND_OP",
+  "OR_OP", "NOT_OP", "INT_LITERAL", "FLOAT_LITERAL", "UMINUS", "'*'",
+  "'/'", "'%'", "'+'", "'-'", "'<'", "'>'", "'('", "')'", "','", "'['",
+  "']'", "'{'", "'}'", "';'", "'='", "$accept", "PROGRAM", "FUNCTION_LIST",
+  "FUNCTION_DECLARATION", "PARAMETER_LIST", "PARAMETER", "PARAMETER_TYPE",
+  "TYPE", "ARRAY_TYPE", "VARIABLE_TYPE", "BLOCK", "STATEMENT_LIST",
+  "STATEMENT", "DECLARATION", "ASSIGNMENT", "PRINT", "RETURN_STATEMENT",
+  "FUNCTION_CALL_STATEMENT", "FUNCTION_CALL", "ARGUMENT_LIST",
+  "IF_STATEMENT", "ELSE_CLAUSE", "WHILE_STATEMENT", "PRIMITIVE_TYPES",
+  "EXPRESSION", "LOGICAL_OR", "LOGICAL_AND", "EQUALITY", "RELATIONAL",
+  "ADDITIVE", "MULTIPLICATIVE", "UNARY", "PRIMARY", "NUMBER", YY_NULLPTR
 };
 
 static const char *
@@ -595,7 +612,7 @@ yysymbol_name (yysymbol_kind_t yysymbol)
 }
 #endif
 
-#define YYPACT_NINF (-29)
+#define YYPACT_NINF (-45)
 
 #define yypact_value_is_default(Yyn) \
   ((Yyn) == YYPACT_NINF)
@@ -609,17 +626,20 @@ yysymbol_name (yysymbol_kind_t yysymbol)
    STATE-NUM.  */
 static const yytype_int8 yypact[] =
 {
-     -28,   -29,     7,   -29,    10,   -29,     2,   -29,   -29,    -8,
-      -5,    30,   -29,   -29,   -29,    35,    64,    38,    39,   -29,
-     -29,    43,     6,     6,     6,     6,     6,   -29,    36,   -29,
-     -29,     3,   -29,    44,     6,   -29,   -29,     6,     6,     6,
-     -29,    54,    56,    47,    37,    34,    21,   -29,   -29,   -29,
-      45,    42,    46,    48,     6,   -29,    49,     6,   -29,   -29,
-     -29,    50,     6,     6,     6,     6,     6,     6,     6,     6,
-       6,     6,     6,     6,     6,    53,   -29,   -28,   -28,   -29,
-     -29,    55,   -29,    56,    47,    37,    37,    34,    34,    34,
-      34,    21,    21,   -29,   -29,   -29,     6,    72,   -29,   -29,
-     -29,    13,   -29,   -29,   -29
+     -45,     8,    24,   -45,   -45,   -45,   -45,    27,   -45,    23,
+      24,    13,   -45,    32,   -45,   -45,    47,     3,    24,   -45,
+       7,   -45,   -45,   -45,   -45,    11,    19,    51,    57,    58,
+       6,   -45,    86,   -45,   -45,    53,    55,    56,   -45,    59,
+     -45,   -45,   -45,    61,    45,    45,    45,    45,    45,    45,
+       4,    45,   -45,   -45,    45,    45,    45,   -45,   -45,    60,
+      73,    78,    39,    54,    33,    -1,   -45,   -45,   -45,    62,
+     -45,   -45,   -45,   -45,    45,    31,   -45,    64,   -45,    68,
+      70,    71,    45,   -45,   -45,   -45,    72,   -45,    45,    45,
+      45,    45,    45,    45,    45,    45,    45,    45,    45,    45,
+      45,    45,    74,   -45,    45,    66,   -45,     3,     3,    75,
+     -45,    78,    39,    54,    54,    33,    33,    33,    33,    -1,
+      -1,   -45,   -45,   -45,   -45,   -45,   -45,    45,    97,   -45,
+     -45,   -45,     5,   -45,   -45,   -45
 };
 
 /* YYDEFACT[STATE-NUM] -- Default reduction number in state STATE-NUM.
@@ -627,103 +647,119 @@ static const yytype_int8 yypact[] =
    means the default is an error.  */
 static const yytype_int8 yydefact[] =
 {
-       0,     5,     0,     2,     0,     1,     0,    26,    27,     0,
-       0,     0,     3,    11,     4,     0,     0,     0,     0,     9,
-      10,    17,     0,     0,     0,     0,     0,     6,    12,     7,
-       8,     0,    14,    52,     0,    56,    57,     0,     0,     0,
-      18,    28,    30,    32,    35,    40,    43,    47,    51,    54,
-       0,     0,     0,     0,     0,    15,     0,     0,    50,    48,
-      49,     0,     0,     0,     0,     0,     0,     0,     0,     0,
-       0,     0,     0,     0,     0,     0,    20,     0,     0,    13,
-      16,     0,    55,    29,    31,    33,    34,    38,    39,    36,
-      37,    41,    42,    44,    45,    46,     0,    21,    25,    53,
-      19,     0,    22,    23,    24
+       4,     0,     2,     1,    44,    45,     3,     0,    12,     0,
+       8,     0,     7,     0,    10,    11,    12,     0,     0,     9,
+       0,    18,     5,     6,    13,     0,     0,     0,     0,     0,
+       0,    16,     0,    26,    17,     0,     0,     0,    24,     0,
+      34,    22,    23,    14,    38,     0,     0,     0,     0,     0,
+      70,     0,    75,    76,     0,     0,     0,    32,    74,     0,
+      46,    48,    50,    53,    58,    61,    65,    69,    72,    27,
+      19,    20,    21,    25,     0,     0,    37,     0,    29,     0,
+       0,     0,     0,    68,    66,    67,     0,    33,     0,     0,
+       0,     0,     0,     0,     0,     0,     0,     0,     0,     0,
+       0,     0,     0,    35,     0,     0,    31,     0,     0,     0,
+      73,    47,    49,    51,    52,    56,    57,    54,    55,    59,
+      60,    62,    63,    64,    28,    15,    36,     0,    39,    43,
+      71,    30,     0,    40,    41,    42
 };
 
 /* YYPGOTO[NTERM-NUM].  */
 static const yytype_int8 yypgoto[] =
 {
-     -29,   -29,    -4,   -29,   -29,   -29,   -29,   -29,   -29,   -29,
-     -20,   -29,   -29,   -29,   -21,   -29,    25,    27,    -3,   -13,
-      -7,   -26,   -29,   -29
+     -45,   -45,   -45,   -45,   -45,    88,   -45,   108,   -45,   -45,
+     -25,   -45,   -45,   -45,   -45,   -45,   -45,   -45,    87,   -45,
+     -21,   -45,   -45,    17,   -43,   -45,    25,    26,   -17,   -16,
+     -11,   -44,   -45,   -45
 };
 
 /* YYDEFGOTO[NTERM-NUM].  */
-static const yytype_int8 yydefgoto[] =
+static const yytype_uint8 yydefgoto[] =
 {
-       0,     2,     3,     4,    14,    15,    16,    32,    17,    18,
-      19,   102,    20,    21,    40,    41,    42,    43,    44,    45,
-      46,    47,    48,    49
+       0,     1,     2,     6,    11,    12,    13,    14,    15,    32,
+      22,    25,    34,    35,    36,    37,    38,    39,    58,    75,
+      41,   133,    42,    16,    59,    60,    61,    62,    63,    64,
+      65,    66,    67,    68
 };
 
 /* YYTABLE[YYPACT[STATE-NUM]] -- What to do in state STATE-NUM.  If
    positive, shift that token.  If negative, reduce the rule whose
    number is the opposite.  If YYTABLE_NINF, syntax error.  */
-static const yytype_int8 yytable[] =
+static const yytype_uint8 yytable[] =
 {
-      13,     1,    50,    51,    52,    53,    33,     5,    58,    33,
-      56,    59,    60,     6,     7,     8,     9,    10,    61,    11,
-      10,    34,    35,    36,    34,    35,    36,    24,    37,    38,
-      25,    37,    38,    79,    22,    23,    81,    55,    39,     1,
-      12,    39,     1,    72,    73,    74,    93,    94,    95,    66,
-      67,    68,    69,    87,    88,    89,    90,    64,    65,    70,
-      71,    85,    86,    91,    92,    26,    27,    28,    54,    29,
-      30,    62,    63,    97,    98,   100,    31,    57,    76,    75,
-     101,   104,    77,    80,    78,    96,    82,    83,     0,    99,
-      84,     0,     0,     0,     0,     0,     0,   103
+      33,    76,    77,    78,    79,    80,    81,    83,     3,    50,
+      84,    85,    28,    86,    26,     4,     5,    27,    28,     8,
+      29,    30,    98,    99,   100,    51,    52,    53,     4,     5,
+       9,   102,    54,    55,    44,    19,    56,    82,    21,   109,
+      21,    24,    43,    57,    17,    18,    21,    31,    50,    44,
+      90,    91,    45,    10,   121,   122,   123,    46,   124,    96,
+      97,   126,   103,   104,    51,    52,    53,    92,    93,    94,
+      95,    54,    55,   113,   114,    56,   115,   116,   117,   118,
+      20,    47,   128,   129,   131,   119,   120,    48,    49,    69,
+      70,    88,    71,    72,    74,    89,    73,    87,   105,   106,
+     101,   107,   108,   110,   127,   132,    23,   134,   125,   130,
+       7,   135,    40,   111,     0,   112
 };
 
-static const yytype_int8 yycheck[] =
+static const yytype_int16 yycheck[] =
 {
-       4,    29,    23,    24,    25,    26,     3,     0,    34,     3,
-      31,    37,    38,     3,     4,     5,     6,     7,    39,     9,
-       7,    18,    19,    20,    18,    19,    20,    35,    25,    26,
-      35,    25,    26,    54,    32,    33,    57,    34,    35,    29,
-      30,    35,    29,    22,    23,    24,    72,    73,    74,    12,
-      13,    14,    15,    66,    67,    68,    69,    10,    11,    25,
-      26,    64,    65,    70,    71,    35,    31,     3,    32,    31,
-      31,    17,    16,    77,    78,    96,    33,    33,    36,    34,
-       8,   101,    36,    34,    36,    32,    36,    62,    -1,    34,
-      63,    -1,    -1,    -1,    -1,    -1,    -1,   101
+      25,    44,    45,    46,    47,    48,    49,    51,     0,     3,
+      54,    55,     7,    56,     3,     4,     5,     6,     7,     2,
+       9,    10,    23,    24,    25,    19,    20,    21,     4,     5,
+       3,    74,    26,    27,    30,     3,    30,    33,    35,    82,
+      35,    34,    25,    37,    31,    32,    35,    36,     3,    30,
+      11,    12,    33,    30,    98,    99,   100,    38,   101,    26,
+      27,   104,    31,    32,    19,    20,    21,    13,    14,    15,
+      16,    26,    27,    90,    91,    30,    92,    93,    94,    95,
+      33,    30,   107,   108,   127,    96,    97,    30,    30,     3,
+      37,    18,    37,    37,    33,    17,    37,    37,    34,    31,
+      38,    31,    31,    31,    38,     8,    18,   132,    34,    34,
+       2,   132,    25,    88,    -1,    89
 };
 
 /* YYSTOS[STATE-NUM] -- The symbol kind of the accessing symbol of
    state STATE-NUM.  */
 static const yytype_int8 yystos[] =
 {
-       0,    29,    38,    39,    40,     0,     3,     4,     5,     6,
-       7,     9,    30,    39,    41,    42,    43,    45,    46,    47,
-      49,    50,    32,    33,    35,    35,    35,    31,     3,    31,
-      31,    33,    44,     3,    18,    19,    20,    25,    26,    35,
-      51,    52,    53,    54,    55,    56,    57,    58,    59,    60,
-      51,    51,    51,    51,    32,    34,    51,    33,    58,    58,
-      58,    51,    17,    16,    10,    11,    12,    13,    14,    15,
-      25,    26,    22,    23,    24,    34,    36,    36,    36,    51,
-      34,    51,    36,    53,    54,    55,    55,    56,    56,    56,
-      56,    57,    57,    58,    58,    58,    32,    39,    39,    34,
-      51,     8,    48,    39,    47
+       0,    40,    41,     0,     4,     5,    42,    46,    62,     3,
+      30,    43,    44,    45,    46,    47,    62,    31,    32,     3,
+      33,    35,    49,    44,    34,    50,     3,     6,     7,     9,
+      10,    36,    48,    49,    51,    52,    53,    54,    55,    56,
+      57,    59,    61,    62,    30,    33,    38,    30,    30,    30,
+       3,    19,    20,    21,    26,    27,    30,    37,    57,    63,
+      64,    65,    66,    67,    68,    69,    70,    71,    72,     3,
+      37,    37,    37,    37,    33,    58,    63,    63,    63,    63,
+      63,    63,    33,    70,    70,    70,    63,    37,    18,    17,
+      11,    12,    13,    14,    15,    16,    26,    27,    23,    24,
+      25,    38,    63,    31,    32,    34,    31,    31,    31,    63,
+      31,    65,    66,    67,    67,    68,    68,    68,    68,    69,
+      69,    70,    70,    70,    63,    34,    63,    38,    49,    49,
+      34,    63,     8,    60,    49,    59
 };
 
 /* YYR1[RULE-NUM] -- Symbol kind of the left-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr1[] =
 {
-       0,    37,    38,    39,    40,    40,    41,    41,    41,    41,
-      41,    41,    42,    42,    43,    44,    44,    44,    45,    45,
-      46,    47,    47,    48,    48,    49,    50,    50,    51,    52,
-      52,    53,    53,    54,    54,    54,    55,    55,    55,    55,
-      55,    56,    56,    56,    57,    57,    57,    57,    58,    58,
-      58,    58,    59,    59,    59,    59,    60,    60
+       0,    39,    40,    41,    41,    42,    43,    43,    43,    44,
+      45,    45,    46,    47,    48,    48,    49,    50,    50,    51,
+      51,    51,    51,    51,    51,    51,    51,    52,    52,    53,
+      53,    54,    55,    55,    56,    57,    58,    58,    58,    59,
+      59,    60,    60,    61,    62,    62,    63,    64,    64,    65,
+      65,    66,    66,    66,    67,    67,    67,    67,    67,    68,
+      68,    68,    69,    69,    69,    69,    70,    70,    70,    70,
+      71,    71,    71,    71,    71,    72,    72
 };
 
 /* YYR2[RULE-NUM] -- Number of symbols on the right-hand side of rule RULE-NUM.  */
 static const yytype_int8 yyr2[] =
 {
-       0,     2,     1,     3,     2,     0,     2,     2,     2,     1,
-       1,     1,     2,     4,     2,     2,     3,     0,     3,     6,
-       4,     5,     6,     2,     2,     5,     1,     1,     1,     3,
-       1,     3,     1,     3,     3,     1,     3,     3,     3,     3,
-       1,     3,     3,     1,     3,     3,     3,     1,     2,     2,
-       2,     1,     1,     4,     1,     3,     1,     1
+       0,     2,     1,     2,     0,     6,     3,     1,     0,     2,
+       1,     1,     1,     3,     1,     4,     3,     2,     0,     2,
+       2,     2,     1,     1,     1,     2,     1,     2,     4,     3,
+       6,     4,     2,     3,     1,     4,     3,     1,     0,     5,
+       6,     2,     2,     5,     1,     1,     1,     3,     1,     3,
+       1,     3,     3,     1,     3,     3,     3,     3,     1,     3,
+       3,     1,     3,     3,     3,     1,     2,     2,     2,     1,
+       1,     4,     1,     3,     1,     1,     1
 };
 
 
@@ -1186,20 +1222,141 @@ yyreduce:
   YY_REDUCE_PRINT (yyn);
   switch (yyn)
     {
-  case 2: /* PROGRAM: BLOCK  */
-#line 49 "balbismo.y"
-                           { ast_root = (yyvsp[0].ast); }
-#line 1193 "balbismo.tab.c"
+  case 2: /* PROGRAM: FUNCTION_LIST  */
+#line 51 "balbismo.y"
+                               { ast_root = (yyvsp[0].ast); }
+#line 1229 "balbismo.tab.c"
     break;
 
-  case 3: /* BLOCK: '{' STATEMENT_LIST '}'  */
-#line 53 "balbismo.y"
+  case 3: /* FUNCTION_LIST: FUNCTION_LIST FUNCTION_DECLARATION  */
+#line 56 "balbismo.y"
+        {
+            ASTNode** new_children = realloc((yyvsp[-1].ast)->children, sizeof(ASTNode*) * ((yyvsp[-1].ast)->num_children + 1));
+            if (new_children == NULL) {
+                yyerror("Memory allocation failed for FUNCTION_LIST.");
+                exit(1);
+            }
+            new_children[(yyvsp[-1].ast)->num_children] = (yyvsp[0].ast);
+            (yyvsp[-1].ast)->children = new_children;
+            (yyvsp[-1].ast)->num_children += 1;
+            (yyval.ast) = (yyvsp[-1].ast);
+        }
+#line 1245 "balbismo.tab.c"
+    break;
+
+  case 4: /* FUNCTION_LIST: %empty  */
+#line 68 "balbismo.y"
+        {
+            (yyval.ast) = create_node(NODE_FUNCTION_LIST, NULL, 0, NULL);
+        }
+#line 1253 "balbismo.tab.c"
+    break;
+
+  case 5: /* FUNCTION_DECLARATION: TYPE IDENTIFIER '(' PARAMETER_LIST ')' BLOCK  */
+#line 75 "balbismo.y"
+        {
+            ASTNode* return_type_node = (yyvsp[-5].ast);
+            ASTNode* function_name_node = create_node(NODE_IDENTIFIER, (yyvsp[-4].str), 0, NULL);
+            ASTNode* parameter_list_node = (yyvsp[-2].ast);
+            ASTNode* block_node = (yyvsp[0].ast);
+            ASTNode* children_array[] = { return_type_node, function_name_node, parameter_list_node, block_node };
+            (yyval.ast) = create_node(NODE_FUNCTION_DECLARATION, NULL, 4, children_array);
+        }
+#line 1266 "balbismo.tab.c"
+    break;
+
+  case 6: /* PARAMETER_LIST: PARAMETER_LIST ',' PARAMETER  */
+#line 87 "balbismo.y"
+        {
+            ASTNode** new_children = realloc((yyvsp[-2].ast)->children, sizeof(ASTNode*) * ((yyvsp[-2].ast)->num_children + 1));
+            if (new_children == NULL) {
+                yyerror("Memory allocation failed for PARAMETER_LIST.");
+                exit(1);
+            }
+            new_children[(yyvsp[-2].ast)->num_children] = (yyvsp[0].ast);
+            (yyvsp[-2].ast)->children = new_children;
+            (yyvsp[-2].ast)->num_children += 1;
+            (yyval.ast) = (yyvsp[-2].ast);
+        }
+#line 1282 "balbismo.tab.c"
+    break;
+
+  case 7: /* PARAMETER_LIST: PARAMETER  */
+#line 99 "balbismo.y"
+        {
+            ASTNode** children_array = malloc(sizeof(ASTNode*));
+            children_array[0] = (yyvsp[0].ast);
+            (yyval.ast) = create_node(NODE_PARAMETER_LIST, NULL, 1, children_array);
+        }
+#line 1292 "balbismo.tab.c"
+    break;
+
+  case 8: /* PARAMETER_LIST: %empty  */
+#line 105 "balbismo.y"
+        {
+            (yyval.ast) = create_node(NODE_PARAMETER_LIST, NULL, 0, NULL);
+        }
+#line 1300 "balbismo.tab.c"
+    break;
+
+  case 9: /* PARAMETER: PARAMETER_TYPE IDENTIFIER  */
+#line 112 "balbismo.y"
+        {
+            ASTNode* type_node = (yyvsp[-1].ast);
+            ASTNode* id_node = create_node(NODE_IDENTIFIER, (yyvsp[0].str), 0, NULL);
+            ASTNode* children_array[] = { type_node, id_node };
+            (yyval.ast) = create_node(NODE_DECLARATION, NULL, 2, children_array);
+        }
+#line 1311 "balbismo.tab.c"
+    break;
+
+  case 12: /* TYPE: PRIMITIVE_TYPES  */
+#line 127 "balbismo.y"
+        {
+            (yyval.ast) = create_node(NODE_TYPE, (yyvsp[0].str), 0, NULL);
+        }
+#line 1319 "balbismo.tab.c"
+    break;
+
+  case 13: /* ARRAY_TYPE: PRIMITIVE_TYPES '[' ']'  */
+#line 134 "balbismo.y"
+        {
+            ASTNode* type_node = create_node(NODE_TYPE, (yyvsp[-2].str), 0, NULL);
+            ASTNode* array_specifier = create_node(NODE_ARRAY_SPECIFIER, NULL, 0, NULL);
+            ASTNode* children_array[] = { type_node, array_specifier };
+            (yyval.ast) = create_node(NODE_ARRAY_TYPE, NULL, 2, children_array);
+        }
+#line 1330 "balbismo.tab.c"
+    break;
+
+  case 14: /* VARIABLE_TYPE: PRIMITIVE_TYPES  */
+#line 145 "balbismo.y"
+        {
+            (yyval.ast) = create_node(NODE_TYPE, (yyvsp[0].str), 0, NULL);
+        }
+#line 1338 "balbismo.tab.c"
+    break;
+
+  case 15: /* VARIABLE_TYPE: PRIMITIVE_TYPES '[' EXPRESSION ']'  */
+#line 149 "balbismo.y"
+        {
+            ASTNode* type_node = create_node(NODE_TYPE, (yyvsp[-3].str), 0, NULL);
+            ASTNode* size_node = (yyvsp[-1].ast);
+            ASTNode* array_specifier = create_node(NODE_ARRAY_SPECIFIER, NULL, 1, &size_node);
+            ASTNode* children_array[] = { type_node, array_specifier };
+            (yyval.ast) = create_node(NODE_ARRAY_TYPE, NULL, 2, children_array);
+        }
+#line 1350 "balbismo.tab.c"
+    break;
+
+  case 16: /* BLOCK: '{' STATEMENT_LIST '}'  */
+#line 159 "balbismo.y"
                              { (yyval.ast) = create_node(NODE_BLOCK, NULL, (yyvsp[-1].ast)->num_children, (yyvsp[-1].ast)->children); }
-#line 1199 "balbismo.tab.c"
+#line 1356 "balbismo.tab.c"
     break;
 
-  case 4: /* STATEMENT_LIST: STATEMENT_LIST STATEMENT  */
-#line 58 "balbismo.y"
+  case 17: /* STATEMENT_LIST: STATEMENT_LIST STATEMENT  */
+#line 164 "balbismo.y"
         {
             ASTNode** new_children = realloc((yyvsp[-1].ast)->children, sizeof(ASTNode*) * ((yyvsp[-1].ast)->num_children + 1));
             if (new_children == NULL) {
@@ -1211,66 +1368,78 @@ yyreduce:
             (yyvsp[-1].ast)->num_children += 1;
             (yyval.ast) = (yyvsp[-1].ast);
         }
-#line 1215 "balbismo.tab.c"
+#line 1372 "balbismo.tab.c"
     break;
 
-  case 5: /* STATEMENT_LIST: %empty  */
-#line 70 "balbismo.y"
+  case 18: /* STATEMENT_LIST: %empty  */
+#line 176 "balbismo.y"
         {
             (yyval.ast) = create_node(NODE_STATEMENT_LIST, NULL, 0, NULL);
         }
-#line 1223 "balbismo.tab.c"
+#line 1380 "balbismo.tab.c"
     break;
 
-  case 6: /* STATEMENT: DECLARATION ';'  */
-#line 76 "balbismo.y"
-                           { (yyval.ast) = (yyvsp[-1].ast); }
-#line 1229 "balbismo.tab.c"
+  case 19: /* STATEMENT: DECLARATION ';'  */
+#line 182 "balbismo.y"
+                               { (yyval.ast) = (yyvsp[-1].ast); }
+#line 1386 "balbismo.tab.c"
     break;
 
-  case 7: /* STATEMENT: ASSIGNMENT ';'  */
-#line 77 "balbismo.y"
-                           { (yyval.ast) = (yyvsp[-1].ast); }
-#line 1235 "balbismo.tab.c"
+  case 20: /* STATEMENT: ASSIGNMENT ';'  */
+#line 183 "balbismo.y"
+                               { (yyval.ast) = (yyvsp[-1].ast); }
+#line 1392 "balbismo.tab.c"
     break;
 
-  case 8: /* STATEMENT: PRINT ';'  */
-#line 78 "balbismo.y"
-                           { (yyval.ast) = (yyvsp[-1].ast); }
-#line 1241 "balbismo.tab.c"
+  case 21: /* STATEMENT: PRINT ';'  */
+#line 184 "balbismo.y"
+                               { (yyval.ast) = (yyvsp[-1].ast); }
+#line 1398 "balbismo.tab.c"
     break;
 
-  case 9: /* STATEMENT: IF_STATEMENT  */
-#line 79 "balbismo.y"
-                           { (yyval.ast) = (yyvsp[0].ast); }
-#line 1247 "balbismo.tab.c"
+  case 22: /* STATEMENT: IF_STATEMENT  */
+#line 185 "balbismo.y"
+                               { (yyval.ast) = (yyvsp[0].ast); }
+#line 1404 "balbismo.tab.c"
     break;
 
-  case 10: /* STATEMENT: WHILE_STATEMENT  */
-#line 80 "balbismo.y"
-                           { (yyval.ast) = (yyvsp[0].ast); }
-#line 1253 "balbismo.tab.c"
+  case 23: /* STATEMENT: WHILE_STATEMENT  */
+#line 186 "balbismo.y"
+                               { (yyval.ast) = (yyvsp[0].ast); }
+#line 1410 "balbismo.tab.c"
     break;
 
-  case 11: /* STATEMENT: BLOCK  */
-#line 81 "balbismo.y"
-                           { (yyval.ast) = (yyvsp[0].ast); }
-#line 1259 "balbismo.tab.c"
+  case 24: /* STATEMENT: RETURN_STATEMENT  */
+#line 187 "balbismo.y"
+                               { (yyval.ast) = (yyvsp[0].ast); }
+#line 1416 "balbismo.tab.c"
     break;
 
-  case 12: /* DECLARATION: TYPE IDENTIFIER  */
-#line 87 "balbismo.y"
+  case 25: /* STATEMENT: FUNCTION_CALL_STATEMENT ';'  */
+#line 188 "balbismo.y"
+                                  { (yyval.ast) = (yyvsp[-1].ast); }
+#line 1422 "balbismo.tab.c"
+    break;
+
+  case 26: /* STATEMENT: BLOCK  */
+#line 189 "balbismo.y"
+                               { (yyval.ast) = (yyvsp[0].ast); }
+#line 1428 "balbismo.tab.c"
+    break;
+
+  case 27: /* DECLARATION: VARIABLE_TYPE IDENTIFIER  */
+#line 194 "balbismo.y"
         {
             ASTNode* type_node = (yyvsp[-1].ast);
             ASTNode* id_node = create_node(NODE_IDENTIFIER, (yyvsp[0].str), 0, NULL);
             ASTNode* children_array[] = { type_node, id_node };
             (yyval.ast) = create_node(NODE_DECLARATION, NULL, 2, children_array);
         }
-#line 1270 "balbismo.tab.c"
+#line 1439 "balbismo.tab.c"
     break;
 
-  case 13: /* DECLARATION: TYPE IDENTIFIER '=' EXPRESSION  */
-#line 94 "balbismo.y"
+  case 28: /* DECLARATION: VARIABLE_TYPE IDENTIFIER '=' EXPRESSION  */
+#line 201 "balbismo.y"
         {
             ASTNode* type_node = (yyvsp[-3].ast);
             ASTNode* id_node = create_node(NODE_IDENTIFIER, (yyvsp[-2].str), 0, NULL);
@@ -1278,59 +1447,22 @@ yyreduce:
             ASTNode* children_array[] = { type_node, id_node, expr_node };
             (yyval.ast) = create_node(NODE_DECLARATION, NULL, 3, children_array);
         }
-#line 1282 "balbismo.tab.c"
+#line 1451 "balbismo.tab.c"
     break;
 
-  case 14: /* TYPE: PRIMITIVE_TYPES ARRAY_SPECIFIER  */
-#line 106 "balbismo.y"
-        {
-            if ((yyvsp[0].ast) != NULL) {
-                ASTNode* type_node = create_node(NODE_TYPE, (yyvsp[-1].str), 0, NULL);
-                ASTNode* children_array[] = { type_node, (yyvsp[0].ast) };
-                (yyval.ast) = create_node(NODE_ARRAY_TYPE, NULL, 2, children_array);
-            } else {
-                (yyval.ast) = create_node(NODE_TYPE, (yyvsp[-1].str), 0, NULL);
-            }
-        }
-#line 1296 "balbismo.tab.c"
-    break;
-
-  case 15: /* ARRAY_SPECIFIER: '[' ']'  */
-#line 119 "balbismo.y"
-        {
-            (yyval.ast) = create_node(NODE_ARRAY_SPECIFIER, NULL, 0, NULL);
-        }
-#line 1304 "balbismo.tab.c"
-    break;
-
-  case 16: /* ARRAY_SPECIFIER: '[' EXPRESSION ']'  */
-#line 123 "balbismo.y"
-        {
-            ASTNode* size_node = (yyvsp[-1].ast);
-            (yyval.ast) = create_node(NODE_ARRAY_SPECIFIER, NULL, 1, &size_node);
-        }
-#line 1313 "balbismo.tab.c"
-    break;
-
-  case 17: /* ARRAY_SPECIFIER: %empty  */
-#line 128 "balbismo.y"
-        { (yyval.ast) = NULL; }
-#line 1319 "balbismo.tab.c"
-    break;
-
-  case 18: /* ASSIGNMENT: IDENTIFIER '=' EXPRESSION  */
-#line 134 "balbismo.y"
+  case 29: /* ASSIGNMENT: IDENTIFIER '=' EXPRESSION  */
+#line 212 "balbismo.y"
         {
             ASTNode* id_node = create_node(NODE_IDENTIFIER, (yyvsp[-2].str), 0, NULL);
             ASTNode* expr_node = (yyvsp[0].ast);
             ASTNode* children_array[] = { id_node, expr_node };
             (yyval.ast) = create_node(NODE_ASSIGNMENT, NULL, 2, children_array);
         }
-#line 1330 "balbismo.tab.c"
+#line 1462 "balbismo.tab.c"
     break;
 
-  case 19: /* ASSIGNMENT: IDENTIFIER '[' EXPRESSION ']' '=' EXPRESSION  */
-#line 141 "balbismo.y"
+  case 30: /* ASSIGNMENT: IDENTIFIER '[' EXPRESSION ']' '=' EXPRESSION  */
+#line 219 "balbismo.y"
         {
             ASTNode* index_node = (yyvsp[-3].ast);
             ASTNode* lhs_children[] = { index_node };
@@ -1339,32 +1471,103 @@ yyreduce:
             ASTNode* children_array[] = { indexed_id_node, expr_node };
             (yyval.ast) = create_node(NODE_ASSIGNMENT, NULL, 2, children_array);
         }
-#line 1343 "balbismo.tab.c"
+#line 1475 "balbismo.tab.c"
     break;
 
-  case 20: /* PRINT: PRINTF '(' EXPRESSION ')'  */
-#line 153 "balbismo.y"
+  case 31: /* PRINT: PRINTF '(' EXPRESSION ')'  */
+#line 231 "balbismo.y"
         {
             ASTNode* expr_node = (yyvsp[-1].ast);
             ASTNode* children_array[] = { expr_node };
             (yyval.ast) = create_node(NODE_PRINT, NULL, 1, children_array);
         }
-#line 1353 "balbismo.tab.c"
+#line 1485 "balbismo.tab.c"
     break;
 
-  case 21: /* IF_STATEMENT: IF '(' EXPRESSION ')' BLOCK  */
-#line 162 "balbismo.y"
+  case 32: /* RETURN_STATEMENT: RETURN ';'  */
+#line 240 "balbismo.y"
+        {
+            (yyval.ast) = create_node(NODE_RETURN_STATEMENT, NULL, 0, NULL);
+        }
+#line 1493 "balbismo.tab.c"
+    break;
+
+  case 33: /* RETURN_STATEMENT: RETURN EXPRESSION ';'  */
+#line 244 "balbismo.y"
+        {
+            ASTNode* expr_node = (yyvsp[-1].ast);
+            ASTNode* children_array[] = { expr_node };
+            (yyval.ast) = create_node(NODE_RETURN_STATEMENT, NULL, 1, children_array);
+        }
+#line 1503 "balbismo.tab.c"
+    break;
+
+  case 34: /* FUNCTION_CALL_STATEMENT: FUNCTION_CALL  */
+#line 253 "balbismo.y"
+        {
+            (yyval.ast) = (yyvsp[0].ast);
+        }
+#line 1511 "balbismo.tab.c"
+    break;
+
+  case 35: /* FUNCTION_CALL: IDENTIFIER '(' ARGUMENT_LIST ')'  */
+#line 260 "balbismo.y"
+        {
+            ASTNode* function_name_node = create_node(NODE_IDENTIFIER, (yyvsp[-3].str), 0, NULL);
+            ASTNode* argument_list_node = (yyvsp[-1].ast);
+            ASTNode* children_array[] = { function_name_node, argument_list_node };
+            (yyval.ast) = create_node(NODE_FUNCTION_CALL, NULL, 2, children_array);
+        }
+#line 1522 "balbismo.tab.c"
+    break;
+
+  case 36: /* ARGUMENT_LIST: ARGUMENT_LIST ',' EXPRESSION  */
+#line 270 "balbismo.y"
+        {
+            ASTNode** new_children = realloc((yyvsp[-2].ast)->children, sizeof(ASTNode*) * ((yyvsp[-2].ast)->num_children + 1));
+            if (new_children == NULL) {
+                yyerror("Memory allocation failed for ARGUMENT_LIST.");
+                exit(1);
+            }
+            new_children[(yyvsp[-2].ast)->num_children] = (yyvsp[0].ast);
+            (yyvsp[-2].ast)->children = new_children;
+            (yyvsp[-2].ast)->num_children += 1;
+            (yyval.ast) = (yyvsp[-2].ast);
+        }
+#line 1538 "balbismo.tab.c"
+    break;
+
+  case 37: /* ARGUMENT_LIST: EXPRESSION  */
+#line 282 "balbismo.y"
+        {
+            ASTNode** children_array = malloc(sizeof(ASTNode*));
+            children_array[0] = (yyvsp[0].ast);
+            (yyval.ast) = create_node(NODE_ARGUMENT_LIST, NULL, 1, children_array);
+        }
+#line 1548 "balbismo.tab.c"
+    break;
+
+  case 38: /* ARGUMENT_LIST: %empty  */
+#line 288 "balbismo.y"
+        {
+            (yyval.ast) = create_node(NODE_ARGUMENT_LIST, NULL, 0, NULL);
+        }
+#line 1556 "balbismo.tab.c"
+    break;
+
+  case 39: /* IF_STATEMENT: IF '(' EXPRESSION ')' BLOCK  */
+#line 295 "balbismo.y"
         {
             ASTNode* condition = (yyvsp[-2].ast);
             ASTNode* if_block = (yyvsp[0].ast);
             ASTNode* children_array[] = { condition, if_block };
             (yyval.ast) = create_node(NODE_IF_STATEMENT, NULL, 2, children_array);
         }
-#line 1364 "balbismo.tab.c"
+#line 1567 "balbismo.tab.c"
     break;
 
-  case 22: /* IF_STATEMENT: IF '(' EXPRESSION ')' BLOCK ELSE_CLAUSE  */
-#line 169 "balbismo.y"
+  case 40: /* IF_STATEMENT: IF '(' EXPRESSION ')' BLOCK ELSE_CLAUSE  */
+#line 302 "balbismo.y"
         {
             ASTNode* condition = (yyvsp[-3].ast);
             ASTNode* if_block = (yyvsp[-1].ast);
@@ -1372,288 +1575,294 @@ yyreduce:
             ASTNode* children_array[] = { condition, if_block, else_clause };
             (yyval.ast) = create_node(NODE_IF_STATEMENT, NULL, 3, children_array);
         }
-#line 1376 "balbismo.tab.c"
+#line 1579 "balbismo.tab.c"
     break;
 
-  case 23: /* ELSE_CLAUSE: ELSE BLOCK  */
-#line 180 "balbismo.y"
+  case 41: /* ELSE_CLAUSE: ELSE BLOCK  */
+#line 313 "balbismo.y"
         {
             (yyval.ast) = (yyvsp[0].ast);
         }
-#line 1384 "balbismo.tab.c"
+#line 1587 "balbismo.tab.c"
     break;
 
-  case 24: /* ELSE_CLAUSE: ELSE IF_STATEMENT  */
-#line 184 "balbismo.y"
+  case 42: /* ELSE_CLAUSE: ELSE IF_STATEMENT  */
+#line 317 "balbismo.y"
         {
             (yyval.ast) = (yyvsp[0].ast);
         }
-#line 1392 "balbismo.tab.c"
+#line 1595 "balbismo.tab.c"
     break;
 
-  case 25: /* WHILE_STATEMENT: WHILE '(' EXPRESSION ')' BLOCK  */
-#line 191 "balbismo.y"
+  case 43: /* WHILE_STATEMENT: WHILE '(' EXPRESSION ')' BLOCK  */
+#line 324 "balbismo.y"
         {
             ASTNode* condition = (yyvsp[-2].ast);
             ASTNode* body = (yyvsp[0].ast);
             ASTNode* children_array[] = { condition, body };
             (yyval.ast) = create_node(NODE_WHILE_STATEMENT, NULL, 2, children_array);
         }
-#line 1403 "balbismo.tab.c"
+#line 1606 "balbismo.tab.c"
     break;
 
-  case 26: /* PRIMITIVE_TYPES: INT  */
-#line 200 "balbismo.y"
-                           { (yyval.str) = (yyvsp[0].str); }
-#line 1409 "balbismo.tab.c"
+  case 44: /* PRIMITIVE_TYPES: INT  */
+#line 333 "balbismo.y"
+               { (yyval.str) = strdup("int"); }
+#line 1612 "balbismo.tab.c"
     break;
 
-  case 27: /* PRIMITIVE_TYPES: FLOAT  */
-#line 201 "balbismo.y"
-                           { (yyval.str) = (yyvsp[0].str); }
-#line 1415 "balbismo.tab.c"
+  case 45: /* PRIMITIVE_TYPES: FLOAT  */
+#line 334 "balbismo.y"
+               { (yyval.str) = strdup("float"); }
+#line 1618 "balbismo.tab.c"
     break;
 
-  case 28: /* EXPRESSION: LOGICAL_OR  */
-#line 206 "balbismo.y"
+  case 46: /* EXPRESSION: LOGICAL_OR  */
+#line 338 "balbismo.y"
                            { (yyval.ast) = (yyvsp[0].ast); }
-#line 1421 "balbismo.tab.c"
+#line 1624 "balbismo.tab.c"
     break;
 
-  case 29: /* LOGICAL_OR: LOGICAL_OR OR_OP LOGICAL_AND  */
-#line 211 "balbismo.y"
+  case 47: /* LOGICAL_OR: LOGICAL_OR OR_OP LOGICAL_AND  */
+#line 343 "balbismo.y"
         {
             ASTNode* children_array[] = { (yyvsp[-2].ast), (yyvsp[0].ast) };
             (yyval.ast) = create_node(NODE_BOOL_BIN_OP, "||", 2, children_array);
         }
-#line 1430 "balbismo.tab.c"
+#line 1633 "balbismo.tab.c"
     break;
 
-  case 30: /* LOGICAL_OR: LOGICAL_AND  */
-#line 216 "balbismo.y"
+  case 48: /* LOGICAL_OR: LOGICAL_AND  */
+#line 348 "balbismo.y"
         { (yyval.ast) = (yyvsp[0].ast); }
-#line 1436 "balbismo.tab.c"
+#line 1639 "balbismo.tab.c"
     break;
 
-  case 31: /* LOGICAL_AND: LOGICAL_AND AND_OP EQUALITY  */
-#line 221 "balbismo.y"
+  case 49: /* LOGICAL_AND: LOGICAL_AND AND_OP EQUALITY  */
+#line 353 "balbismo.y"
         {
             ASTNode* children_array[] = { (yyvsp[-2].ast), (yyvsp[0].ast) };
             (yyval.ast) = create_node(NODE_BOOL_BIN_OP, "&&", 2, children_array);
         }
-#line 1445 "balbismo.tab.c"
+#line 1648 "balbismo.tab.c"
     break;
 
-  case 32: /* LOGICAL_AND: EQUALITY  */
-#line 226 "balbismo.y"
+  case 50: /* LOGICAL_AND: EQUALITY  */
+#line 358 "balbismo.y"
         { (yyval.ast) = (yyvsp[0].ast); }
-#line 1451 "balbismo.tab.c"
+#line 1654 "balbismo.tab.c"
     break;
 
-  case 33: /* EQUALITY: EQUALITY EQUAL_EQUAL RELATIONAL  */
-#line 231 "balbismo.y"
+  case 51: /* EQUALITY: EQUALITY EQUAL_EQUAL RELATIONAL  */
+#line 363 "balbismo.y"
         {
             ASTNode* children_array[] = { (yyvsp[-2].ast), (yyvsp[0].ast) };
             (yyval.ast) = create_node(NODE_REL_OP, "==", 2, children_array);
         }
-#line 1460 "balbismo.tab.c"
+#line 1663 "balbismo.tab.c"
     break;
 
-  case 34: /* EQUALITY: EQUALITY NOT_EQUAL RELATIONAL  */
-#line 236 "balbismo.y"
+  case 52: /* EQUALITY: EQUALITY NOT_EQUAL RELATIONAL  */
+#line 368 "balbismo.y"
         {
             ASTNode* children_array[] = { (yyvsp[-2].ast), (yyvsp[0].ast) };
             (yyval.ast) = create_node(NODE_REL_OP, "!=", 2, children_array);
         }
-#line 1469 "balbismo.tab.c"
+#line 1672 "balbismo.tab.c"
     break;
 
-  case 35: /* EQUALITY: RELATIONAL  */
-#line 241 "balbismo.y"
+  case 53: /* EQUALITY: RELATIONAL  */
+#line 373 "balbismo.y"
         { (yyval.ast) = (yyvsp[0].ast); }
-#line 1475 "balbismo.tab.c"
+#line 1678 "balbismo.tab.c"
     break;
 
-  case 36: /* RELATIONAL: RELATIONAL GREATER ADDITIVE  */
-#line 246 "balbismo.y"
+  case 54: /* RELATIONAL: RELATIONAL GREATER ADDITIVE  */
+#line 378 "balbismo.y"
         {
             ASTNode* children_array[] = { (yyvsp[-2].ast), (yyvsp[0].ast) };
             (yyval.ast) = create_node(NODE_REL_OP, ">", 2, children_array);
         }
-#line 1484 "balbismo.tab.c"
+#line 1687 "balbismo.tab.c"
     break;
 
-  case 37: /* RELATIONAL: RELATIONAL LESS ADDITIVE  */
-#line 251 "balbismo.y"
+  case 55: /* RELATIONAL: RELATIONAL LESS ADDITIVE  */
+#line 383 "balbismo.y"
         {
             ASTNode* children_array[] = { (yyvsp[-2].ast), (yyvsp[0].ast) };
             (yyval.ast) = create_node(NODE_REL_OP, "<", 2, children_array);
         }
-#line 1493 "balbismo.tab.c"
+#line 1696 "balbismo.tab.c"
     break;
 
-  case 38: /* RELATIONAL: RELATIONAL GREATER_EQUAL ADDITIVE  */
-#line 256 "balbismo.y"
+  case 56: /* RELATIONAL: RELATIONAL GREATER_EQUAL ADDITIVE  */
+#line 388 "balbismo.y"
         {
             ASTNode* children_array[] = { (yyvsp[-2].ast), (yyvsp[0].ast) };
             (yyval.ast) = create_node(NODE_REL_OP, ">=", 2, children_array);
         }
-#line 1502 "balbismo.tab.c"
+#line 1705 "balbismo.tab.c"
     break;
 
-  case 39: /* RELATIONAL: RELATIONAL LESS_EQUAL ADDITIVE  */
-#line 261 "balbismo.y"
+  case 57: /* RELATIONAL: RELATIONAL LESS_EQUAL ADDITIVE  */
+#line 393 "balbismo.y"
         {
             ASTNode* children_array[] = { (yyvsp[-2].ast), (yyvsp[0].ast) };
             (yyval.ast) = create_node(NODE_REL_OP, "<=", 2, children_array);
         }
-#line 1511 "balbismo.tab.c"
+#line 1714 "balbismo.tab.c"
     break;
 
-  case 40: /* RELATIONAL: ADDITIVE  */
-#line 266 "balbismo.y"
+  case 58: /* RELATIONAL: ADDITIVE  */
+#line 398 "balbismo.y"
         { (yyval.ast) = (yyvsp[0].ast); }
-#line 1517 "balbismo.tab.c"
+#line 1720 "balbismo.tab.c"
     break;
 
-  case 41: /* ADDITIVE: ADDITIVE '+' MULTIPLICATIVE  */
-#line 271 "balbismo.y"
+  case 59: /* ADDITIVE: ADDITIVE '+' MULTIPLICATIVE  */
+#line 403 "balbismo.y"
         {
             ASTNode* children_array[] = { (yyvsp[-2].ast), (yyvsp[0].ast) };
             (yyval.ast) = create_node(NODE_BIN_OP, "+", 2, children_array);
         }
-#line 1526 "balbismo.tab.c"
+#line 1729 "balbismo.tab.c"
     break;
 
-  case 42: /* ADDITIVE: ADDITIVE '-' MULTIPLICATIVE  */
-#line 276 "balbismo.y"
+  case 60: /* ADDITIVE: ADDITIVE '-' MULTIPLICATIVE  */
+#line 408 "balbismo.y"
         {
             ASTNode* children_array[] = { (yyvsp[-2].ast), (yyvsp[0].ast) };
             (yyval.ast) = create_node(NODE_BIN_OP, "-", 2, children_array);
         }
-#line 1535 "balbismo.tab.c"
+#line 1738 "balbismo.tab.c"
     break;
 
-  case 43: /* ADDITIVE: MULTIPLICATIVE  */
-#line 281 "balbismo.y"
+  case 61: /* ADDITIVE: MULTIPLICATIVE  */
+#line 413 "balbismo.y"
         { (yyval.ast) = (yyvsp[0].ast); }
-#line 1541 "balbismo.tab.c"
+#line 1744 "balbismo.tab.c"
     break;
 
-  case 44: /* MULTIPLICATIVE: MULTIPLICATIVE '*' UNARY  */
-#line 286 "balbismo.y"
+  case 62: /* MULTIPLICATIVE: MULTIPLICATIVE '*' UNARY  */
+#line 418 "balbismo.y"
         {
             ASTNode* children_array[] = { (yyvsp[-2].ast), (yyvsp[0].ast) };
             (yyval.ast) = create_node(NODE_BIN_OP, "*", 2, children_array);
         }
-#line 1550 "balbismo.tab.c"
+#line 1753 "balbismo.tab.c"
     break;
 
-  case 45: /* MULTIPLICATIVE: MULTIPLICATIVE '/' UNARY  */
-#line 291 "balbismo.y"
+  case 63: /* MULTIPLICATIVE: MULTIPLICATIVE '/' UNARY  */
+#line 423 "balbismo.y"
         {
             ASTNode* children_array[] = { (yyvsp[-2].ast), (yyvsp[0].ast) };
             (yyval.ast) = create_node(NODE_BIN_OP, "/", 2, children_array);
         }
-#line 1559 "balbismo.tab.c"
+#line 1762 "balbismo.tab.c"
     break;
 
-  case 46: /* MULTIPLICATIVE: MULTIPLICATIVE '%' UNARY  */
-#line 296 "balbismo.y"
+  case 64: /* MULTIPLICATIVE: MULTIPLICATIVE '%' UNARY  */
+#line 428 "balbismo.y"
         {
             ASTNode* children_array[] = { (yyvsp[-2].ast), (yyvsp[0].ast) };
             (yyval.ast) = create_node(NODE_BIN_OP, "%", 2, children_array);
         }
-#line 1568 "balbismo.tab.c"
+#line 1771 "balbismo.tab.c"
     break;
 
-  case 47: /* MULTIPLICATIVE: UNARY  */
-#line 301 "balbismo.y"
+  case 65: /* MULTIPLICATIVE: UNARY  */
+#line 433 "balbismo.y"
         { (yyval.ast) = (yyvsp[0].ast); }
-#line 1574 "balbismo.tab.c"
+#line 1777 "balbismo.tab.c"
     break;
 
-  case 48: /* UNARY: '+' UNARY  */
-#line 306 "balbismo.y"
+  case 66: /* UNARY: '+' UNARY  */
+#line 438 "balbismo.y"
         {
             ASTNode* children_array[] = { (yyvsp[0].ast) };
             (yyval.ast) = create_node(NODE_UN_OP, "+", 1, children_array);
         }
-#line 1583 "balbismo.tab.c"
+#line 1786 "balbismo.tab.c"
     break;
 
-  case 49: /* UNARY: '-' UNARY  */
-#line 311 "balbismo.y"
+  case 67: /* UNARY: '-' UNARY  */
+#line 443 "balbismo.y"
         {
             ASTNode* children_array[] = { (yyvsp[0].ast) };
             (yyval.ast) = create_node(NODE_UN_OP, "-", 1, children_array);
         }
-#line 1592 "balbismo.tab.c"
+#line 1795 "balbismo.tab.c"
     break;
 
-  case 50: /* UNARY: NOT_OP UNARY  */
-#line 316 "balbismo.y"
+  case 68: /* UNARY: NOT_OP UNARY  */
+#line 448 "balbismo.y"
         {
             ASTNode* children_array[] = { (yyvsp[0].ast) };
             (yyval.ast) = create_node(NODE_BOOL_UN_OP, "!", 1, children_array);
         }
-#line 1601 "balbismo.tab.c"
+#line 1804 "balbismo.tab.c"
     break;
 
-  case 51: /* UNARY: PRIMARY  */
-#line 321 "balbismo.y"
+  case 69: /* UNARY: PRIMARY  */
+#line 453 "balbismo.y"
         { (yyval.ast) = (yyvsp[0].ast); }
-#line 1607 "balbismo.tab.c"
+#line 1810 "balbismo.tab.c"
     break;
 
-  case 52: /* PRIMARY: IDENTIFIER  */
-#line 327 "balbismo.y"
+  case 70: /* PRIMARY: IDENTIFIER  */
+#line 458 "balbismo.y"
         {
             (yyval.ast) = create_node(NODE_IDENTIFIER, (yyvsp[0].str), 0, NULL);
         }
-#line 1615 "balbismo.tab.c"
+#line 1818 "balbismo.tab.c"
     break;
 
-  case 53: /* PRIMARY: IDENTIFIER '[' EXPRESSION ']'  */
-#line 331 "balbismo.y"
+  case 71: /* PRIMARY: IDENTIFIER '[' EXPRESSION ']'  */
+#line 462 "balbismo.y"
         {
             ASTNode* index_node = (yyvsp[-1].ast);
             ASTNode* children_array[] = { index_node };
             (yyval.ast) = create_node(NODE_INDEXED_IDENTIFIER, (yyvsp[-3].str), 1, children_array);
         }
-#line 1625 "balbismo.tab.c"
+#line 1828 "balbismo.tab.c"
     break;
 
-  case 54: /* PRIMARY: NUMBER  */
-#line 337 "balbismo.y"
+  case 72: /* PRIMARY: NUMBER  */
+#line 468 "balbismo.y"
         { (yyval.ast) = (yyvsp[0].ast); }
-#line 1631 "balbismo.tab.c"
+#line 1834 "balbismo.tab.c"
     break;
 
-  case 55: /* PRIMARY: '(' EXPRESSION ')'  */
-#line 339 "balbismo.y"
+  case 73: /* PRIMARY: '(' EXPRESSION ')'  */
+#line 470 "balbismo.y"
         { (yyval.ast) = (yyvsp[-1].ast); }
-#line 1637 "balbismo.tab.c"
+#line 1840 "balbismo.tab.c"
     break;
 
-  case 56: /* NUMBER: INT_LITERAL  */
-#line 344 "balbismo.y"
+  case 74: /* PRIMARY: FUNCTION_CALL  */
+#line 472 "balbismo.y"
+        { (yyval.ast) = (yyvsp[0].ast); }
+#line 1846 "balbismo.tab.c"
+    break;
+
+  case 75: /* NUMBER: INT_LITERAL  */
+#line 477 "balbismo.y"
         {
             (yyval.ast) = create_node(NODE_INT_LITERAL, (yyvsp[0].str), 0, NULL);
         }
-#line 1645 "balbismo.tab.c"
+#line 1854 "balbismo.tab.c"
     break;
 
-  case 57: /* NUMBER: FLOAT_LITERAL  */
-#line 348 "balbismo.y"
+  case 76: /* NUMBER: FLOAT_LITERAL  */
+#line 481 "balbismo.y"
         {
             (yyval.ast) = create_node(NODE_FLOAT_LITERAL, (yyvsp[0].str), 0, NULL);
         }
-#line 1653 "balbismo.tab.c"
+#line 1862 "balbismo.tab.c"
     break;
 
 
-#line 1657 "balbismo.tab.c"
+#line 1866 "balbismo.tab.c"
 
       default: break;
     }
@@ -1846,11 +2055,9 @@ yyreturnlab:
   return yyresult;
 }
 
-#line 353 "balbismo.y"
+#line 485 "balbismo.y"
 
-
-/* C Code Section remains unchanged */
-
+/* C Code Section */
 void yyerror(const char *s) {
     fprintf(stderr, "Error: %s\n", s);
 }

@@ -57,6 +57,18 @@ Node parseNode(YamlMap node) {
       return IfNode(children[0] as Node<dynamic, LangVal>, children[1] as BlockNode, children.length > 2 ? children[2] : null);
     case "WhileStatement":
       return WhileNode(children[0] as Node<dynamic, LangVal>, children[1] as BlockNode);
+    case "ParameterList":
+      return ParameterList(children.cast());
+    case "ArgumentList":
+      return ArgumentList(children.cast());
+    case "FunctionDeclaration":
+      return FuncDec(children[0] as TypeNode , children[1] as IdentifierNode, children[2] as ParameterList, children[3] as BlockNode);
+    case "FunctionCall":
+      return FuncCall(children[0] as IdentifierNode, children[1] as ArgumentList);
+    case "ReturnStatement":
+      return ReturnStatement(children[0] as Node<dynamic, LangVal>);
+    case "FunctionList":
+      return FunctionList(children.cast());
     default:
       throw Exception("Unknown node type: $type");
   }

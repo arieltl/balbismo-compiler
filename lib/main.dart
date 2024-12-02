@@ -11,14 +11,8 @@ void main(){
 
   Node.ir += "declare i32 @printf(i8*, ...)\n";
 
-  Node.ir += "define i32 @main() {\n";
-  Node.ir += "entry:\n";
-  Node.irIndent++;
   var ast = parseAstFile("lex-parse/ast2.out");
   ast.evaluate(SymbolTable());
-  Node.addIrLine("ret i32 0\n");
-  Node.irIndent--;
-  Node.ir += "}\n";
   
   //output main.ll
   File("main.ll").writeAsStringSync(Node.ir);

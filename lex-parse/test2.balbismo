@@ -1,5 +1,5 @@
-{
-    int age =1;
+int main(){
+    int age =50;
     if (age < 12){
         printf(0);
     } else if (age <= 15){

@@ -18,8 +18,8 @@ ASTNode* ast_root;
 
 /* Token Declarations */
 %token <str> IDENTIFIER
-%token <str> INT FLOAT PRINTF
-%token IF ELSE WHILE
+%token INT FLOAT PRINTF
+%token IF ELSE WHILE RETURN
 
 %token EQUAL_EQUAL NOT_EQUAL GREATER_EQUAL LESS_EQUAL GREATER LESS
 %token AND_OP OR_OP NOT_OP
@@ -28,9 +28,11 @@ ASTNode* ast_root;
 %token <str> FLOAT_LITERAL
 
 /* Nonterminal Type Declarations */
-%type <ast> PROGRAM BLOCK STATEMENT STATEMENT_LIST DECLARATION ASSIGNMENT PRINT IF_STATEMENT ELSE_CLAUSE WHILE_STATEMENT
+%type <ast> PROGRAM FUNCTION_LIST FUNCTION_DECLARATION PARAMETER_LIST PARAMETER PARAMETER_TYPE
+%type <ast> BLOCK STATEMENT STATEMENT_LIST DECLARATION ASSIGNMENT PRINT IF_STATEMENT ELSE_CLAUSE WHILE_STATEMENT RETURN_STATEMENT FUNCTION_CALL_STATEMENT
+%type <ast> FUNCTION_CALL
 %type <ast> EXPRESSION LOGICAL_OR LOGICAL_AND EQUALITY RELATIONAL ADDITIVE MULTIPLICATIVE UNARY PRIMARY
-%type <ast> TYPE ARRAY_SPECIFIER
+%type <ast> TYPE ARRAY_TYPE VARIABLE_TYPE ARGUMENT_LIST
 %type <ast> NUMBER
 %type <str> PRIMITIVE_TYPES
 
@@ -46,7 +48,111 @@ ASTNode* ast_root;
 /* Grammar Rules */
 %%
 PROGRAM
-    : BLOCK                { ast_root = $1; }
+    : FUNCTION_LIST            { ast_root = $1; }
+    ;
+
+FUNCTION_LIST
+    : FUNCTION_LIST FUNCTION_DECLARATION
+        {
+            ASTNode** new_children = realloc($1->children, sizeof(ASTNode*) * ($1->num_children + 1));
+            if (new_children == NULL) {
+                yyerror("Memory allocation failed for FUNCTION_LIST.");
+                exit(1);
+            }
+            new_children[$1->num_children] = $2;
+            $1->children = new_children;
+            $1->num_children += 1;
+            $$ = $1;
+        }
+    | /* Empty */
+        {
+            $$ = create_node(NODE_FUNCTION_LIST, NULL, 0, NULL);
+        }
+    ;
+
+FUNCTION_DECLARATION
+    : TYPE IDENTIFIER '(' PARAMETER_LIST ')' BLOCK
+        {
+            ASTNode* return_type_node = $1;
+            ASTNode* function_name_node = create_node(NODE_IDENTIFIER, $2, 0, NULL);
+            ASTNode* parameter_list_node = $4;
+            ASTNode* block_node = $6;
+            ASTNode* children_array[] = { return_type_node, function_name_node, parameter_list_node, block_node };
+            $$ = create_node(NODE_FUNCTION_DECLARATION, NULL, 4, children_array);
+        }
+    ;
+
+PARAMETER_LIST
+    : PARAMETER_LIST ',' PARAMETER
+        {
+            ASTNode** new_children = realloc($1->children, sizeof(ASTNode*) * ($1->num_children + 1));
+            if (new_children == NULL) {
+                yyerror("Memory allocation failed for PARAMETER_LIST.");
+                exit(1);
+            }
+            new_children[$1->num_children] = $3;
+            $1->children = new_children;
+            $1->num_children += 1;
+            $$ = $1;
+        }
+    | PARAMETER
+        {
+            ASTNode** children_array = malloc(sizeof(ASTNode*));
+            children_array[0] = $1;
+            $$ = create_node(NODE_PARAMETER_LIST, NULL, 1, children_array);
+        }
+    | /* Empty */
+        {
+            $$ = create_node(NODE_PARAMETER_LIST, NULL, 0, NULL);
+        }
+    ;
+
+PARAMETER
+    : PARAMETER_TYPE IDENTIFIER
+        {
+            ASTNode* type_node = $1;
+            ASTNode* id_node = create_node(NODE_IDENTIFIER, $2, 0, NULL);
+            ASTNode* children_array[] = { type_node, id_node };
+            $$ = create_node(NODE_DECLARATION, NULL, 2, children_array);
+        }
+    ;
+
+PARAMETER_TYPE
+    : TYPE
+    | ARRAY_TYPE
+    ;
+
+TYPE
+    : PRIMITIVE_TYPES
+        {
+            $$ = create_node(NODE_TYPE, $1, 0, NULL);
+        }
+    ;
+
+ARRAY_TYPE
+    : PRIMITIVE_TYPES '[' ']'
+        {
+            ASTNode* type_node = create_node(NODE_TYPE, $1, 0, NULL);
+            ASTNode* array_specifier = create_node(NODE_ARRAY_SPECIFIER, NULL, 0, NULL);
+            ASTNode* children_array[] = { type_node, array_specifier };
+            $$ = create_node(NODE_ARRAY_TYPE, NULL, 2, children_array);
+        }
+    ;
+
+/* Variable Type for Declarations */
+VARIABLE_TYPE
+    : PRIMITIVE_TYPES
+        {
+            $$ = create_node(NODE_TYPE, $1, 0, NULL);
+        }
+    | PRIMITIVE_TYPES '[' EXPRESSION ']'
+        {
+            ASTNode* type_node = create_node(NODE_TYPE, $1, 0, NULL);
+            ASTNode* size_node = $3;
+            ASTNode* array_specifier = create_node(NODE_ARRAY_SPECIFIER, NULL, 1, &size_node);
+            ASTNode* children_array[] = { type_node, array_specifier };
+            $$ = create_node(NODE_ARRAY_TYPE, NULL, 2, children_array);
+        }
     ;
 
 BLOCK
@@ -73,24 +179,25 @@ STATEMENT_LIST
     ;
 
 STATEMENT
-    : DECLARATION ';'      { $$ = $1; }
-    | ASSIGNMENT ';'       { $$ = $1; }
-    | PRINT ';'            { $$ = $1; }
-    | IF_STATEMENT         { $$ = $1; }
-    | WHILE_STATEMENT      { $$ = $1; }
-    | BLOCK                { $$ = $1; }
+    : DECLARATION ';'          { $$ = $1; }
+    | ASSIGNMENT ';'           { $$ = $1; }
+    | PRINT ';'                { $$ = $1; }
+    | IF_STATEMENT             { $$ = $1; }
+    | WHILE_STATEMENT          { $$ = $1; }
+    | RETURN_STATEMENT         { $$ = $1; }
+    | FUNCTION_CALL_STATEMENT ';' { $$ = $1; }
+    | BLOCK                    { $$ = $1; }
     ;
 
-/* Declaration remains unchanged */
 DECLARATION
-    : TYPE IDENTIFIER
+    : VARIABLE_TYPE IDENTIFIER
         {
             ASTNode* type_node = $1;
             ASTNode* id_node = create_node(NODE_IDENTIFIER, $2, 0, NULL);
             ASTNode* children_array[] = { type_node, id_node };
             $$ = create_node(NODE_DECLARATION, NULL, 2, children_array);
         }
-    | TYPE IDENTIFIER '=' EXPRESSION
+    | VARIABLE_TYPE IDENTIFIER '=' EXPRESSION
         {
             ASTNode* type_node = $1;
             ASTNode* id_node = create_node(NODE_IDENTIFIER, $2, 0, NULL);
@@ -100,35 +207,6 @@ DECLARATION
         }
     ;
 
-/* Type and Array Specifier remain unchanged */
-TYPE
-    : PRIMITIVE_TYPES ARRAY_SPECIFIER
-        {
-            if ($2 != NULL) {
-                ASTNode* type_node = create_node(NODE_TYPE, $1, 0, NULL);
-                ASTNode* children_array[] = { type_node, $2 };
-                $$ = create_node(NODE_ARRAY_TYPE, NULL, 2, children_array);
-            } else {
-                $$ = create_node(NODE_TYPE, $1, 0, NULL);
-            }
-        }
-    ;
-
-ARRAY_SPECIFIER
-    : '[' ']'               /* For int[] */
-        {
-            $$ = create_node(NODE_ARRAY_SPECIFIER, NULL, 0, NULL);
-        }
-    | '[' EXPRESSION ']'    /* For int[4] */
-        {
-            ASTNode* size_node = $2;
-            $$ = create_node(NODE_ARRAY_SPECIFIER, NULL, 1, &size_node);
-        }
-    | /* Empty */
-        { $$ = NULL; }
-    ;
-
-/* Updated ASSIGNMENT rule */
 ASSIGNMENT
     : IDENTIFIER '=' EXPRESSION
         {
@@ -154,6 +232,61 @@ PRINT
             ASTNode* expr_node = $3;
             ASTNode* children_array[] = { expr_node };
             $$ = create_node(NODE_PRINT, NULL, 1, children_array);
+        }
+    ;
+
+RETURN_STATEMENT
+    : RETURN ';'
+        {
+            $$ = create_node(NODE_RETURN_STATEMENT, NULL, 0, NULL);
+        }
+    | RETURN EXPRESSION ';'
+        {
+            ASTNode* expr_node = $2;
+            ASTNode* children_array[] = { expr_node };
+            $$ = create_node(NODE_RETURN_STATEMENT, NULL, 1, children_array);
+        }
+    ;
+
+FUNCTION_CALL_STATEMENT
+    : FUNCTION_CALL
+        {
+            $$ = $1;
+        }
+    ;
+
+FUNCTION_CALL
+    : IDENTIFIER '(' ARGUMENT_LIST ')'
+        {
+            ASTNode* function_name_node = create_node(NODE_IDENTIFIER, $1, 0, NULL);
+            ASTNode* argument_list_node = $3;
+            ASTNode* children_array[] = { function_name_node, argument_list_node };
+            $$ = create_node(NODE_FUNCTION_CALL, NULL, 2, children_array);
+        }
+    ;
+
+ARGUMENT_LIST
+    : ARGUMENT_LIST ',' EXPRESSION
+        {
+            ASTNode** new_children = realloc($1->children, sizeof(ASTNode*) * ($1->num_children + 1));
+            if (new_children == NULL) {
+                yyerror("Memory allocation failed for ARGUMENT_LIST.");
+                exit(1);
+            }
+            new_children[$1->num_children] = $3;
+            $1->children = new_children;
+            $1->num_children += 1;
+            $$ = $1;
+        }
+    | EXPRESSION
+        {
+            ASTNode** children_array = malloc(sizeof(ASTNode*));
+            children_array[0] = $1;
+            $$ = create_node(NODE_ARGUMENT_LIST, NULL, 1, children_array);
+        }
+    | /* Empty */
+        {
+            $$ = create_node(NODE_ARGUMENT_LIST, NULL, 0, NULL);
         }
     ;
 
@@ -197,11 +330,10 @@ WHILE_STATEMENT
     ;
 
 PRIMITIVE_TYPES
-    : INT                  { $$ = $1; }
-    | FLOAT                { $$ = $1; }
+    : INT      { $$ = strdup("int"); }
+    | FLOAT    { $$ = strdup("float"); }
     ;
 
-/* Expression Rules remain the same */
 EXPRESSION
     : LOGICAL_OR           { $$ = $1; }
     ;
@@ -321,7 +453,6 @@ UNARY
         { $$ = $1; }
     ;
 
-/* Updated PRIMARY to handle IndexedIdentifier */
 PRIMARY
     : IDENTIFIER
         {
@@ -337,6 +468,8 @@ PRIMARY
         { $$ = $1; }
     | '(' EXPRESSION ')'
         { $$ = $2; }
+    | FUNCTION_CALL
+        { $$ = $1; }
     ;
 
 NUMBER
@@ -349,11 +482,8 @@ NUMBER
             $$ = create_node(NODE_FLOAT_LITERAL, $1, 0, NULL);
         }
     ;
-
 %%
-
-/* C Code Section remains unchanged */
-
+/* C Code Section */
 void yyerror(const char *s) {
     fprintf(stderr, "Error: %s\n", s);
 }
