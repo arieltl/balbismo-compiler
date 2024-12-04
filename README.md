@@ -25,3 +25,10 @@ balbismo compile <arquivo.balbismo> -o <arquivo>
 
 Para mais informações sobre o compilador, use o comando `balbismo help`.
 
+## Video
+[Link](https://youtu.be/nJbhhECG1SU)
+
+## Membros
+* Ariel Leventhal
+* Pedro Portella
+
