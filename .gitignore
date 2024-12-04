@@ -60,3 +60,5 @@ lex-parse/balbismo
 lex-parse/balbismo.tab*
 lex-parse/lex.yy.c
 lex-parse/balbismo.output
+balbismo
+lex-parse/balbismo_parser

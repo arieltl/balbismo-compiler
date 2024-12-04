@@ -1,9 +1,0 @@
-int main() {
-    int a;
-    int[1] b;
-    float c;
-    printf("Type two integers and a float separated by spaces:\n ");
-    scanf("%d %d %lf",a,b[0],c);
-    printf("a: %d, b: %d, c: %lf\n",a,b[0],c);
-
-}

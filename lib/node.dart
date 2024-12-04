@@ -201,7 +201,6 @@ class FuncDec extends Node<void,void> {
 
   @override
   void evaluate(SymbolTable table) {
-    print(identifier.nodeValue);
     final funcName = identifier.nodeValue;
     final returnType = this.returnType.nodeValue;
     final func = LangFunc(funcName, this);

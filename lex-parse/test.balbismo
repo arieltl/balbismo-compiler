@@ -1,8 +1,0 @@
-int main(){
-    int x =5;
-    int y;
-    y =-2;
-    float z = 30.3;
-    printf("%f\n",10+y+x-1.2+z);
-    printf("%d  \n \"\n%d\n",x, 2);
-}
