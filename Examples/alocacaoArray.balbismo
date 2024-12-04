@@ -1,0 +1,20 @@
+int main(){
+    int arrSize = 10/2;
+    int a =1;
+    int[arrSize] arr;
+    float[arrSize] arr2;
+    arr2[2] = a+0.0; 
+    arr[0] = 10;
+    arr[1] = a+1;
+    int i = 0;
+    
+
+    //Indices nao inicializados contem lixo de memoria
+    while (i < arrSize){
+        printf("index %d: %d -- ",i,arr[i]);
+        printf("%f \n",arr2[i]);
+        i = i + 1;
+    }
+
+    
+}

@@ -1,0 +1,10 @@
+int main(){
+    int x =5;
+    int y;
+    y =-2;
+    float z = 30.3;
+    //A linguagem converte implicitamente para float o resultado
+    //de toda operação aritmética que envolva um float
+    printf("%f\n",10+y+x-1.2+z);
+    printf("%d  \n \"\n%d\n",x, 2);
+}

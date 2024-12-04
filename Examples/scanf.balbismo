@@ -1,0 +1,12 @@
+int main() {
+    int a;
+    int[1] b;
+    float c;
+    printf("Type two integers and a float separated by spaces:\n ");
+
+    // A linguage nao tem feature de ponteiros, então não é possível passar o endereço de uma variável
+    // Portanto o scanf so aceita identificadores de variáveis, e não expressões
+    scanf("%d %d %lf",a,b[0],c);
+    printf("a: %d, b: %d, c: %lf\n",a,b[0],c);
+
+}

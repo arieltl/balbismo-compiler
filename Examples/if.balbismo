@@ -1,0 +1,17 @@
+int main(){
+    int age;
+    printf("Enter your age:\n");
+    
+    scanf("%ld",age);
+    if (age < 12){
+        printf("child\n");
+    } else if (age <= 15){
+        printf("pre adolescent\n");
+    } else if (age <= 18){
+        printf("adolescent\n");
+    } else if (age < 60) {
+        printf("adult\n");
+    } else {
+        printf("elder\n");
+    }
+}
