@@ -4,7 +4,7 @@ Com isso em mente, a linguagem tem suporte a números int e float. Além disso, 
 A linguagem também possui suporte a funções, que podem ser recursivas.
 Para possibilitar a entrada e saída de dados, a linguagem possui suporte a funções como scanf e printf de C.
 
-A linguagem balbismo possui esta notação EBNF:
+A gramatica linguagem balbismo é definida por este EBNF:
 ```
 PROGRAM = FUNCTION_LIST ;
 
