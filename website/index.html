@@ -1,0 +1,745 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balbismo Compiler - A Simple Programming Language for Mathematical Computing</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        'primary': '#3b82f6',
+                        'primary-dark': '#2563eb',
+                        'secondary': '#8b5cf6',
+                        'accent': '#f59e0b',
+                        'dark': '#0f172a',
+                        'darker': '#020617',
+                        'card': '#1e293b',
+                        'card-hover': '#334155',
+                    },
+                    animation: {
+                        'fade-in': 'fadeIn 0.6s ease-out',
+                        'slide-down': 'slideDown 0.4s ease-out',
+                        'glow': 'glow 2s ease-in-out infinite alternate',
+                    },
+                    keyframes: {
+                        fadeIn: {
+                            '0%': { opacity: '0', transform: 'translateY(20px)' },
+                            '100%': { opacity: '1', transform: 'translateY(0)' },
+                        },
+                        slideDown: {
+                            '0%': { maxHeight: '0', opacity: '0' },
+                            '100%': { maxHeight: '1000px', opacity: '1' },
+                        },
+                        glow: {
+                            '0%': { boxShadow: '0 0 20px rgba(59, 130, 246, 0.5)' },
+                            '100%': { boxShadow: '0 0 30px rgba(59, 130, 246, 0.8)' },
+                        }
+                    }
+                }
+            }
+        }
+    </script>
+
+</head>
+<body class="font-sans text-gray-100 bg-gradient-to-br from-dark via-darker to-black min-h-screen">
+    <header class="bg-card/80 backdrop-blur-md py-6 sticky top-0 z-50 border-b border-gray-700/50 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-center">
+                <a href="#" class="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent hover:scale-105 transition-transform duration-300">Balbismo</a>
+                <nav class="hidden md:flex space-x-10">
+                    <a href="#features" class="text-gray-300 hover:text-white font-medium transition-colors duration-300 relative group">
+                        Features
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#compiler" class="text-gray-300 hover:text-white font-medium transition-colors duration-300 relative group">
+                        Compiler
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#examples" class="text-gray-300 hover:text-white font-medium transition-colors duration-300 relative group">
+                        Examples
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="#grammar" class="text-gray-300 hover:text-white font-medium transition-colors duration-300 relative group">
+                        Grammar
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                    <a href="language.html" class="text-gray-300 hover:text-white font-medium transition-colors duration-300 relative group">
+                        Language
+                        <span class="absolute -bottom-1 left-0 w-0 h-0.5 bg-primary transition-all duration-300 group-hover:w-full"></span>
+                    </a>
+                </nav>
+                <!-- Mobile menu button -->
+                <button class="md:hidden mobile-menu-toggle text-gray-300 hover:text-white transition-colors p-2">
+                    <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                    </svg>
+                </button>
+
+                <!-- Mobile menu -->
+                <nav class="mobile-menu hidden md:hidden absolute top-full left-0 right-0 bg-card/95 backdrop-blur-md border-t border-gray-700/50 shadow-2xl">
+                    <div class="px-6 py-6 space-y-4">
+                        <a href="#features" class="block text-gray-300 hover:text-white font-medium transition-colors duration-300 py-2">Features</a>
+                        <a href="#compiler" class="block text-gray-300 hover:text-white font-medium transition-colors duration-300 py-2">Compiler</a>
+                        <a href="#examples" class="block text-gray-300 hover:text-white font-medium transition-colors duration-300 py-2">Examples</a>
+                        <a href="#grammar" class="block text-gray-300 hover:text-white font-medium transition-colors duration-300 py-2">Grammar</a>
+                    </div>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <section class="relative py-32 overflow-hidden">
+        <div class="absolute inset-0 bg-gradient-to-br from-primary/10 via-secondary/5 to-accent/10"></div>
+        <div class="absolute inset-0">
+            <div class="absolute top-0 left-1/4 w-96 h-96 bg-primary/20 rounded-full blur-3xl animate-pulse"></div>
+            <div class="absolute bottom-0 right-1/4 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-pulse delay-1000"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-72 h-72 bg-accent/10 rounded-full blur-2xl animate-glow"></div>
+        </div>
+        <div class="relative max-w-7xl mx-auto px-6">
+            <div class="text-center animate-fade-in">
+                <h1 class="text-7xl md:text-8xl font-bold mb-8 bg-gradient-to-r from-white via-primary to-secondary bg-clip-text text-transparent leading-tight">
+                    Balbismo Compiler
+                </h1>
+                <p class="text-xl md:text-2xl mb-16 max-w-4xl mx-auto text-gray-300 leading-relaxed font-light">
+                    A powerful programming language designed for mathematical computations, seamlessly combining the elegance of high-level syntax with the efficiency of low-level execution.
+                </p>
+                <div class="flex flex-col sm:flex-row gap-6 justify-center">
+                    <a href="#examples" class="group bg-gradient-to-r from-primary to-primary-dark hover:from-primary-dark hover:to-primary text-white px-12 py-5 rounded-2xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-2xl inline-flex items-center justify-center gap-3 animate-glow">
+                        <span>View Examples</span>
+                        <svg class="w-5 h-5 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7l5 5m0 0l-5 5m5-5H6"></path>
+                        </svg>
+                    </a>
+                    <a href="https://github.com/arieltl/balbismo-compiler" class="group bg-card/50 hover:bg-card text-white px-12 py-5 rounded-2xl font-semibold border-2 border-gray-600 hover:border-primary transition-all duration-300 inline-flex items-center justify-center gap-3 backdrop-blur-sm">
+                        <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                            <path d="M12 0c-6.626 0-12 5.373-12 12 0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23.957-.266 1.983-.399 3.003-.404 1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576 4.765-1.589 8.199-6.086 8.199-11.386 0-6.627-5.373-12-12-12z"/>
+                        </svg>
+                        <span>Get Started</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <div class="max-w-7xl mx-auto px-6">
+        <main class="space-y-24">
+            <section id="features" class="py-24">
+                <div class="text-center mb-20 animate-fade-in">
+                    <h2 class="text-5xl md:text-6xl font-bold text-white mb-8 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Language Features</h2>
+                    <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                        Powerful features designed for mathematical computing with a clean, intuitive syntax
+                    </p>
+                </div>
+                <div class="grid lg:grid-cols-2 gap-10">
+                    <div class="group bg-card rounded-2xl p-8 shadow-2xl hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-3 border border-gray-700/50 hover:border-primary/50">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">📊</div>
+                        <h4 class="text-2xl font-bold text-white mb-6">Data Types</h4>
+                        <p class="text-gray-300 mb-8 leading-relaxed">Support for <strong class="text-primary font-semibold">int</strong> and <strong class="text-primary font-semibold">float</strong> primitive types, with automatic type conversion for mathematical operations.</p>
+                        <div class="bg-gray-900 text-gray-100 p-6 rounded-xl font-mono text-base overflow-x-auto whitespace-nowrap max-w-full shadow-inner border border-gray-700">
+<span class="text-blue-400">int</span> x = <span class="text-green-400">5</span>;<br>
+<span class="text-blue-400">float</span> y = <span class="text-green-400">3.14</span>;<br>
+<span class="text-gray-500">// Automatic conversion to float when mixing types</span><br>
+<span class="text-blue-400">float</span> result = x + y;
+                        </div>
+                    </div>
+
+                    <div class="group bg-card rounded-2xl p-8 shadow-2xl hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-3 border border-gray-700/50 hover:border-primary/50">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">📦</div>
+                        <h4 class="text-2xl font-bold text-white mb-6">Arrays</h4>
+                        <p class="text-gray-300 mb-8 leading-relaxed">Dynamic and static arrays with support for both integer and float types. Arrays are passed by reference.</p>
+                        <div class="bg-gray-900 text-gray-100 p-6 rounded-xl font-mono text-base overflow-x-auto whitespace-nowrap max-w-full shadow-inner border border-gray-700">
+<span class="text-blue-400">int</span>[<span class="text-green-400">5</span>] staticArray;<br>
+<span class="text-blue-400">int</span>[size] dynamicArray;<br>
+<span class="text-blue-400">float</span>[] floatArray;
+                        </div>
+                    </div>
+
+                    <div class="group bg-card rounded-2xl p-8 shadow-2xl hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-3 border border-gray-700/50 hover:border-primary/50">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">🔧</div>
+                        <h4 class="text-2xl font-bold text-white mb-6">Functions</h4>
+                        <p class="text-gray-300 mb-8 leading-relaxed">Support for function declarations, parameters, and recursive functions with proper return types.</p>
+                        <div class="bg-gray-900 text-gray-100 p-6 rounded-xl font-mono text-base overflow-x-auto whitespace-nowrap max-w-full shadow-inner border border-gray-700">
+<span class="text-blue-400">int</span> factorial(<span class="text-blue-400">int</span> n) {<br>
+&nbsp;&nbsp;<span class="text-purple-400">if</span> (n == <span class="text-green-400">0</span>) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-green-400">1</span>;<br>
+&nbsp;&nbsp;} <span class="text-purple-400">else</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> n * factorial(n - <span class="text-green-400">1</span>);<br>
+&nbsp;&nbsp;}<br>
+}
+                        </div>
+                    </div>
+
+                    <div class="group bg-card rounded-2xl p-8 shadow-2xl hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-3 border border-gray-700/50 hover:border-primary/50">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">🔄</div>
+                        <h4 class="text-2xl font-bold text-white mb-6">Control Structures</h4>
+                        <p class="text-gray-300 mb-8 leading-relaxed">Traditional control flow with if-else statements and while loops for iterative programming.</p>
+                        <div class="bg-gray-900 text-gray-100 p-6 rounded-xl font-mono text-base overflow-x-auto whitespace-nowrap max-w-full shadow-inner border border-gray-700">
+<span class="text-purple-400">if</span> (age < <span class="text-green-400">18</span>) {<br>
+&nbsp;&nbsp;printf(<span class="text-yellow-400">"Minor\n"</span>);<br>
+} <span class="text-purple-400">else</span> {<br>
+&nbsp;&nbsp;printf(<span class="text-yellow-400">"Adult\n"</span>);<br>
+}<br><br>
+<span class="text-purple-400">while</span> (i < <span class="text-green-400">10</span>) {<br>
+&nbsp;&nbsp;i = i + <span class="text-green-400">1</span>;<br>
+}
+                        </div>
+                    </div>
+
+                    <div class="group bg-card rounded-2xl p-8 shadow-2xl hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-3 border border-gray-700/50 hover:border-primary/50">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">📝</div>
+                        <h4 class="text-2xl font-bold text-white mb-6">I/O Operations</h4>
+                        <p class="text-gray-300 mb-8 leading-relaxed">C-style input/output with printf and scanf functions for formatted input and output.</p>
+                        <div class="bg-gray-900 text-gray-100 p-6 rounded-xl font-mono text-base overflow-x-auto whitespace-nowrap max-w-full shadow-inner border border-gray-700">
+printf(<span class="text-yellow-400">"Enter your age: "</span>);<br>
+scanf(<span class="text-yellow-400">"%ld"</span>, age);<br>
+printf(<span class="text-yellow-400">"You are %d years old\n"</span>, age);
+                        </div>
+                    </div>
+
+                    <div class="group bg-card rounded-2xl p-8 shadow-2xl hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-3 border border-gray-700/50 hover:border-primary/50">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">🧮</div>
+                        <h4 class="text-2xl font-bold text-white mb-6">Mathematical Operations</h4>
+                        <p class="text-gray-300 mb-8 leading-relaxed">Full support for arithmetic, logical, and relational operators with proper precedence.</p>
+                        <div class="bg-gray-900 text-gray-100 p-6 rounded-xl font-mono text-base overflow-x-auto whitespace-nowrap max-w-full shadow-inner border border-gray-700">
+<span class="text-blue-400">int</span> result = a + b * c;<br>
+<span class="text-blue-400">bool</span> condition = x > <span class="text-green-400">0</span> && y < <span class="text-green-400">100</span>;<br>
+<span class="text-blue-400">float</span> division = x / y;
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+                        <section id="compiler" class="py-24">
+                <div class="text-center mb-20 animate-fade-in">
+                    <h2 class="text-5xl md:text-6xl font-bold text-white mb-8 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Compiler Architecture</h2>
+                    <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                    The Balbismo compiler is built using a modern pipeline that generates LLVM IR code for optimal performance and portability.
+                </p>
+                </div>
+                
+                <div class="grid lg:grid-cols-4 gap-8 mb-20">
+                    <div class="group bg-gradient-to-br from-primary to-secondary text-white p-8 rounded-2xl text-center transform hover:scale-105 transition-all duration-300 hover:shadow-2xl border border-primary/20">
+                        <div class="text-5xl mb-6 group-hover:animate-bounce">🔍</div>
+                        <h4 class="text-xl font-bold mb-4">1. Lexical Analysis</h4>
+                        <p class="text-base opacity-90 leading-relaxed">Flex (lexical analyzer) tokenizes the source code</p>
+                    </div>
+                    <div class="group bg-gradient-to-br from-purple-500 to-pink-500 text-white p-8 rounded-2xl text-center transform hover:scale-105 transition-all duration-300 hover:shadow-2xl border border-purple-400/20">
+                        <div class="text-5xl mb-6 group-hover:animate-bounce">🌳</div>
+                        <h4 class="text-xl font-bold mb-4">2. Syntax Analysis</h4>
+                        <p class="text-base opacity-90 leading-relaxed">Bison (parser generator) builds the Abstract Syntax Tree</p>
+                    </div>
+                    <div class="group bg-gradient-to-br from-green-500 to-teal-500 text-white p-8 rounded-2xl text-center transform hover:scale-105 transition-all duration-300 hover:shadow-2xl border border-green-400/20">
+                        <div class="text-5xl mb-6 group-hover:animate-bounce">🧠</div>
+                        <h4 class="text-xl font-bold mb-4">3. Semantic Analysis</h4>
+                        <p class="text-base opacity-90 leading-relaxed">Dart-based semantic analyzer with symbol table</p>
+                    </div>
+                    <div class="group bg-gradient-to-br from-orange-500 to-red-500 text-white p-8 rounded-2xl text-center transform hover:scale-105 transition-all duration-300 hover:shadow-2xl border border-orange-400/20">
+                        <div class="text-5xl mb-6 group-hover:animate-bounce">⚡</div>
+                        <h4 class="text-xl font-bold mb-4">4. Code Generation</h4>
+                        <p class="text-base opacity-90 leading-relaxed">LLVM IR generation for cross-platform compilation</p>
+                    </div>
+                </div>
+
+                <h3 class="text-4xl font-bold text-white mb-16 text-center bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Compilation Modes</h3>
+                <div class="grid lg:grid-cols-3 gap-8">
+                    <div class="group bg-card rounded-2xl p-8 shadow-2xl hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-3 border border-gray-700/50 hover:border-primary/50">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">🔄</div>
+                        <h4 class="text-2xl font-bold text-white mb-6">Generate IR</h4>
+                        <div class="bg-gray-900 p-4 rounded-xl mb-6 font-mono text-base border border-gray-700">
+                            <span class="text-primary font-semibold">balbismo gen-ir</span> file.balbismo
+                        </div>
+                        <p class="text-gray-300 leading-relaxed">Generates LLVM Intermediate Representation code</p>
+                    </div>
+                    <div class="group bg-card rounded-2xl p-8 shadow-2xl hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-3 border border-gray-700/50 hover:border-primary/50">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">⚡</div>
+                        <h4 class="text-2xl font-bold text-white mb-6">Optimize IR</h4>
+                        <div class="bg-gray-900 p-4 rounded-xl mb-6 font-mono text-base border border-gray-700">
+                            <span class="text-primary font-semibold">balbismo opt-ir</span> file.balbismo
+                        </div>
+                        <p class="text-gray-300 leading-relaxed">Generates optimized LLVM IR using LLVM's optimization passes</p>
+                    </div>
+                    <div class="group bg-card rounded-2xl p-8 shadow-2xl hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-3 border border-gray-700/50 hover:border-primary/50">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">🔧</div>
+                        <h4 class="text-2xl font-bold text-white mb-6">Generate Assembly</h4>
+                        <div class="bg-gray-900 p-4 rounded-xl mb-6 font-mono text-base border border-gray-700">
+                            <span class="text-primary font-semibold">balbismo gen-asm</span> file.balbismo
+                        </div>
+                        <p class="text-gray-300 leading-relaxed">Generates target-specific assembly code</p>
+                    </div>
+                    <div class="group bg-card rounded-2xl p-8 shadow-2xl hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-3 border border-gray-700/50 hover:border-primary/50">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">📦</div>
+                        <h4 class="text-2xl font-bold text-white mb-6">Compile Binary</h4>
+                        <div class="bg-gray-900 p-4 rounded-xl mb-6 font-mono text-base border border-gray-700">
+                            <span class="text-primary font-semibold">balbismo compile</span> file.balbismo
+                        </div>
+                        <p class="text-gray-300 leading-relaxed">Compiles to native executable binary</p>
+                    </div>
+                    <div class="group bg-card rounded-2xl p-8 shadow-2xl hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-3 border border-gray-700/50 hover:border-primary/50">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">▶️</div>
+                        <h4 class="text-2xl font-bold text-white mb-6">Run Directly</h4>
+                        <div class="bg-gray-900 p-4 rounded-xl mb-6 font-mono text-base border border-gray-700">
+                            <span class="text-primary font-semibold">balbismo run</span> file.balbismo
+                        </div>
+                        <p class="text-gray-300 leading-relaxed">Compiles and executes the program immediately</p>
+                    </div>
+                    <div class="group bg-gradient-to-br from-accent to-yellow-400 text-gray-900 rounded-2xl p-8 shadow-2xl hover:shadow-accent/20 transition-all duration-300 transform hover:-translate-y-3 border border-accent/20">
+                        <div class="text-5xl mb-6 group-hover:scale-110 transition-transform duration-300">🎯</div>
+                        <h4 class="text-2xl font-bold mb-6">Choose Your Mode</h4>
+                        <p class="opacity-90 leading-relaxed">Multiple compilation options for different use cases and performance requirements</p>
+                    </div>
+                </div>
+            </section>
+
+            <section id="examples" class="py-24">
+                <div class="text-center mb-20 animate-fade-in">
+                    <h2 class="text-5xl md:text-6xl font-bold text-white mb-8 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Code Examples</h2>
+                    <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                        Explore the power and simplicity of Balbismo through practical examples
+                    </p>
+                </div>
+                
+                <div class="mb-20">
+                    <h3 class="text-3xl font-bold text-white mb-8 text-center">Hello World</h3>
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <div class="bg-gray-900 text-gray-100 p-8 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-700">
+                            <div class="text-gray-400 text-sm mb-4 font-semibold">Source Code</div>
+<span class="text-blue-400">int</span> main() {<br>
+&nbsp;&nbsp;printf(<span class="text-yellow-400">"Hello, World!\n"</span>);<br>
+}
+                        </div>
+                        <div class="bg-gray-800 text-gray-100 p-8 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-600">
+                            <div class="text-gray-400 text-sm mb-4 font-semibold">Program Output</div>
+<span class="text-green-400">Hello, World!</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-20">
+                    <h3 class="text-3xl font-bold text-white mb-8 text-center">Mathematical Operations</h3>
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <div class="bg-gray-900 text-gray-100 p-8 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-700">
+                            <div class="text-gray-400 text-sm mb-4 font-semibold">Source Code</div>
+<span class="text-blue-400">int</span> main() {<br>
+&nbsp;&nbsp;<span class="text-blue-400">int</span> x = <span class="text-green-400">5</span>;<br>
+&nbsp;&nbsp;<span class="text-blue-400">int</span> y = -<span class="text-green-400">2</span>;<br>
+&nbsp;&nbsp;<span class="text-blue-400">float</span> z = <span class="text-green-400">30.3</span>;<br>
+&nbsp;&nbsp;<span class="text-gray-500">// Automatic float conversion</span><br>
+&nbsp;&nbsp;printf(<span class="text-yellow-400">"%f\n"</span>, <span class="text-green-400">10</span> + y + x - <span class="text-green-400">1.2</span> + z);<br>
+}
+                        </div>
+                        <div class="bg-gray-800 text-gray-100 p-8 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-600">
+                            <div class="text-gray-400 text-sm mb-4 font-semibold">Program Output</div>
+<span class="text-green-400">42.100000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-20">
+                    <h3 class="text-3xl font-bold text-white mb-8 text-center">Conditional Statements</h3>
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <div class="bg-gray-900 text-gray-100 p-8 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-700">
+                            <div class="text-gray-400 text-sm mb-4 font-semibold">Source Code</div>
+<span class="text-blue-400">int</span> main() {<br>
+&nbsp;&nbsp;<span class="text-blue-400">int</span> age;<br>
+&nbsp;&nbsp;printf(<span class="text-yellow-400">"Enter your age:\n"</span>);<br>
+&nbsp;&nbsp;scanf(<span class="text-yellow-400">"%ld"</span>, age);<br>
+&nbsp;&nbsp;<span class="text-purple-400">if</span> (age < <span class="text-green-400">12</span>) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;printf(<span class="text-yellow-400">"child\n"</span>);<br>
+&nbsp;&nbsp;} <span class="text-purple-400">else if</span> (age <= <span class="text-green-400">15</span>) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;printf(<span class="text-yellow-400">"pre adolescent\n"</span>);<br>
+&nbsp;&nbsp;} <span class="text-purple-400">else</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;printf(<span class="text-yellow-400">"adult\n"</span>);<br>
+&nbsp;&nbsp;}<br>
+}
+                        </div>
+                        <div class="bg-gray-800 text-gray-100 p-8 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-600">
+                            <div class="text-gray-400 text-sm mb-4 font-semibold">Program Output</div>
+<span class="text-cyan-400">Enter your age:</span><br>
+<span class="text-gray-500">[waits for user input]</span><br>
+<span class="text-gray-500">Example outputs:</span><br>
+<span class="text-green-400">child</span> <span class="text-gray-500">(if age < 12)</span><br>
+<span class="text-green-400">pre adolescent</span> <span class="text-gray-500">(if age ≤ 15)</span><br>
+<span class="text-green-400">adult</span> <span class="text-gray-400">(if age > 15)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-20">
+                    <h3 class="text-3xl font-bold text-white mb-8 text-center">Arrays and Functions</h3>
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <div class="bg-gray-900 text-gray-100 p-8 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-700">
+                            <div class="text-gray-400 text-sm mb-4 font-semibold">Source Code</div>
+<span class="text-blue-400">int</span> sum(<span class="text-blue-400">int</span>[] nums, <span class="text-blue-400">int</span> size) {<br>
+&nbsp;&nbsp;<span class="text-blue-400">int</span> total = <span class="text-green-400">0</span>;<br>
+&nbsp;&nbsp;<span class="text-blue-400">int</span> i = <span class="text-green-400">0</span>;<br>
+&nbsp;&nbsp;<span class="text-purple-400">while</span> (i < size) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;total = total + nums[i];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;i = i + <span class="text-green-400">1</span>;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="text-purple-400">return</span> total;<br>
+}<br>
+<br>
+<span class="text-blue-400">int</span> main() {<br>
+&nbsp;&nbsp;<span class="text-blue-400">int</span>[<span class="text-green-400">3</span>] arr;<br>
+&nbsp;&nbsp;arr[<span class="text-green-400">0</span>] = <span class="text-green-400">1</span>;<br>
+&nbsp;&nbsp;arr[<span class="text-green-400">1</span>] = <span class="text-green-400">2</span>;<br>
+&nbsp;&nbsp;arr[<span class="text-green-400">2</span>] = <span class="text-green-400">3</span>;<br>
+&nbsp;&nbsp;printf(<span class="text-yellow-400">"Sum: %d\n"</span>, sum(arr, <span class="text-green-400">3</span>));<br>
+}
+                        </div>
+                        <div class="bg-gray-800 text-gray-100 p-8 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-600">
+                            <div class="text-gray-400 text-sm mb-4 font-semibold">Program Output</div>
+<span class="text-green-400">5</span><br>
+<span class="text-green-400">6.000000</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-20">
+                    <h3 class="text-3xl font-bold text-white mb-8 text-center">Recursive Functions</h3>
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <div class="bg-gray-900 text-gray-100 p-8 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-700">
+                            <div class="text-gray-400 text-sm mb-4 font-semibold">Source Code</div>
+<span class="text-blue-400">int</span> factorial(<span class="text-blue-400">int</span> n) {<br>
+&nbsp;&nbsp;<span class="text-purple-400">if</span> (n == <span class="text-green-400">0</span>) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-green-400">1</span>;<br>
+&nbsp;&nbsp;} <span class="text-purple-400">else</span> {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;<span class="text-purple-400">return</span> n * factorial(n - <span class="text-green-400">1</span>);<br>
+&nbsp;&nbsp;}<br>
+}<br>
+<br>
+<span class="text-blue-400">int</span> main() {<br>
+&nbsp;&nbsp;<span class="text-blue-400">int</span> n = <span class="text-green-400">5</span>;<br>
+&nbsp;&nbsp;printf(<span class="text-yellow-400">"Factorial of %d is %d\n"</span>, n, factorial(n));<br>
+}
+                        </div>
+                        <div class="bg-gray-800 text-gray-100 p-8 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-600">
+                            <div class="text-gray-400 text-sm mb-4 font-semibold">Program Output</div>
+<span class="text-green-400">The factorial of 5 is 120</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="mb-20">
+                    <h3 class="text-3xl font-bold text-white mb-8 text-center">Array References & Dynamic Sizing</h3>
+                    <div class="grid lg:grid-cols-2 gap-8">
+                        <div class="bg-gray-900 text-gray-100 p-8 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-700">
+                            <div class="text-gray-400 text-sm mb-4 font-semibold">Source Code</div>
+<span class="text-gray-500">// Arrays are passed by reference,</span><br>
+<span class="text-gray-500">// therefore can be modified inside functions</span><br>
+<span class="text-blue-400">int</span> fillArray(<span class="text-blue-400">int</span>[] arr, <span class="text-blue-400">int</span> number, <span class="text-blue-400">int</span> size) {<br>
+&nbsp;&nbsp;<span class="text-blue-400">int</span> i = <span class="text-green-400">0</span>;<br>
+&nbsp;&nbsp;<span class="text-purple-400">while</span> (i < size) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;arr[i] = number;<br>
+&nbsp;&nbsp;&nbsp;&nbsp;i = i + <span class="text-green-400">1</span>;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="text-purple-400">return</span> <span class="text-green-400">0</span>;<br>
+}<br>
+<br>
+<span class="text-blue-400">int</span> main() {<br>
+&nbsp;&nbsp;<span class="text-blue-400">int</span> arraySize;<br>
+&nbsp;&nbsp;printf(<span class="text-yellow-400">"Choose the size of the array:\n"</span>);<br>
+&nbsp;&nbsp;scanf(<span class="text-yellow-400">"%ld"</span>, arraySize);<br>
+&nbsp;&nbsp;<span class="text-blue-400">int</span>[arraySize] arr;<br>
+&nbsp;&nbsp;fillArray(arr, <span class="text-green-400">5</span>, arraySize);<br>
+&nbsp;&nbsp;printArray(arr, arraySize);<br>
+&nbsp;&nbsp;fillArray(arr, <span class="text-green-400">7</span>, arraySize);<br>
+&nbsp;&nbsp;printArray(arr, arraySize);<br>
+}
+                        </div>
+                        <div class="bg-gray-800 text-gray-100 p-8 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-600">
+                            <div class="text-gray-400 text-sm mb-4 font-semibold">Program Output</div>
+<span class="text-cyan-400">Choose the size of the array:</span><br>
+<span class="text-gray-500">[User input: 3]</span><br>
+<span class="text-green-400">5 5 5</span><br>
+<span class="text-cyan-400">Choose a new number to fill array:</span><br>
+<span class="text-gray-500">[User input: 7]</span><br>
+<span class="text-green-400">7 7 7</span>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+                        <section id="grammar" class="py-24">
+                <div class="text-center mb-20 animate-fade-in">
+                    <h2 class="text-5xl md:text-6xl font-bold text-white mb-8 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Language Grammar</h2>
+                    <p class="text-xl md:text-2xl text-gray-300 max-w-4xl mx-auto leading-relaxed">
+                    Balbismo follows a clean, C-like syntax with support for mathematical operations and structured programming.
+                </p>
+                </div>
+
+                <div class="max-w-4xl mx-auto">
+                    <button class="grammar-toggle w-full bg-gradient-to-r from-primary to-secondary hover:from-primary-dark hover:to-secondary-dark text-white px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl mb-6 flex items-center justify-center gap-3">
+                        <span class="text-2xl">📋</span>
+                        <span>View EBNF Grammar Rules</span>
+                    </button>
+                    <div class="grammar-content hidden bg-card rounded-2xl p-8 shadow-2xl border border-gray-700/50 mb-8">
+                        <h3 class="text-2xl font-bold text-white mb-6 text-center">Core Grammar Rules (EBNF)</h3>
+                        <div class="bg-gray-900 text-gray-100 p-8 rounded-xl font-mono text-base overflow-x-auto leading-relaxed">
+<div class="space-y-4">
+<div class="border-l-4 border-primary pl-4">
+    <span class="text-primary font-semibold">PROGRAM</span> = FUNCTION_LIST ;
+</div>
+
+<div class="border-l-4 border-secondary pl-4">
+    <span class="text-secondary font-semibold">FUNCTION_LIST</span> = FUNCTION_DECLARATION, { FUNCTION_DECLARATION } ;
+</div>
+
+<div class="border-l-4 border-accent pl-4">
+    <span class="text-accent font-semibold">FUNCTION_DECLARATION</span> = TYPE, IDENTIFIER, '(', PARAMETER_LIST, ')', BLOCK ;
+</div>
+
+<div class="ml-8 text-sm text-gray-400">
+    <span class="text-primary font-semibold">PARAMETER_LIST</span> = [ PARAMETER, { ',', PARAMETER } ] ;<br>
+    <span class="text-primary font-semibold">PARAMETER</span> = PARAMETER_TYPE, IDENTIFIER ;<br>
+    <span class="text-primary font-semibold">TYPE</span> = PRIMITIVE_TYPE ;<br>
+    <span class="text-primary font-semibold">PRIMITIVE_TYPE</span> = 'int' | 'float' ;
+</div>
+
+<div class="border-l-4 border-green-400 pl-4">
+    <span class="text-green-400 font-semibold">BLOCK</span> = '{', STATEMENT_LIST, '}' ;
+</div>
+
+<div class="ml-8 text-sm text-gray-400">
+    <span class="text-green-400 font-semibold">STATEMENT_LIST</span> = { STATEMENT } ;
+</div>
+
+<div class="border-l-4 border-purple-400 pl-4">
+    <span class="text-purple-400 font-semibold">STATEMENT</span> =
+</div>
+<div class="ml-12 text-sm text-gray-300 space-y-1">
+    &nbsp;&nbsp;&nbsp;&nbsp;DECLARATION, ';'<br>
+    &nbsp;&nbsp;| ASSIGNMENT, ';'<br>
+    &nbsp;&nbsp;| PRINT, ';'<br>
+    &nbsp;&nbsp;| INPUT, ';'<br>
+    &nbsp;&nbsp;| IF_STATEMENT<br>
+    &nbsp;&nbsp;| WHILE_STATEMENT<br>
+    &nbsp;&nbsp;| RETURN_STATEMENT<br>
+    &nbsp;&nbsp;| FUNCTION_CALL_STATEMENT, ';'<br>
+    &nbsp;&nbsp;| BLOCK<br>
+    &nbsp;&nbsp;;
+</div>
+
+<div class="border-l-4 border-blue-400 pl-4">
+    <span class="text-blue-400 font-semibold">DECLARATION</span> = VARIABLE_TYPE, IDENTIFIER, [ '=', EXPRESSION ] ;
+</div>
+
+<div class="ml-8 text-sm text-gray-400">
+    <span class="text-blue-400 font-semibold">ASSIGNMENT</span> = VARIABLE, '=', EXPRESSION ;
+</div>
+
+<div class="border-l-4 border-yellow-400 pl-4">
+    <span class="text-yellow-400 font-semibold">PRINT</span> = 'printf', '(', STRING_LITERAL, [ ',', EXPRESSION_LIST ], ')' ;
+</div>
+
+<div class="ml-8 text-sm text-gray-400">
+    <span class="text-yellow-400 font-semibold">INPUT</span> = 'scanf', '(', STRING_LITERAL, [ ',', VARIABLE_LIST ], ')' ;
+</div>
+
+<div class="border-l-4 border-red-400 pl-4">
+    <span class="text-red-400 font-semibold">IF_STATEMENT</span> = 'if', '(', EXPRESSION, ')', BLOCK, [ ELSE_CLAUSE ] ;
+</div>
+
+<div class="ml-8 text-sm text-gray-400">
+    <span class="text-red-400 font-semibold">WHILE_STATEMENT</span> = 'while', '(', EXPRESSION, ')', BLOCK ;<br>
+    <span class="text-red-400 font-semibold">RETURN_STATEMENT</span> = 'return', [ EXPRESSION ], ';' ;
+</div>
+
+<div class="border-l-4 border-cyan-400 pl-4">
+    <span class="text-cyan-400 font-semibold">EXPRESSION</span> = LOGICAL_OR ;
+</div>
+
+<div class="ml-8 text-sm text-gray-400 space-y-1">
+    <span class="text-cyan-400 font-semibold">LOGICAL_OR</span> = LOGICAL_AND, { '||', LOGICAL_AND } ;<br>
+    <span class="text-cyan-400 font-semibold">LOGICAL_AND</span> = EQUALITY, { '&&', EQUALITY } ;<br>
+    <span class="text-cyan-400 font-semibold">EQUALITY</span> = RELATIONAL, { ( '==' | '!=' ), RELATIONAL } ;<br>
+    <span class="text-cyan-400 font-semibold">RELATIONAL</span> = ADDITIVE, { ( '>' | '<' | '>=' | '<=' ), ADDITIVE } ;<br>
+    <span class="text-cyan-400 font-semibold">ADDITIVE</span> = MULTIPLICATIVE, { ( '+' | '-' ), MULTIPLICATIVE } ;<br>
+    <span class="text-cyan-400 font-semibold">MULTIPLICATIVE</span> = UNARY, { ( '*' | '/' | '%' ), UNARY } ;<br>
+    <span class="text-cyan-400 font-semibold">UNARY</span> = [ ( '+' | '-' | '!' ) ], PRIMARY ;
+</div>
+</div>
+                        </div>
+                    </div>
+
+                    <button class="diagram-toggle w-full bg-gradient-to-r from-accent to-yellow-400 hover:from-yellow-400 hover:to-accent text-gray-900 px-8 py-4 rounded-2xl font-semibold text-lg transition-all duration-300 transform hover:scale-105 hover:shadow-2xl mb-6 flex items-center justify-center gap-3">
+                        <span class="text-2xl">📊</span>
+                        <span>View Syntax Diagram</span>
+                    </button>
+                    <div class="diagram-content hidden bg-card rounded-2xl p-8 shadow-2xl border border-gray-700/50">
+                        <h3 class="text-2xl font-bold text-white mb-6 text-center">Visual Syntax Diagram</h3>
+                        <p class="text-gray-300 text-center mb-8 leading-relaxed">Complete visual representation of the Balbismo language grammar:</p>
+                        <div class="flex justify-center">
+                            <img src="ds.png" alt="Balbismo Syntax Diagram" class="max-w-full h-auto rounded-xl shadow-2xl border border-gray-700" title="Syntax diagram showing the complete grammar structure of the Balbismo programming language">
+                        </div>
+                    </div>
+                </div>
+
+                <div class="grid lg:grid-cols-2 gap-8 mt-20">
+                    <div class="bg-card rounded-2xl p-8 shadow-2xl hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-3 border border-gray-700/50 hover:border-primary/50">
+                        <div class="text-5xl mb-6">🔤</div>
+                        <h4 class="text-2xl font-bold text-white mb-6">Identifiers</h4>
+                        <p class="text-gray-300 leading-relaxed">Variable and function names can contain letters, digits, and underscores, starting with a letter.</p>
+                    </div>
+                    <div class="bg-card rounded-2xl p-8 shadow-2xl hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-3 border border-gray-700/50 hover:border-primary/50">
+                        <div class="text-5xl mb-6">🔢</div>
+                        <h4 class="text-2xl font-bold text-white mb-6">Numbers</h4>
+                        <p class="text-gray-300 leading-relaxed">Support for integer and floating-point literals with optional negative signs.</p>
+                    </div>
+                    <div class="bg-card rounded-2xl p-8 shadow-2xl hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-3 border border-gray-700/50 hover:border-primary/50">
+                        <div class="text-5xl mb-6">📝</div>
+                        <h4 class="text-2xl font-bold text-white mb-6">Strings</h4>
+                        <p class="text-gray-300 leading-relaxed">String literals enclosed in double quotes for printf and scanf functions.</p>
+                    </div>
+                    <div class="bg-card rounded-2xl p-8 shadow-2xl hover:shadow-primary/20 transition-all duration-300 transform hover:-translate-y-3 border border-gray-700/50 hover:border-primary/50">
+                        <div class="text-5xl mb-6">🔧</div>
+                        <h4 class="text-2xl font-bold text-white mb-6">Arrays</h4>
+                        <p class="text-gray-300 leading-relaxed">Array types with optional size specification and array access with index expressions.</p>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <footer class="bg-gray-900 text-white py-20">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="text-center">
+                <h3 class="text-3xl font-bold mb-4 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Balbismo Compiler</h3>
+                <p class="text-xl text-gray-300 mb-8 max-w-2xl mx-auto leading-relaxed">
+                    A simple programming language for mathematical computing, combining the best of high-level and low-level programming paradigms.
+                </p>
+
+                <div class="flex flex-col md:flex-row justify-center items-center gap-8 mb-8">
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-primary to-secondary rounded-full flex items-center justify-center mx-auto mb-3">
+                            <span class="text-2xl">👨‍💻</span>
+                        </div>
+                        <h4 class="font-semibold text-lg">Ariel Leventhal</h4>
+                        <p class="text-gray-400">Core Developer</p>
+                    </div>
+                    <div class="text-center">
+                        <div class="w-16 h-16 bg-gradient-to-r from-secondary to-accent rounded-full flex items-center justify-center mx-auto mb-3">
+                            <span class="text-2xl">👨‍💻</span>
+                        </div>
+                        <h4 class="font-semibold text-lg">Pedro Portella</h4>
+                        <p class="text-gray-400">Core Developer</p>
+                    </div>
+                </div>
+
+                <div class="border-t border-gray-700 pt-8">
+                    <a href="https://youtu.be/nJbhhECG1SU" class="inline-flex items-center gap-3 bg-gradient-to-r from-red-500 to-red-600 hover:from-red-600 hover:to-red-700 text-white px-8 py-3 rounded-xl font-semibold transition-all duration-300 transform hover:scale-105 hover:shadow-2xl">
+                        <span class="text-xl">📺</span>
+                        <span>Watch Demo Video</span>
+                    </a>
+                </div>
+
+                <div class="mt-8 pt-8 border-t border-gray-700">
+                    <p class="text-gray-400 text-sm">
+                        Built with ❤️ using modern web technologies and compiler design principles
+                    </p>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <script>
+        // Enhanced collapsible functionality with animations
+        document.addEventListener('DOMContentLoaded', function() {
+            // Grammar toggle
+            const grammarToggle = document.querySelector('.grammar-toggle');
+            const grammarContent = document.querySelector('.grammar-content');
+
+            if (grammarToggle && grammarContent) {
+                grammarToggle.addEventListener('click', function() {
+                    grammarContent.classList.toggle('hidden');
+                    const isHidden = grammarContent.classList.contains('hidden');
+                    grammarToggle.innerHTML = isHidden
+                        ? '<span class="text-2xl">📋</span><span>View EBNF Grammar Rules</span>'
+                        : '<span class="text-2xl">📋</span><span>Hide EBNF Grammar Rules</span>';
+                });
+            }
+
+            // Diagram toggle
+            const diagramToggle = document.querySelector('.diagram-toggle');
+            const diagramContent = document.querySelector('.diagram-content');
+
+            if (diagramToggle && diagramContent) {
+                diagramToggle.addEventListener('click', function() {
+                    diagramContent.classList.toggle('hidden');
+                    const isHidden = diagramContent.classList.contains('hidden');
+                    diagramToggle.innerHTML = isHidden
+                        ? '<span class="text-2xl">📊</span><span>View Syntax Diagram</span>'
+                        : '<span class="text-2xl">📊</span><span>Hide Syntax Diagram</span>';
+                });
+            }
+
+            // Mobile menu toggle
+            const mobileMenuToggle = document.querySelector('.mobile-menu-toggle');
+            const mobileMenu = document.querySelector('.mobile-menu');
+
+            if (mobileMenuToggle && mobileMenu) {
+                mobileMenuToggle.addEventListener('click', function() {
+                    mobileMenu.classList.toggle('hidden');
+                    const isHidden = mobileMenu.classList.contains('hidden');
+                    mobileMenuToggle.innerHTML = isHidden
+                        ? '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>'
+                        : '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path></svg>';
+                });
+            }
+
+            // Close mobile menu when clicking on a link
+            document.querySelectorAll('.mobile-menu a').forEach(link => {
+                link.addEventListener('click', function() {
+                    mobileMenu.classList.add('hidden');
+                    mobileMenuToggle.innerHTML = '<svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path></svg>';
+                });
+            });
+
+            // Smooth scrolling for navigation
+            document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+                anchor.addEventListener('click', function (e) {
+                    e.preventDefault();
+                    const target = document.querySelector(this.getAttribute('href'));
+                    if (target) {
+                        target.scrollIntoView({
+                            behavior: 'smooth',
+                            block: 'start'
+                        });
+                    }
+                });
+            });
+
+            // Add intersection observer for fade-in animations
+            const observerOptions = {
+                threshold: 0.1,
+                rootMargin: '0px 0px -50px 0px'
+            };
+
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach(entry => {
+                    if (entry.isIntersecting) {
+                        entry.target.style.opacity = '1';
+                        entry.target.style.transform = 'translateY(0)';
+                    }
+                });
+            }, observerOptions);
+
+            // Observe elements with animate-fade-in class
+            document.querySelectorAll('.animate-fade-in').forEach(el => {
+                el.style.opacity = '0';
+                el.style.transform = 'translateY(20px)';
+                el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+                observer.observe(el);
+            });
+        });
+    </script>
+</body>
+</html>
+

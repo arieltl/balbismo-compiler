@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Balbismo Language Guide</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'sans-serif'],
+                        mono: ['JetBrains Mono', 'Fira Code', 'monospace'],
+                    },
+                    colors: {
+                        'primary': '#3b82f6',
+                        'primary-dark': '#2563eb',
+                        'secondary': '#8b5cf6',
+                        'accent': '#f59e0b',
+                        'dark': '#0f172a',
+                        'darker': '#020617',
+                        'card': '#1e293b',
+                        'card-hover': '#334155',
+                    },
+                }
+            }
+        }
+    </script>
+</head>
+<body class="font-sans text-gray-100 bg-gradient-to-br from-dark via-darker to-black min-h-screen">
+    <header class="bg-card/80 backdrop-blur-md py-6 sticky top-0 z-50 border-b border-gray-700/50 shadow-2xl">
+        <div class="max-w-7xl mx-auto px-6">
+            <div class="flex justify-between items-center">
+                <a href="index.html" class="text-3xl font-bold bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent hover:scale-105 transition-transform duration-300">Balbismo</a>
+                <nav class="hidden md:flex space-x-10">
+                    <a href="index.html#features" class="text-gray-300 hover:text-white font-medium transition-colors duration-300">Features</a>
+                    <a href="index.html#compiler" class="text-gray-300 hover:text-white font-medium transition-colors duration-300">Compiler</a>
+                    <a href="index.html#examples" class="text-gray-300 hover:text-white font-medium transition-colors duration-300">Examples</a>
+                    <a href="index.html#grammar" class="text-gray-300 hover:text-white font-medium transition-colors duration-300">Grammar</a>
+                    <a href="language.html" class="text-white font-semibold">Language</a>
+                </nav>
+            </div>
+        </div>
+    </header>
+
+    <main class="max-w-7xl mx-auto px-4 py-16 space-y-16">
+        <section class="text-center">
+            <h1 class="text-5xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-primary to-secondary bg-clip-text text-transparent">Balbismo Language Guide</h1>
+            <p class="text-xl text-gray-300 max-w-4xl mx-auto">Deep dive into the Balbismo programming language: syntax, semantics, types, arrays, control flow, expressions, casting, I/O, and code generation model.</p>
+        </section>
+
+        <section class="grid lg:grid-cols-2 gap-4 mb-12">
+            <div class="bg-card rounded-2xl p-4 border border-gray-700/50 shadow-2xl">
+                <h2 class="text-3xl font-bold mb-4">Types</h2>
+                <p class="text-gray-300 mb-4">Balbismo provides two primitive numeric types: <span class="text-primary font-semibold">int</span> and <span class="text-primary font-semibold">float</span>. Integers map to LLVM <code class="font-mono">i64</code>; floats map to <code class="font-mono">double</code>.</p>
+                <div class="bg-gray-900 text-gray-100 p-6 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-700">
+<span class="text-blue-400">int</span> a = <span class="text-green-400">10</span>;<br>
+<span class="text-blue-400">float</span> b = <span class="text-green-400">1.5</span>;<br>
+<span class="text-gray-500">// explicit cast</span><br>
+<span class="text-blue-400">int</span> c = <span class="text-blue-400">int</span>(<span class="text-green-400">3.2</span>);<br>
+<span class="text-blue-400">float</span> d = <span class="text-blue-400">float</span>(<span class="text-green-400">7</span>);
+                </div>
+                <p class="text-gray-400 mt-4 text-sm">Implicit numeric promotion happens in expressions: if an operand is float, the other int is promoted to float for the operation.</p>
+                
+                <details class="mt-4">
+                    <summary class="cursor-pointer text-primary hover:text-primary-dark font-semibold text-lg transition-colors duration-300">
+                        🔍 View Generated LLVM IR
+                    </summary>
+                    <div class="mt-3 bg-gray-800 border border-gray-600 rounded-xl p-3 font-mono text-sm overflow-x-auto">
+                        <pre class="text-gray-200"><code>declare i32 @printf(i8*, ...)
+declare i32 @scanf(i8*, ...)
+define i64 @main() {
+entry:
+  %ptr.a.6 = alloca i64
+  %val5 = add i64 0, 10
+  store i64 %val5, ptr %ptr.a.6
+  %ptr.b.10 = alloca double
+  %val9 = fadd double 0.0, 1.5
+  store double %val9, ptr %ptr.b.10
+  %ptr.c.15 = alloca i64
+  %val13 = fadd double 0.0, 3.2
+  %conv.14 = fptosi double %val13 to i64
+  store i64 %val14, ptr %ptr.c.15
+  %ptr.d.20 = alloca double
+  %val18 = add i64 0, 7
+  %conv.19 = sitofp i64 %val18 to double
+  store double %val19, ptr %ptr.d.20
+  %val21 = add i64 0, 0
+  ret i64 %val21
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+
+            <div class="bg-card rounded-2xl p-4 border border-gray-700/50 shadow-2xl">
+                <h2 class="text-3xl font-bold mb-4">Arrays</h2>
+                <p class="text-gray-300 mb-4">Arrays are homogenous (<code class="font-mono">int</code> or <code class="font-mono">float</code>) and support <span class="font-semibold text-primary">runtime sizes</span> in declarations. They are <span class="font-semibold">stack-allocated</span> (via alloca) and <span class="font-semibold">not resizable</span> after creation.</p>
+                <div class="bg-gray-900 text-gray-100 p-6 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-700">
+<span class="text-blue-400">int</span> size = <span class="text-green-400">1</span> + <span class="text-green-400">2</span>;<br>
+<span class="text-blue-400">int</span>[size] arr;<br>
+arr[<span class="text-green-400">0</span>] = <span class="text-green-400">10</span>;<br>
+arr[<span class="text-green-400">1</span>] = <span class="text-green-400">20</span>;<br>
+arr[<span class="text-green-400">2</span>] = <span class="text-green-400">30</span>;
+                </div>
+                <p class="text-gray-400 mt-4 text-sm">The size expression may be computed at runtime. Arrays are passed by reference (pointer semantics). Assigning an entire array is not allowed; assign element-by-element.</p>
+                
+                <details class="mt-4">
+                    <summary class="cursor-pointer text-primary hover:text-primary-dark font-semibold text-lg transition-colors duration-300">
+                        🔍 View Generated LLVM IR
+                    </summary>
+                    <div class="mt-3 bg-gray-800 border border-gray-600 rounded-xl p-3 font-mono text-sm overflow-x-auto">
+                        <pre class="text-gray-200"><code>declare i32 @printf(i8*, ...)
+declare i32 @scanf(i8*, ...)
+define i64 @main() {
+entry:
+  %ptr.size.8 = alloca i64
+  %val5 = add i64 0, 1
+  %val6 = add i64 0, 2
+  %binOp.7 = add i64 %val5, %val6
+  store i64 %binOp.7, ptr %ptr.size.8
+  %var10 = load i64, ptr %ptr.size.8
+  %arrayptr.14 = alloca i64, i64 %var10
+  %ptr.arr.14 = getelementptr i64, i64* %arrayptr.14, i64 0
+  %val17 = add i64 0, 10
+  %val15 = add i64 0, 0
+  %arrayPtr.18 = getelementptr i64, i64* %ptr.arr.14, i64 %val15
+  store i64 %val17, ptr %arrayPtr.18
+  %val21 = add i64 0, 20
+  %val19 = add i64 0, 1
+  %arrayPtr.22 = getelementptr i64, i64* %ptr.arr.14, i64 %val19
+  store i64 %val22, ptr %arrayPtr.22
+  %val25 = add i64 0, 30
+  %val23 = add i64 0, 2
+  %arrayPtr.26 = getelementptr i64, i64* %ptr.arr.14, i64 %val23
+  store i64 %val25, ptr %arrayPtr.26
+  %val27 = add i64 0, 0
+  ret i64 %val27
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <section class="grid lg:grid-cols-2 gap-4 mb-12">
+            <div class="bg-card rounded-2xl p-4 border border-gray-700/50 shadow-2xl">
+                <h2 class="text-3xl font-bold mb-4">Functions</h2>
+                <p class="text-gray-300 mb-4">Functions have typed parameters and a return type. Recursion is supported. Arrays in parameters behave as references.</p>
+                <div class="bg-gray-900 text-gray-100 p-6 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-700">
+<span class="text-blue-400">int</span> sum(<span class="text-blue-400">int</span>[] a, <span class="text-blue-400">int</span> n) {<br>
+&nbsp;&nbsp;<span class="text-blue-400">int</span> i = <span class="text-green-400">0</span>;<br>
+&nbsp;&nbsp;<span class="text-blue-400">int</span> s = <span class="text-green-400">0</span>;<br>
+&nbsp;&nbsp;<span class="text-purple-400">while</span> (i < n) {<br>
+&nbsp;&nbsp;&nbsp;&nbsp;s = s + a[i];<br>
+&nbsp;&nbsp;&nbsp;&nbsp;i = i + <span class="text-green-400">1</span>;<br>
+&nbsp;&nbsp;}<br>
+&nbsp;&nbsp;<span class="text-purple-400">return</span> s;<br>
+}
+                </div>
+                <p class="text-gray-400 mt-4 text-sm">At codegen, parameters are allocated and stored into stack slots. Arrays keep their pointer.</p>
+                
+                <details class="mt-4">
+                    <summary class="cursor-pointer text-primary hover:text-primary-dark font-semibold text-lg transition-colors duration-300">
+                        🔍 View Generated LLVM IR
+                    </summary>
+                    <div class="mt-3 bg-gray-800 border border-gray-600 rounded-xl p-3 font-mono text-sm overflow-x-auto">
+                        <pre class="text-gray-200"><code>declare i32 @printf(i8*, ...)
+declare i32 @scanf(i8*, ...)
+define i64 @sum(i64* %a , i64 %n ) {
+entry:
+  %ptr.n.38 = alloca i64
+  store i64 %n, ptr %ptr.n.38
+  %ptr.i.14 = alloca i64
+  %val13 = add i64 0, 0
+  store i64 %val13, ptr %ptr.i.14
+  %ptr.s.18 = alloca i64
+  %val17 = add i64 0, 0
+  store i64 %val17, ptr %ptr.s.18
+  br label %while.34
+  while.34:
+    %var19 = load i64, ptr %ptr.i.14
+    %var20 = load i64, ptr %ptr.n.38
+    %temp.21 = icmp slt i64 %var19, %var20
+    %relOp.21 = zext i1 %temp.21 to i64
+    %conditionCast.34 = icmp ne i64 %relOp.21, 0
+    br i1 %conditionCast.34, label %block.34, label %end.34
+  block.34:
+    %var23 = load i64, ptr %ptr.s.18
+    %var24 = load i64, ptr %ptr.i.14
+    %arrayPtr.25 = getelementptr i64, i64* %a, i64 %var24
+    %var25 = load i64, ptr %arrayPtr.25
+    %binOp.26 = add i64 %var23, %var25
+    store i64 %binOp.26, ptr %ptr.s.18
+    %var29 = load i64, ptr %ptr.i.14
+    %val30 = add i64 0, 0, 1
+    %binOp.31 = add i64 %var29, %val30
+    store i64 %binOp.31, ptr %ptr.i.14
+    br label %while.34
+  end.34:
+  %var35 = load i64, ptr %ptr.s.18
+  ret i64 %var35
+}
+define i64 @main() {
+entry:
+  %val43 = add i64 0, 3
+  %arrayptr.47 = alloca i64, i64 %val43
+  %ptr.arr.47 = getelementptr i64, i64* %arrayptr.47, i64 0
+  %val50 = add i64 0, 1
+  %val48 = add i64 0, 0
+  %arrayPtr.51 = getelementptr i64, i64* %ptr.arr.47, i64 %val48
+  store i64 %val50, ptr %arrayPtr.51
+  %val54 = add i64 0, 2
+  %val52 = add i64 0, 1
+  %arrayPtr.55 = getelementptr i64, i64* %ptr.arr.55, i64 %val52
+  store i64 %val54, ptr %arrayPtr.55
+  %val58 = add i64 0, 3
+  %val56 = add i64 0, 2
+  %arrayPtr.59 = getelementptr i64, i64* %ptr.arr.47, i64 %val56
+  store i64 %val58, ptr %arrayPtr.59
+  %ptr.result.67 = alloca i64
+  %val64 = add i64 0, 3
+  %call.66 = call i64 @sum(i64* %ptr.arr.47, i64 %val64)
+  store i64 %call.66, ptr %ptr.result.67
+  %val68 = add i64 0, 0
+  ret i64 %val68
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+
+            <div class="bg-card rounded-2xl p-4 border border-gray-700/50 shadow-2xl">
+                <h2 class="text-3xl font-bold mb-4">Control Flow</h2>
+                <p class="text-gray-300 mb-4">Traditional <code class="font-mono">if / else</code> and <code class="font-mono">while</code>. Conditions evaluate to <code class="font-mono">int</code> values; nonzero is true.</p>
+                <div class="bg-gray-900 text-gray-100 p-6 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-700">
+<span class="text-blue-400">int</span> age;<br>
+scanf(<span class="text-yellow-400">"%ld"</span>, age);<br>
+<span class="text-purple-400">if</span> (age < <span class="text-green-400">18</span>) {<br>
+&nbsp;&nbsp;printf(<span class="text-yellow-400">"Minor\n"</span>);<br>
+} <span class="text-purple-400">else</span> {<br>
+&nbsp;&nbsp;printf(<span class="text-yellow-400">"Adult\n"</span>);<br>
+}
+                </div>
+                <p class="text-gray-400 mt-4 text-sm">Conditional branches lower to LLVM <code class="font-mono">br i1</code> after comparing against zero.</p>
+                
+                <details class="mt-4">
+                    <summary class="cursor-pointer text-primary hover:text-primary-dark font-semibold text-lg transition-colors duration-300">
+                        🔍 View Generated LLVM IR
+                    </summary>
+                    <div class="mt-3 bg-gray-800 border border-gray-600 rounded-xl p-3 font-mono text-sm overflow-x-auto">
+                        <pre class="text-gray-200"><code>@str.2 = private constant [7 x i8] c"Adult\0A\00"
+@str.1 = private constant [7 x i8] c"Minor\0A\00"
+@str.0 = private constant [4 x i8] c"%ld\00"
+declare i32 @printf(i8*, ...)
+declare i32 @scanf(i8*, ...)
+define i64 @main() {
+entry:
+  %ptr.age.5 = alloca i64
+  call i32 (i8*, ...) @scanf(i8* @str.0, i64* %ptr.age.5)
+  %var9 = load i64, ptr %ptr.age.5
+  %val10 = add i64 0, 18
+  %temp.11 = icmp slt i64 %var9, %val10
+  %relOp.11 = zext i1 %temp.11 to i64
+  %conditionCast.18 = icmp ne i64 %relOp.11, 0
+  br i1 %conditionCast.18, label %then.18, label %else.18
+  then.18:
+    call i32 (i8*, ...) @printf(i8* @str.1)
+    br label %end.18
+  else.18:
+    call i32 (i8*, ...) @printf(i8* @str.2)
+    br label %end.18
+  end.18:
+  %val19 = add i64 0, 0
+  ret i64 %val19
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <section class="grid lg:grid-cols-2 gap-4 mb-12">
+            <div class="bg-card rounded-2xl p-4 border border-gray-700/50 shadow-2xl">
+                <h2 class="text-3xl font-bold mb-4">Expressions & Operators</h2>
+                <p class="text-gray-300 mb-4">Arithmetic: <code class="font-mono">+ - * / %</code>. Relational: <code class="font-mono">== != &lt; &gt; &lt;= &gt;=</code>. Logical: <code class="font-mono">&& || !</code>.</p>
+                <div class="bg-gray-900 text-gray-100 p-6 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-700">
+<span class="text-blue-400">int</span> a = <span class="text-green-400">5</span>;<br>
+<span class="text-blue-400">float</span> b = <span class="text-green-400">2.0</span>;<br>
+printf(<span class="text-yellow-400">"%f\n"</span>, a + b); <span class="text-gray-500">// a promoted to float</span>
+                </div>
+                <p class="text-gray-400 mt-4 text-sm">Mixed int/float expressions promote to float. Logical and relational results are represented as <code class="font-mono">int</code> (0/1).</p>
+                
+                <details class="mt-4">
+                    <summary class="cursor-pointer text-primary hover:text-primary-dark font-semibold text-lg transition-colors duration-300">
+                        🔍 View Generated LLVM IR
+                    </summary>
+                    <div class="mt-3 bg-gray-800 border border-gray-600 rounded-xl p-3 font-mono text-sm overflow-x-auto">
+                        <pre class="text-gray-200"><code>@str.0 = private constant [4 x i8] c"%f\0A\00"
+declare i32 @printf(i8*, ...)
+declare i32 @scanf(i8*, ...)
+define i64 @main() {
+entry:
+  %ptr.a.6 = alloca i64
+  %val5 = add i64 0, 5
+  store i64 %val5, ptr %ptr.a.6
+  %ptr.b.10 = alloca double
+  %val9 = fadd double 0.0, 2.0
+  store double %val9, ptr %ptr.b.10
+  %var12 = load i64, ptr %ptr.a.6
+  %var13 = load double, ptr %ptr.b.10
+  %conv.14 = sitofp i64 %var12 to double
+  %binOp.14 = fadd double %conv.14, %var13
+  call i32 (i8*, ...) @printf(i8* @str.0, double %binOp.14)
+  %val16 = add i64 0, 0
+  ret i64 %val16
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+
+            <div class="bg-card rounded-2xl p-4 border border-gray-700/50 shadow-2xl">
+                <h2 class="text-3xl font-bold mb-4">Casting</h2>
+                <p class="text-gray-300 mb-4">Explicit casts use the form <code class="font-mono">int(expr)</code> or <code class="font-mono">float(expr)</code>.</p>
+                <div class="bg-gray-900 text-gray-100 p-6 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-700">
+<span class="text-blue-400">int</span> x = <span class="text-green-400">3</span>;<br>
+<span class="text-blue-400">float</span> y = <span class="text-blue-400">float</span>(x);<br>
+<span class="text-blue-400">float</span> z = <span class="text-green-400">3.14</span>;<br>
+<span class="text-blue-400">int</span> w = <span class="text-blue-400">int</span>(z);
+                </div>
+                <p class="text-gray-400 mt-4 text-sm">Casts lower to LLVM <code class="font-mono">sitofp</code> and <code class="font-mono">fptosi</code> as appropriate.</p>
+                
+                <details class="mt-4">
+                    <summary class="cursor-pointer text-primary hover:text-primary-dark font-semibold text-lg transition-colors duration-300">
+                        🔍 View Generated LLVM IR
+                    </summary>
+                    <div class="mt-3 bg-gray-800 border border-gray-600 rounded-xl p-3 font-mono text-sm overflow-x-auto">
+                        <pre class="text-gray-200"><code>declare i32 @printf(i8*, ...)
+declare i32 @scanf(i8*, ...)
+define i64 @main() {
+entry:
+  %ptr.x.6 = alloca i64
+  %val5 = add i64 0, 3
+  store i64 %val5, ptr %ptr.x.6
+  %ptr.y.11 = alloca double
+  %var9 = load i64, ptr %ptr.x.6
+  %conv.10 = sitofp i64 %var9 to double
+  store double %conv.10, ptr %ptr.y.11
+  %ptr.z.15 = alloca double
+  %val14 = fadd double 0.0, 3.14
+  store double %val14, ptr %ptr.z.15
+  %ptr.w.20 = alloca i64
+  %var18 = load double, ptr %ptr.z.15
+  %conv.19 = fptosi double %var18 to i64
+  store i64 %val19, ptr %ptr.w.20
+  %val21 = add i64 0, 0
+  ret i64 %val21
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+        </section>
+
+        <section class="grid lg:grid-cols-2 gap-4 mb-12">
+            <div class="bg-card rounded-2xl p-4 border border-gray-700/50 shadow-2xl">
+                <h2 class="text-3xl font-bold mb-4">I/O</h2>
+                <p class="text-gray-300 mb-4">Balbismo supports <code class="font-mono">printf</code> and <code class="font-mono">scanf</code>-style I/O with format strings.</p>
+                <div class="bg-gray-900 text-gray-100 p-6 rounded-2xl font-mono text-base overflow-x-auto shadow-2xl border border-gray-700">
+printf(<span class="text-yellow-400">"Hello %d\n"</span>, <span class="text-green-400">42</span>);
+                </div>
+                <p class="text-gray-400 mt-4 text-sm">String literals are hoisted as global LLVM constants. Calls lower to varargs <code class="font-mono">@printf</code>/<code class="font-mono">@scanf</code>.</p>
+                
+                <details class="mt-4">
+                    <summary class="cursor-pointer text-primary hover:text-primary-dark font-semibold text-lg transition-colors duration-300">
+                        🔍 View Generated LLVM IR
+                    </summary>
+                    <div class="mt-3 bg-gray-800 border border-gray-600 rounded-xl p-3 font-mono text-sm overflow-x-auto">
+                        <pre class="text-gray-200"><code>@str.0 = private constant [10 x i8] c"Hello %d\0A\00"
+declare i32 @printf(i8*, ...)
+declare i32 @scanf(i8*, ...)
+define i64 @main() {
+entry:
+  %val4 = add i64 0, 42
+  call i32 (i32*, ...) @printf(i8* @str.0, i64 %val4)
+  %val6 = add i64 0, 0
+  ret i64 %val6
+}</code></pre>
+                    </div>
+                </details>
+            </div>
+
+            <div class="bg-card rounded-2xl p-4 border border-gray-700/50 shadow-2xl">
+                <h2 class="text-3xl font-bold mb-4">Semantics Highlights</h2>
+                <ul class="text-gray-300 list-disc pl-6 space-y-2">
+                    <li>Lex/Yacc (Flex/Bison) define the grammar and construct an AST.</li>
+                    <li>Dart semantic/IR layer walks the AST and emits LLVM IR.</li>
+                    <li>Symbol table supports lexical scopes and function registry.</li>
+                    <li>Arrays support runtime sizes and are stack-allocated; element access is bounds-agnostic (no runtime checks).</li>
+                    <li>All integers are 64-bit; all floats are double-precision.</li>
+                    <li>Booleans use <code class="font-mono">int</code> 0/1; logical ops return <code class="font-mono">int</code>.</li>
+                </ul>
+            </div>
+        </section>
+
+        <section class="bg-card rounded-2xl p-8 border border-gray-700/50 shadow-2xl">
+            <h2 class="text-3xl font-bold mb-4">Grammar (EBNF)</h2>
+            <p class="text-gray-300 mb-6">For the complete grammar, see the EBNF and syntax diagram on the main page. Key excerpts:</p>
+            <pre class="bg-gray-900 border border-gray-700 rounded-xl p-6 font-mono text-base overflow-x-auto leading-relaxed"><code>PROGRAM = FUNCTION_LIST ;
+
+FUNCTION_DECLARATION = TYPE, IDENTIFIER, '(', PARAMETER_LIST, ')', BLOCK ;
+PARAMETER_TYPE = TYPE | ARRAY_TYPE ;
+VARIABLE_TYPE = PRIMITIVE_TYPE, [ '[', EXPRESSION, ']' ] ;
+PRIMITIVE_TYPE = 'int' | 'float' ;
+STATEMENT = DECLARATION | ASSIGNMENT | PRINT | INPUT | IF_STATEMENT | WHILE_STATEMENT | RETURN_STATEMENT | FUNCTION_CALL_STATEMENT | BLOCK ;</code></pre>
+        </section>
+
+        <section class="bg-card rounded-2xl p-8 border border-gray-700/50 shadow-2xl">
+            <h2 class="text-3xl font-bold mb-4">Syntax Diagram</h2>
+            <p class="text-gray-300 mb-6">Visual syntax diagram for the full language grammar.</p>
+            <div class="flex justify-center">
+                <img src="ds.png" alt="Balbismo Syntax Diagram" class="max-w-full h-auto rounded-xl shadow-2xl border border-gray-700">
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-900 text-white py-16 mt-20">
+        <div class="max-w-7xl mx-auto px-6 text-center">
+            <p class="text-gray-400">© Balbismo — Language Guide</p>
+        </div>
+    </footer>
+</body>
+</html>
