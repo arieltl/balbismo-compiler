@@ -1,0 +1,18 @@
+int sum(int[] a, int n) {
+    int i = 0;
+    int s = 0;
+    while (i < n) {
+        s = s + a[i];
+        i = i + 1;
+    }
+    return s;
+}
+
+int main() {
+    int[3] arr;
+    arr[0] = 1;
+    arr[1] = 2;
+    arr[2] = 3;
+    int result = sum(arr, 3);
+    return 0;
+}

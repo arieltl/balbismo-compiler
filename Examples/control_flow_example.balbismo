@@ -1,0 +1,10 @@
+int main() {
+    int age;
+    scanf("%ld", age);
+    if (age < 18) {
+        printf("Minor\n");
+    } else {
+        printf("Adult\n");
+    }
+    return 0;
+}

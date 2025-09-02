@@ -1,0 +1,6 @@
+int main() {
+    int a = 5;
+    float b = 2.0;
+    printf("%f\n", a + b); // a promoted to float
+    return 0;
+}

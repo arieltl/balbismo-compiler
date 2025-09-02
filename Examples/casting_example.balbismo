@@ -1,0 +1,7 @@
+int main() {
+    int x = 3;
+    float y = float(x);
+    float z = 3.14;
+    int w = int(z);
+    return 0;
+}

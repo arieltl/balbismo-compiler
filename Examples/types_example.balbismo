@@ -1,0 +1,8 @@
+int main() {
+    int a = 10;
+    float b = 1.5;
+    // explicit cast
+    int c = int(3.2);
+    float d = float(7);
+    return 0;
+}
