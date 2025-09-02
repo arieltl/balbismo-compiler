@@ -1,5 +1,7 @@
 # Balbismo Compiler
 
+[![Website](https://img.shields.io/badge/Website-balbismo--lang.ariellev.dev.br-blue?style=for-the-badge&logo=web)](https://balbismo-lang.ariellev.dev.br/)
+
 Um compilador para a linguagem Balbismo para LLVM.
 
 
